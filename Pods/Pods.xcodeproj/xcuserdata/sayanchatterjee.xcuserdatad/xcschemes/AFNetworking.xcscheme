@@ -14,10 +14,10 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = 'primary'
-               BlueprintIdentifier = '0B59442683A190DA8297EBBD7F0CB911'
-               BlueprintName = 'Pods-VenuFest'
+               BlueprintIdentifier = '9E033EDB5EC0819481B0546434FA577B'
+               BlueprintName = 'AFNetworking'
                ReferencedContainer = 'container:Pods.xcodeproj'
-               BuildableName = 'libPods-VenuFest.a'>
+               BuildableName = 'libAFNetworking.a'>
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>

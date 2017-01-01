@@ -11,6 +11,9 @@ target 'VenuFest' do
 
  	 #Google Plus Dependency
   	pod 'googleplus-ios-sdk', '1.7.1'
+    
+    #Afnetworking
+    pod 'AFNetworking', '~> 3.0'
 
 end
 
