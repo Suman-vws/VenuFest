@@ -1,0 +1,34 @@
+PODS:
+  - Bolts (1.8.4):
+    - Bolts/AppLinks (= 1.8.4)
+    - Bolts/Tasks (= 1.8.4)
+  - Bolts/AppLinks (1.8.4):
+    - Bolts/Tasks
+  - Bolts/Tasks (1.8.4)
+  - FBSDKCoreKit (4.6.0):
+    - Bolts (~> 1.1)
+    - FBSDKCoreKit/arc (= 4.6.0)
+    - FBSDKCoreKit/no-arc (= 4.6.0)
+  - FBSDKCoreKit/arc (4.6.0):
+    - Bolts (~> 1.1)
+  - FBSDKCoreKit/no-arc (4.6.0):
+    - Bolts (~> 1.1)
+    - FBSDKCoreKit/arc
+  - FBSDKLoginKit (4.6.0):
+    - FBSDKCoreKit
+  - googleplus-ios-sdk (1.7.1)
+
+DEPENDENCIES:
+  - FBSDKCoreKit (= 4.6.0)
+  - FBSDKLoginKit (= 4.6.0)
+  - googleplus-ios-sdk (= 1.7.1)
+
+SPEC CHECKSUMS:
+  Bolts: 8a7995239dbe724f9cba2248b766d48b7ebdd322
+  FBSDKCoreKit: 9954492d90c5fd65ae831395697a1660360d61f1
+  FBSDKLoginKit: 3d07febbfa884b9878cacba54f705bb41f07d4b6
+  googleplus-ios-sdk: 065d9135061a5f84c07656a68ced48336408fe35
+
+PODFILE CHECKSUM: b4350ce3b6fbef1c08c0569c60ca4a6579635e5e
+
+COCOAPODS: 1.1.1

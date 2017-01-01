@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="8191" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <mutableArray key="AVGARDN_0.TTF">
+            <string>AvantGardeITCbyBT-Book</string>
+        </mutableArray>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clipsSubviews="YES" contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="60"/>
+            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <label opaque="NO" userInteractionEnabled="NO" tag="2" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Home" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="UGe-89-vId">
+                    <rect key="frame" x="65" y="15" width="190" height="45"/>
+                    <animations/>
+                    <fontDescription key="fontDescription" name="AvantGardeITCbyBT-Book" family="AvantGarde Bk BT" pointSize="20"/>
+                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HF1-N5-TIK">
+                    <rect key="frame" x="15" y="15" width="40" height="40"/>
+                    <animations/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="40" id="2EO-2J-YWU"/>
+                        <constraint firstAttribute="height" constant="40" id="Gfh-iK-1n5"/>
+                    </constraints>
+                    <inset key="contentEdgeInsets" minX="0.0" minY="10" maxX="0.0" maxY="0.0"/>
+                    <state key="normal" image="menu.png"/>
+                </button>
+                <button opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3Ib-dW-eSg">
+                    <rect key="frame" x="280" y="15" width="40" height="40"/>
+                    <animations/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="40" id="FFQ-6Y-i2n"/>
+                        <constraint firstAttribute="width" constant="40" id="Y58-OF-z3s"/>
+                    </constraints>
+                    <state key="normal" image="notification.png"/>
+                </button>
+                <button hidden="YES" opaque="NO" tag="4" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Arm-hT-dGq">
+                    <rect key="frame" x="235" y="15" width="40" height="40"/>
+                    <animations/>
+                    <state key="normal" image="logout_white.png"/>
+                </button>
+                <imageView hidden="YES" userInteractionEnabled="NO" tag="101" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo_small.png" translatesAutoresizingMaskIntoConstraints="NO" id="K6m-kb-Yn1">
+                    <rect key="frame" x="135" y="10" width="50" height="50"/>
+                    <animations/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="50" id="OJF-wV-j1k"/>
+                        <constraint firstAttribute="width" constant="50" id="t2C-Ee-jWC"/>
+                    </constraints>
+                </imageView>
+            </subviews>
+            <animations/>
+            <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="HF1-N5-TIK" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="15" id="6lh-Jr-TEJ"/>
+                <constraint firstItem="K6m-kb-Yn1" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="KSp-zV-Jfm"/>
+                <constraint firstItem="K6m-kb-Yn1" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="10" id="Kkd-NS-mif"/>
+                <constraint firstAttribute="bottom" secondItem="UGe-89-vId" secondAttribute="bottom" id="Wvl-Nl-N0v"/>
+                <constraint firstItem="HF1-N5-TIK" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="15" id="Xbi-rl-c3j"/>
+                <constraint firstItem="UGe-89-vId" firstAttribute="leading" secondItem="HF1-N5-TIK" secondAttribute="trailing" constant="10" id="aqP-X1-ecU"/>
+                <constraint firstAttribute="trailing" secondItem="3Ib-dW-eSg" secondAttribute="trailing" id="hcN-Xt-s5u"/>
+                <constraint firstItem="3Ib-dW-eSg" firstAttribute="leading" secondItem="UGe-89-vId" secondAttribute="trailing" constant="25" id="kfa-EQ-0BD"/>
+                <constraint firstItem="UGe-89-vId" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="15" id="qhu-j2-3DW"/>
+                <constraint firstItem="3Ib-dW-eSg" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="15" id="zRP-l1-u7F"/>
+            </constraints>
+            <nil key="simulatedStatusBarMetrics"/>
+            <nil key="simulatedTopBarMetrics"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="305" y="-1"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="logo_small.png" width="50" height="50"/>
+        <image name="logout_white.png" width="19" height="20"/>
+        <image name="menu.png" width="19" height="16"/>
+        <image name="notification.png" width="21" height="23"/>
+    </resources>
+</document>
