@@ -10,9 +10,4 @@
 
 @interface MenuTableVC : UITableViewController
 
-//Table View Header View
-@property (weak, nonatomic) IBOutlet UIView *VwTblHeader;
-@property (weak, nonatomic) IBOutlet UILabel *lblUserName;
-@property (weak, nonatomic) IBOutlet UIImageView *imgProfile;
-
 @end

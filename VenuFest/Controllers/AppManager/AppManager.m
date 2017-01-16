@@ -22,7 +22,7 @@
 @synthesize strSocialImageURL = _strSocialImageURL;
 //@synthesize scrollListType = _scrollListType;
 @synthesize strUserImagePath = _strUserImagePath;
-@synthesize user = _user;
+//@synthesize user = _user;
 
 static AppManager *sharedInstance_ = nil;
 
@@ -276,63 +276,6 @@ static AppManager *sharedInstance_ = nil;
     }
     
     return requestTypeString;
-}
-
-
--(NSString *)getUserGenderTypeWithValue:(genderType)gender
-{
-    NSString *userGender;
-    
-    switch (gender) {
-        case userGenderTypeFemale:
-            userGender = @"FEMALE";
-            break;
-            
-        case userGenderTypeMale:
-            userGender = @"MALE";
-            break;
-            
-        case userGenderTypeOther:
-            userGender = @"OTHER";
-            break;
-            
-        case userGenderTypeNone:
-            userGender = @"NONE";
-            break;
-            
-        default:
-            userGender = @"NONE";
-            break;
-    }
-    
-    return userGender;
-}
-
--(genderType)getUserGenderTypeWithText:(NSString *)text
-{
-    genderType usergender;
-    
-    if ([text isEqualToString:@"FEMALE"]) {
-        usergender = userGenderTypeFemale;
-    }
-    else if ([text isEqualToString:@"MALE"])
-    {
-        usergender = userGenderTypeMale;
-
-    }
-    else if ([text isEqualToString:@"OTHER"])
-    {
-        usergender = userGenderTypeOther;
-
-    }
-    else if ([text isEqualToString:@"NONE"])
-    {
-        usergender = userGenderTypeNone;
-
-    }
-
-    
-    return usergender;
 }
 
 //convert millisecond to hr:mm:ss format

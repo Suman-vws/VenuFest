@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "RPConstants.h"
+//#import  "ActivityPoints.h"
 
 typedef void(^RPNetworkManagerSuccessBlock)  (id response);
 typedef void(^RPNetworkManagerFailureBlock)  (id failureMessage, NSError *error);
@@ -31,14 +32,7 @@ typedef void(^authCompletion)(BOOL);
 
 + (instancetype) defaultNetworkManager;
 
-- (void) resetCache;
-- (void) RPServicewithMethodName:(NSString *)methodName withParameters:(NSDictionary *)params andRequestType:(NSString *)requestType  success:(RPNetworkManagerSuccessBlock)success failure:(RPNetworkManagerFailureBlock) failure;
--(void)RPSignUpwithParameters:(NSDictionary *)params andRequestType:(NSString *)requestType success:(RPNetworkManagerSuccessBlock)success failure:(RPNetworkManagerFailureBlock) failure;
-
--(void)RPForgetPasswordwithParameters:(NSDictionary *)params andRequestType:(NSString *)requestType success:(RPNetworkManagerSuccessBlock)success failure:(RPNetworkManagerFailureBlock) failure;
-
-//User last Lcoation
--(void)startUpdatingUserLcoation;
+- (void) VFServicewithMethodName:(NSString *)methodName withParameters:(NSDictionary *)params andRequestType:(NSString *)requestType  success:(RPNetworkManagerSuccessBlock)success failure:(RPNetworkManagerFailureBlock) failure;
 
 //Social Login
 - (void)loginWithFbFromViewController:(UIViewController *)vc;

@@ -11,6 +11,7 @@
 #import "RPNetworkManager.h"
 #import "AppManager.h"
 #import "MBProgressHUD.h"
+//#import "TermsVC.h"
 
 @interface RegistrationVC ()
 {
@@ -320,6 +321,13 @@
 
 #pragma mark - Click Events
 
+-(void)clickedFooterView
+{
+    //TermsVC *termsVC = [self.storyboard instantiateViewControllerWithIdentifier:@"TermsVC"];
+    //termsVC.isPresentModal = YES;
+    //[self presentViewController:termsVC animated:YES completion:nil];
+}
+
 -(IBAction)clickedback:(id)sender{
 
     [self.navigationController popViewControllerAnimated:YES];
@@ -336,9 +344,13 @@
     if ([self validateSingupData]) {
         [RPNetworkManager defaultNetworkManager].authType = userAuthTypeRegistration;
         [RPNetworkManager defaultNetworkManager].loginType = userLoginTypeNormal;
+        
+        /*
         [AppManager sharedDataAccess].strUserName =   userName;  // _txtUserName.text;  //Trimmed For White Spaces
         [AppManager sharedDataAccess].strUserEmailId = _txtEmail.text;
         [AppManager sharedDataAccess].strUserPassword = _txtpassword.text;
+        */
+        
         [self connectionUserRegister];
     }
 }
@@ -385,14 +397,17 @@
 
 -(void)connectionUserRegister
 {
+    NSString *strUserName = @""; //[AppManager sharedDataAccess].strUserName
+    NSString *strEmailId = @""; //[AppManager sharedDataAccess].strUserEmailId
+    NSString *strPassword = @"";//[AppManager sharedDataAccess].strUserPassword
     int loginType = [RPNetworkManager defaultNetworkManager].loginType;
     int authType = [RPNetworkManager defaultNetworkManager].authType;
-    NSString *imageURL = [AppManager sharedDataAccess].strSocialImageURL;
-    NSString *socialId = [AppManager sharedDataAccess].strSocialLoginID;
+    NSString *imageURL = @"";//[AppManager sharedDataAccess].strSocialImageURL;
+    NSString *socialId = @"";//[AppManager sharedDataAccess].strSocialLoginID;
     
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
 
-    NSDictionary *params = @{@"LoginType" :[NSNumber numberWithInt:loginType], @"UserName" : [AppManager sharedDataAccess].strUserName, @"Email" : [AppManager sharedDataAccess].strUserEmailId, @"Password" :[AppManager sharedDataAccess].strUserPassword, @"SocialLoginId" : socialId != nil ? socialId : @"", @"AuthenticationType" :[NSNumber numberWithInt:authType], @"SocialImageUrl" : imageURL};
+    NSDictionary *params = @{@"LoginType" :[NSNumber numberWithInt:loginType], @"UserName" : strUserName, @"Email" : strEmailId, @"Password" :strPassword, @"SocialLoginId" : socialId != nil ? socialId : @"", @"AuthenticationType" :[NSNumber numberWithInt:authType], @"SocialImageUrl" : imageURL};
    
     NSString *requestTypeMethod =   [[AppManager sharedDataAccess]  getStringForRequestType: POST];
     

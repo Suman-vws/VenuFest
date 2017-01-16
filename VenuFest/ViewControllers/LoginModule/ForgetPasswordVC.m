@@ -13,7 +13,7 @@
 #import "MBProgressHUD.h"
 
 
-@interface ForgetPasswordVC ()
+@interface ForgetPasswordVC ()<UITextFieldDelegate>
 
 @end
 
@@ -36,24 +36,16 @@
 
 -(void)createCustomizeUI
 {
-    self.vwheader.backgroundColor = TOP_BAR_BACKGROUND_COLOR;
-    self.lblHeader.text = @"Forgot Password";
-//    self.lblHeader.font = TOP_BAR_TITLE_FONT;
-    self.lblHeader.textColor = TOP_BAR_TEXT_COLOR;
+    [self customizeTextField:_txtEmail];
+    [self.txtEmail setPlaceholder:@"Login ID"];
     
     self.btnSubmit.backgroundColor = APP_BUTTON_BACKGROUND_COLOR;
     [self.btnSubmit setTitleColor:APP_BUTTON_TEXT_COLOR forState:UIControlStateNormal];
     self.btnSubmit.tintColor = APP_BUTTON_TEXT_COLOR;
-    
 
-    [self customizeTextField:_txtEmail];
-    [self.txtEmail setPlaceholder:@"Login ID"];
-    
-    // SignIn Tag-Line
-    NSString *str1 = @"FORGET";
-    NSString *str2 = @"PASSWORD";
-    [self setUpAttributeTextForlable:_lblPageTagLine WithItem1:str1 Font1:PAGE_TITLE_FONT color1:TOP_BAR_BACKGROUND_COLOR andItem2:str2 Font2:PAGE_TITLE_FONT color2:PAGE_TITLE_TEXT_COLOR_BLACK];
-    
+    self.btnSupportEmail.backgroundColor = [UIColor clearColor];
+    [self.btnSupportEmail setTitleColor:APP_BUTTON_TEXT_COLOR forState:UIControlStateNormal];
+
 }
 -(void)setPlaceHolderColor:(UITextField*)txtField
 {
@@ -114,26 +106,6 @@
     [rightView addSubview:imgVw];
 }
 
-
--(void)setUpAttributeTextForlable:(UILabel *)Lbl WithItem1:(NSString *)str1 Font1:(UIFont *)font1 color1:(UIColor *)color1 andItem2:(NSString *)str2 Font2:(UIFont *)font2 color2:(UIColor *)color2
-{
-    NSString *str = [NSString stringWithFormat:@"%@ %@", str1, str2];
-    NSMutableAttributedString *attributeString = [[NSMutableAttributedString alloc] initWithString:str];
-    
-    NSRange range1 = str1 ? [str rangeOfString:str1] : NSMakeRange(0, 0);
-    
-    [attributeString addAttribute:NSFontAttributeName value:font1 range:range1];
-    [attributeString addAttribute:NSForegroundColorAttributeName value:color1 range:range1];
-    
-    if (str2.length > 0) {
-        NSRange range2 = str2 ? [str rangeOfString:str2] : NSMakeRange(0, 0);
-        [attributeString addAttribute:NSFontAttributeName value:font2 range:range2];
-        [attributeString addAttribute:NSForegroundColorAttributeName value:color2 range:range2];
-    }
-    
-    Lbl.attributedText = attributeString;
-}
-
 -(void)customizeTextFieldForError:(UITextField *)textField
 {
     [self addBottomBorderForView:textField withcolor:TXTFIELD_ERROR_COLOR_RED andHeight:2];
@@ -176,7 +148,7 @@
     //animate scroll view .....
     if (textField == _txtEmail)
     {
-        [self animateScrollOffsetwithYpos:40 andHeight:160];
+        [self animateScrollOffsetwithYpos:400 andHeight:160];
     }
     
 }
@@ -245,11 +217,10 @@
     
     NSString *requestTypeMethod =  [[AppManager sharedDataAccess]  getStringForRequestType: POST];
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-
-    [[RPNetworkManager defaultNetworkManager] RPForgetPasswordwithParameters:params andRequestType:requestTypeMethod success:^(id response) {
-        
+    
+    [[RPNetworkManager defaultNetworkManager] VFServicewithMethodName:@"" withParameters:params andRequestType:requestTypeMethod success:^(id response) {
         [MBProgressHUD hideHUDForView:self.view animated:YES];
-
+        
         NSDictionary *dictData;
         if ([response isKindOfClass:[NSDictionary class]]) {
             dictData = response;
@@ -262,12 +233,13 @@
         {
             [[AppManager sharedDataAccess] showAlertWithTitle:@"Error!" andMessage:[NSString stringWithFormat:@"%@", [dictData objectForKey:@"Result"]] fromViewController:self];
         }
+        
     } failure:^(id failureMessage, NSError *error) {
+        
         [MBProgressHUD hideHUDForView:self.view animated:YES];
         RPLog(@"Error : %@", error.localizedDescription);
 
     }];
-    
     
 }
 

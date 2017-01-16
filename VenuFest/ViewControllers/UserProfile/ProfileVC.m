@@ -10,23 +10,22 @@
 
 
 #import "ProfileVC.h"
-#import "AllPhotosView.h"
-#import "RunnerUser.h"
+#import "Personal_infoView.h"
+#import "ChangePasswordView.h"
 #import "EditProfileVC.h"
 #import "JSON.h"
 
-@interface ProfileVC()<UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIScrollViewDelegate, AllPhotosDelegate, UIScrollViewDelegate, UIGestureRecognizerDelegate>
+@interface ProfileVC()<UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIScrollViewDelegate, UIScrollViewDelegate, UIGestureRecognizerDelegate, ChangePasswordDelegate>
 
 {
     NSURL *imageURL;
     BOOL isProfileImageDownloaded;
-    NSMutableArray *arrMFeedBacks;
-    
+    Personal_infoView *personalVw;
+    ChangePasswordView *changePasswordVw;
 }
 
 @property (nonatomic, assign) genderType userGender;
-@property (nonatomic, strong) NSArray *arrActivities;
-@property (nonatomic, strong)  DVSwitch *segmentController;
+@property (nonatomic, weak) IBOutlet ADVSegmentedControl *customSegmentController;
 
 @end
 
@@ -36,88 +35,72 @@
 -(void)viewDidLoad
 {
     [super viewDidLoad];
-    self.lblHeader.text = @"My Profile";
     
-    self.segmentController = [[DVSwitch alloc] initWithStringsArray:@[@"Profile Info", @"All Photos"]];
-    self.vwSegment.backgroundColor = [UIColor colorWithWhite:0 alpha:0.5];
-    self.segmentController.frame = self.vwSegment.frame;
-    
-    self.segmentController.font = PAGE_TITLE_FONT;
-    self.segmentController.cornerRadius = 0;
-    //    self.segmentController.sliderColor = [UIColor clearColor];
-    [self.view addSubview:self.segmentController];
-    self.segmentController.backgroundColor = [UIColor clearColor];
-    
-    arrMFeedBacks = [NSMutableArray array];
-    
-    if (!_isVistingFriendProfile) {
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userLogout) name:USER_LOGOUT_NOTIFICATION object:nil];
-        self.topView.hidden = YES;
-    }
-    else
-    {
-        self.headerView.hidden = YES;
-        self.topView.hidden = NO;
-        self.topView.backgroundColor = TOP_BAR_BACKGROUND_COLOR;
-//        self.lblTopTitle.font = TOP_BAR_TITLE_FONT;
-        self.lblTopTitle.textColor = TOP_BAR_TEXT_COLOR;
-        self.lblTopTitle.text = @"Friend's Profile";
-        self.btnEditProfile.hidden = YES;
-        UIPanGestureRecognizer *gesture = [[UIPanGestureRecognizer alloc] init];
-        gesture.delegate = self;
-        [self.view addGestureRecognizer:gesture];
-    }
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userLogout) name:USER_LOGOUT_NOTIFICATION object:nil];
 
 }
 
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:YES];
+    [self setScrollView];
+    [self createCustomUI];
     
-    if (!_isVistingFriendProfile) {
-        [self connectionGetUserwithcompletion:^{
-            //        [self connectionGetJoggerActivity];
-            [self connectionGetJoggerFeedback];
-        }];
-    }
-    else
-    {
-        CGRect frame = self.scroll.frame;
-        if (IS_IPHONE5) {
-            frame.size.height += 30;
-        }
-        else
-            frame.size.height += 50;
-        self.scroll.frame = frame;
-        [self connectionGetJoggerFeedback];
-    }
-
 }
 
-#pragma mark - Gesture Recogniser Delegate
-//this will disable the swipe gesture for Friend Profile
-- (BOOL) gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch
+-(void)addConstrainsForView:(UIView *)childView withRefence:(UIView *)parentView
 {
-    BOOL shouldResponse = YES;
-    if ( self.isVistingFriendProfile) {
-        shouldResponse = NO;
-    }
+    NSLayoutConstraint *width =[NSLayoutConstraint
+                                constraintWithItem:childView
+                                attribute:NSLayoutAttributeWidth
+                                relatedBy:0
+                                toItem:parentView
+                                attribute:NSLayoutAttributeWidth
+                                multiplier:1.0
+                                constant:0];
+    NSLayoutConstraint *height =[NSLayoutConstraint
+                                 constraintWithItem:childView
+                                 attribute:NSLayoutAttributeHeight
+                                 relatedBy:0
+                                 toItem:parentView
+                                 attribute:NSLayoutAttributeHeight
+                                 multiplier:1.0
+                                 constant:0];
+    NSLayoutConstraint *top = [NSLayoutConstraint
+                               constraintWithItem:childView
+                               attribute:NSLayoutAttributeTop
+                               relatedBy:NSLayoutRelationEqual
+                               toItem:parentView
+                               attribute:NSLayoutAttributeTop
+                               multiplier:1.0f
+                               constant:0.0f];
     
-    return shouldResponse;
+    NSLayoutConstraint *leading = [NSLayoutConstraint
+                                   constraintWithItem:childView
+                                   attribute:NSLayoutAttributeLeading
+                                   relatedBy:NSLayoutRelationEqual
+                                   toItem:parentView
+                                   attribute:NSLayoutAttributeLeading
+                                   multiplier:1.0f
+                                   constant:0.f];
+    
+    [parentView addConstraint:width];
+    [parentView addConstraint:height];
+    [parentView addConstraint:top];
+    [parentView addConstraint:leading];
+    
 }
-
 
 -(void)setScrollView
 {
     CGFloat xPos = 0;
+    CGRect frame = self.bottomScrollVw.frame;
     
-    CGRect frame = _scroll.frame;
-    frame.origin.x = xPos;
     for (int i = 0; i <= 1; i++) {
-        [self addViewsIntoScrollwithFrame:frame andIndex:i];
+        
+        [self addViewsIntoScrollwithFrame:self.bottomScrollVw.bounds andIndex:i];
         xPos += CGRectGetWidth(frame);
-        frame.origin.x = xPos;
-        [self.scroll setContentSize:CGSizeMake(xPos, self.scroll.frame.size.height)];
+        [self.bottomScrollVw setContentSize:CGSizeMake(xPos, self.bottomScrollVw.frame.size.height)];
     }
 }
 
@@ -126,88 +109,32 @@
 -(void)addViewsIntoScrollwithFrame:(CGRect)frame andIndex:(int)index
 {
     switch (index) {
+            
         case 0:
         {
-            Personal_infoView *personalVw = [[Personal_infoView alloc]  initWithFrame:frame];
-            //For Others prfole Visit
-            if (self.isVistingFriendProfile) {
-                personalVw.isVisitingOthersProfile = YES;
+            if (!personalVw) {
+                personalVw = [[Personal_infoView alloc]  initWithFrame:frame];
             }
-            frame.origin.y = 0;
-            personalVw.frame = frame;
-            [self.scroll addSubview:personalVw];
-            
-            personalVw.strAbout = _user.AboutMe;
-            personalVw.strEmail = _user.Email;
-            personalVw.strPhone = _user.Phone;
-            personalVw.strCity = _user.City;
-            
-            self.userGender = [_user.Gender intValue];
-            NSString *strGender = [[AppManager sharedDataAccess]getUserGenderTypeWithValue:_userGender];
-            personalVw.strGender = strGender;
-            
-            NSString *age = [NSString stringWithFormat:@"%d", [_user.Age intValue]];
-            personalVw.strAge = age;
-            
-            NSString *height = [NSString stringWithFormat:@"%.1f", [_user.Height floatValue]];
-            NSString *weight = [NSString stringWithFormat:@"%.1f", [_user.Weight floatValue]];
-            personalVw.strHeight = height;
-            personalVw.strWeight = weight;
-            
-            [personalVw configData];
+            personalVw.translatesAutoresizingMaskIntoConstraints = NO;
+            personalVw.backgroundColor = [UIColor whiteColor];
+            [self.bottomScrollVw addSubview:personalVw];
+//            [personalVw configData];
+            [self addConstrainsForView:personalVw withRefence:self.bottomScrollVw];
+
             break;
         }
-            /*
-             case 1:
-             {
-             Physical_InfoView *physicalVw = [[Physical_InfoView alloc]  initWithFrame:frame];
-             frame.origin.y = 0;
-             physicalVw.frame = frame;
-             [self.scroll addSubview:physicalVw];
-             NSString *height = [NSString stringWithFormat:@"%.1f", [_user.Height floatValue]];
-             NSString *weight = [NSString stringWithFormat:@"%.1f", [_user.Weight floatValue]];
-             
-             physicalVw.strHeight = height;
-             physicalVw.strWeight = weight;
-             [physicalVw configData];
-             break;
-             }
-             case 2:
-             {
-             Contact_InfoView *contactVw = [[Contact_InfoView alloc]  initWithFrame:frame];
-             frame.origin.y = 0;
-             contactVw.frame = frame;
-             [self.scroll addSubview:contactVw];
-             contactVw.strEmail = _user.Email;
-             contactVw.strPhone = _user.Phone;
-             contactVw.strState = _user.State;
-             contactVw.strAddressLine1 = _user.StreetAddress1;
-             contactVw.strAddressLine2 = _user.StreetAddress2;
-             contactVw.strCountry = _user.Country;
-             
-             [contactVw configData];
-             break;
-             }
-             case 3:
-             {
-             UserRunningTracks_Vw *runningTracks = [[UserRunningTracks_Vw alloc]  initWithFrame:frame];
-             runningTracks.arrTracks = self.arrActivities;
-             frame.origin.y = 0;
-             runningTracks.frame = frame;
-             [self.scroll addSubview:runningTracks];
-             break;
-             }
-             */
+            
         case 1:
         {
-            AllPhotosView *allPhotos = [[AllPhotosView alloc]  initWithFrame:frame];
-            allPhotos.cellDelegate = self;
-            if (arrMFeedBacks.count > 0)
-                allPhotos.arrPhotos = arrMFeedBacks;
+            if (!changePasswordVw) {
+                changePasswordVw = [[ChangePasswordView alloc]  initWithFrame:frame];
+            }
+            changePasswordVw.translatesAutoresizingMaskIntoConstraints = NO;
+            changePasswordVw.passwordDelgate = self;
+            changePasswordVw.backgroundColor = [UIColor clearColor];
+            [self.bottomScrollVw addSubview:changePasswordVw];
+            [self addConstraintsForChangePasswordVw];
             
-            frame.origin.y = 0;
-            allPhotos.frame = frame;
-            [self.scroll addSubview:allPhotos];
             break;
         }
         default:
@@ -215,150 +142,102 @@
     }
 }
 
+-(void)addConstraintsForChangePasswordVw
+{
+    NSLayoutConstraint *width =[NSLayoutConstraint
+                                constraintWithItem:changePasswordVw
+                                attribute:NSLayoutAttributeWidth
+                                relatedBy:0
+                                toItem:self.bottomScrollVw
+                                attribute:NSLayoutAttributeWidth
+                                multiplier:1.0
+                                constant:0];
+    NSLayoutConstraint *height =[NSLayoutConstraint
+                                 constraintWithItem:changePasswordVw
+                                 attribute:NSLayoutAttributeHeight
+                                 relatedBy:0
+                                 toItem:self.bottomScrollVw
+                                 attribute:NSLayoutAttributeHeight
+                                 multiplier:1.0
+                                 constant:0];
+    NSLayoutConstraint *top = [NSLayoutConstraint
+                               constraintWithItem:changePasswordVw
+                               attribute:NSLayoutAttributeTop
+                               relatedBy:NSLayoutRelationEqual
+                               toItem:self.bottomScrollVw
+                               attribute:NSLayoutAttributeTop
+                               multiplier:1.0f
+                               constant:0.0f];
+    
+    
+    NSDictionary *viewsDictionary =  NSDictionaryOfVariableBindings(personalVw, changePasswordVw);
+    NSArray *constraints = [NSLayoutConstraint constraintsWithVisualFormat:@"H:[personalVw]-0-[changePasswordVw]"
+                                                                   options:0 metrics:nil views:viewsDictionary];
+    [NSLayoutConstraint activateConstraints:constraints];
+    
+    [self.bottomScrollVw addConstraint:width];
+    [self.bottomScrollVw addConstraint:height];
+    [self.bottomScrollVw addConstraint:top];
+}
+
 -(void)createCustomUI
 {
+    self.customSegmentController.items = @[@"Profile Info", @"Change Password"];
+    self.customSegmentController.font = PAGE_TITLE_FONT;
+    self.customSegmentController.borderColor = [UIColor colorWithWhite:0.0 alpha:0.3];
+    self.customSegmentController.selectedIndex = 0;
+    self.customSegmentController.thumbView.layer.cornerRadius = 0.0;
+    self.customSegmentController.layer.cornerRadius = 0.0;
+    self.customSegmentController.selectedLabelColor = PAGE_TITLE_TEXT_COLOR_BLACK;
+    self.customSegmentController.unselectedLabelColor = BODY_TEXT_COLOR_WHITE;
+    self.customSegmentController.backgroundColor =  PAGE_TITLE_TEXT_COLOR_GREEN;
+
     self.lblHeader.text = @"My Profile";
-  
     self.imgVwProfilePic.layer.cornerRadius =   self.imgVwProfilePic.frame.size.width /2;
-    
-//    self.lblName.font = BODY_TEXT_FONT;
-    self.lblName.textColor = APP_BUTTON_BACKGROUND_COLOR;
-    self.lblName.text= [NSString stringWithFormat:@"%@", _user.FirstName.length == 0 ? @"User" : _user.FirstName];
+    self.lblUserName.font = PAGE_TITLE_FONT_LARGE;
+    self.lblUserName.textColor = APP_BUTTON_BACKGROUND_COLOR;
 
-    self.lblDistance.font = APP_NUMBER_FONT_MEDIUM_BOLD;
-    self.lblDistance.textColor = PAGE_TITLE_TEXT_COLOR_BLACK;
-    self.lblDistance.text=[NSString stringWithFormat:@"%.2f KM",[_user.TotalDistance floatValue]];
-
-    self.lblTime.font = APP_NUMBER_FONT_MEDIUM_BOLD;
-    self.lblTime.textColor = PAGE_TITLE_TEXT_COLOR_BLACK;
-    self.lblTime.text =  [self calculateRunTimeWithValue:_user.TotalTime];
-
-//    self.lblTagTime.font= BODY_TEXT_FONT;
-    self.lblTagTime.textColor = SEARCH_HEADER_BACKGROUND_COLOR;
-      self.lblTagTime.text = @"Total Runs:";     // @"Total Time:";
-    
-//    self.lblTagDistance.font = BODY_TEXT_FONT;
-    self.lblTagDistance.textColor = SEARCH_HEADER_BACKGROUND_COLOR;
-    self.btnUpload.hidden=YES;
-     self.lblTagDistance.text = @"Total Distance:";
     
     UITapGestureRecognizer *DoubletapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTapGesture:)];
     DoubletapGesture.numberOfTapsRequired = 1;
-    if (!self.isVistingFriendProfile) {
-        [_imgVwProfilePic addGestureRecognizer:DoubletapGesture];
-    }
-    
-//    NSString *imgURL = [NSString stringWithFormat:@"%@%@", RP_BASE_URL, _user.UserImage];
+    [_imgVwProfilePic addGestureRecognizer:DoubletapGesture];
+
+    // ============== Download Profile Image ==========
+    /*
     NSString *imgURL = [NSString stringWithFormat:@"%@", _user.UserImage];
     NSString *escapedPath = [imgURL stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
 
     if ( !isProfileImageDownloaded) {
         [self downloadandConfigImageWithURL:[NSURL URLWithString:escapedPath] WithImageView:self.imgVwProfilePic];
     }
+    */
+    
+    // ============== End ==========
+
     self.imgVwProfilePic.clipsToBounds = YES;
     self.imgVwProfilePic.layer.borderWidth = 0.5;
     self.imgVwProfilePic.layer.borderColor = [UIColor whiteColor].CGColor;
     self.imgVwProfilePic.contentMode = UIViewContentModeScaleAspectFit;
-    
-    //buttons
-    _btnUpload.backgroundColor = [UIColor clearColor];
-//    _btnUpload.titleLabel.textColor =  APP_BUTTON_TEXT_COLOR;
-//    _btnUpload.titleLabel.font = APP_BUTTON_TITLE_FONT;
-//    [_btnUpload setTitle:@"UPLOAD" forState:UIControlStateNormal];
-//    _btnUpload.tintColor = APP_BUTTON_TEXT_COLOR;
-
-    
-    __weak typeof(self) weakSelf = self;
-
-    [self.segmentController setPressedHandler:^(NSUInteger index) {
-        
-        if (index == 0) {
-            RPLog(@"Profile Info");
-            [weakSelf autoScrollOnSlectedIndex:index];
-        }
-        else if (index == 1)
-        {
-            RPLog(@"All Photos");
-            [weakSelf autoScrollOnSlectedIndex:index];
-        }
-
-    }];
-    
-    //TODO: Currently all validation are Hidden
-    /*
-    if (!self.user.Weight || [self.user.Weight intValue] == 0)
-    {
-        [self showAlertWithTitle:@"Alert!" andMessage:@"You need to set your body weight correctly to get desired result!!!"];
-    }
-    */
 }
 
-#pragma mark - Alert
-
--(void)showAlertWithTitle:(NSString *)title andMessage:(NSString *)message{
-    
-    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:UIAlertControllerStyleAlert];
-    
-    UIAlertAction *cancelAction = [UIAlertAction
-                                   actionWithTitle:@"Later"
-                                   style:UIAlertActionStyleCancel
-                                   handler:^(UIAlertAction *action)
-                                   {
-                                       
-                                   }];
-    
-    UIAlertAction *okAction = [UIAlertAction
-                               actionWithTitle:@"Ok"
-                               style:UIAlertActionStyleDefault
-                               handler:^(UIAlertAction *action)
-                               {
-                                   [self clickEditprofile:nil];
-                               }];
-    
-    alertController.view.tintColor = PAGE_TITLE_TEXT_COLOR_GREEN;
-    [alertController addAction:cancelAction];
-    [alertController addAction:okAction];
-    
-    [self presentViewController: alertController animated:YES completion:nil];
-}
 
 #pragma mark - Scroll View Off Set Change
 
 //Helper For Auto Scroll On Seleted Button Index.
 -(void)autoScrollOnSlectedIndex:(NSUInteger)index
 {
-    CGFloat xPOs = self.scroll.frame.size.width;
+    CGFloat xPOs = self.bottomScrollVw.frame.size.width;
     xPOs *= index;
     CGPoint visiblePoint = CGPointMake(xPOs, 0);
     [UIView animateWithDuration:0.3 animations:^{
-        [_scroll setContentOffset:visiblePoint];
+        [self.bottomScrollVw setContentOffset:visiblePoint];
         
     } completion:^(BOOL finished) {
         ;
     }];
 }
 
-/*
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView
-{
-    if ([scrollView isEqual:self.scroll]) {
-        
-        CGFloat xPOs = scrollView.contentOffset.x;
-        CGFloat pageWidth = scrollView.frame.size.width;
-        int page = xPOs / pageWidth;
-        
-        RPLog(@"page : %d", page);
-        
-        if (page > 0) {
-            [self.segmentController forceSelectedIndex:page animated:YES];
-        }
-        else
-        {
-            [self.segmentController forceSelectedIndex:page animated:YES];
-        }
-    }
-}
-*/
+#pragma mark - Upload Profile Image Action
 
 - (void)handleTapGesture:(UITapGestureRecognizer *)sender
 {
@@ -367,34 +246,6 @@
 }
 
 #pragma mark - Helpers
-
--(NSString *)calculateRunTimeWithValue:(NSNumber *)value
-{
-    NSMutableString *result;
-    result = [NSMutableString string];
-    
-    unsigned long milliseconds=[value longValue];
-    unsigned long seconds = milliseconds / 1000;
-    milliseconds %= 1000;
-    unsigned long minutes = seconds / 60;
-    seconds %= 60;
-    unsigned long hours = minutes / 60;
-    minutes %= 60;
-    result = [NSMutableString new];
-    [result appendFormat: @"%lu:", hours];
-    
-    if (minutes <=9)
-        [result appendFormat: @"0%lu:", minutes];
-    else
-        [result appendFormat: @"%2lu:", minutes];
-    
-    if (seconds <=9)
-        [result appendFormat: @"0%lu", seconds];
-    else
-        [result appendFormat: @"%2lu", seconds];
-    
-    return result;
-}
 
 -(void) downloadandConfigImageWithURL:(NSURL *)url WithImageView:(UIImageView*)imgView{
     
@@ -423,7 +274,43 @@
     [task resume];
 }
 
+#pragma mark - Change Password Delegate
+
+-(void)animateScrollViewWithYpos:(CGFloat)Ypos andHeight:(CGFloat)height
+{
+    CGPoint offset = self.outerScrollVw.contentOffset;
+    offset.y = Ypos;
+    [UIView animateWithDuration:0.3
+                     animations:^{
+                         [self.outerScrollVw setContentOffset:offset];
+                     }
+                     completion:^(BOOL finished){
+                     }];
+    
+    self.outerScrollVw.contentSize = CGSizeMake(self.view.frame.size.width, self.outerScrollVw.frame.size.height+ height);
+}
+
+-(void)userPasswordChangedWithData:(NSDictionary *)dictPasswordData
+{
+    [self connectionChangeUserPasswordWithParam:dictPasswordData];
+}
+
+
 #pragma mark - Click Events
+
+-(IBAction)segmentValueChange:(ADVSegmentedControl *)sender
+{
+    if (sender.selectedIndex == 0) {
+        
+        RPLog(@"Selected Index : %lu", sender.selectedIndex);
+        [self autoScrollOnSlectedIndex:sender.selectedIndex];
+    }
+    else if(sender.selectedIndex == 1) {
+        
+        RPLog(@"Selected Index : %lu", sender.selectedIndex);
+        [self autoScrollOnSlectedIndex:sender.selectedIndex];
+    }
+}
 
 -(void)userLogout
 {
@@ -432,23 +319,21 @@
     [self.tabBarController.navigationController popToRootViewControllerAnimated:NO];
 }
 
--(IBAction)clickedClose:(id)sender
-{
-    [self dismissViewControllerAnimated:YES completion:nil];
-}
 
 -(IBAction)clickEditprofile:(id)sender
 {
     
     EditProfileVC *editprofile = [self.storyboard instantiateViewControllerWithIdentifier:@"EditProfileVC"];
-    editprofile.user = self.user;
     [self.navigationController pushViewController:editprofile animated:YES];
     
 }
--(IBAction)clickedUploadImage:(id)sender
-{
-    [self connectionPostImagewithImage:_imgVwProfilePic.image];
-}
+
+                            // ============ Upload Image To Server ===============
+
+                            //TODO: Handle Action For Upload Profile Image
+                            // self connectionPostImagewithImage:[UIImage imageNamed:@""];
+
+                            // ============ End ===============
 
 -(void)showAlertForProfileImageWithTitle:(NSString *)title andMessage:(NSString *)message
 {
@@ -490,71 +375,6 @@
     [self presentViewController: alertController animated:YES completion:nil];
 }
 
-#pragma mark - All Photos Delegate
-
--(void)cellSelected:(id)selectedView
-{
-    if ([selectedView isKindOfClass:[UIImageView class]]) {
-        UIImageView *imgVw = selectedView;
-        [self addZoomForImageWithImage:imgVw.image];
-    }
-}
-
-
--(void)addZoomForImageWithImage:(UIImage *)image
- {
-     UIView *layeredVw = [[UIView alloc]  initWithFrame:self.view.frame];
-     layeredVw.center = self.view.center;
-     [self attachGestureWithSender:layeredVw];
-     layeredVw.tag = 666;
-     layeredVw.backgroundColor = PAGE_BACKGROUND_TRANSPARENT_BLACK;
-     [self.view addSubview:layeredVw];
-     
-     
-     CGRect rc = CGRectMake(20, layeredVw.frame.size.height/6, layeredVw.frame.size.width - 40, layeredVw.frame.size.height/1.5);
-     UIScrollView *zoomedVw = [[UIScrollView alloc]initWithFrame: rc];
-     zoomedVw.tag = 555;
-     zoomedVw.minimumZoomScale=1.0;
-     zoomedVw.maximumZoomScale=3.0;
-     [zoomedVw setDelegate:self];
-     UIImageView *imageVw = [[UIImageView alloc]  initWithFrame:zoomedVw.bounds];
-     imageVw.image = image;
-     imageVw.tag = 1001;
-     imageVw.contentMode = UIViewContentModeScaleAspectFit;
-     [zoomedVw addSubview:imageVw];
-
-     [layeredVw addSubview:zoomedVw];
- }
-
--(void)attachGestureWithSender:(UIView *)sender
-{
-    UITapGestureRecognizer *tapToClose = [[UITapGestureRecognizer alloc]  initWithTarget:self action:@selector(tappedOnZoomedVwWithSender:)];
-    tapToClose.numberOfTapsRequired = 1;
-    [sender addGestureRecognizer:tapToClose];
-}
-
--(void)tappedOnZoomedVwWithSender:(UIGestureRecognizer *)sender
-{
-    UIView *superView = sender.view.superview;
-    NSArray *subViews = [superView subviews];
-    for (UIView *vw in subViews) {
-        if (vw.tag == 666) {
-            [vw removeFromSuperview];
-        }
-    }
-}
-
-#pragma mark - Scroll View Delegate Methgods
-
-- (UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView
-{
-    UIImageView *scrollImage;
-    if (scrollView.tag == 555) {
-        scrollImage = (UIImageView *)[scrollView viewWithTag:1001];
-        return  scrollImage;
-    }
-    return  nil;
-}
 
 #pragma mark - Image Picker Helpers
 
@@ -587,9 +407,6 @@
     }
 }
 
-
-
-
 #pragma mark - ImagePicker Delegates
 
 - (void)imagePickerController:(UIImagePickerController *)picker
@@ -612,9 +429,11 @@ didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info
     self.imgVwProfilePic.image = originalImage;
     
     [picker dismissViewControllerAnimated:YES completion:^{
-        self.btnUpload.hidden=NO;
+        
+        ;
     }];
 }
+
 -(UIImage*)imageWithImage: (UIImage*) sourceImage
 {
     float  i_width = 300;
@@ -638,23 +457,17 @@ didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info
     }];
 }
 
--(void)viewWillDisappear:(BOOL)animated
-{
-    [super viewWillDisappear:YES];
-//    [AppManager sharedDataAccess].scrollListType = profileListTypeNone;
-}
 
 #pragma mark - Webservice
 
 
--(void)connectionGetUserwithcompletion: (void (^ __nullable)(void))completion
+-(void)connectionGetUserProfile
 {
     NSString *requestTypeMethod =   [[AppManager sharedDataAccess]  getStringForRequestType: GET];
+    NSString *strMethodname = [NSString stringWithFormat:@"%@",JOGGER_ACTIVITY];
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     
-    [[RPNetworkManager defaultNetworkManager] RPServicewithMethodName:GET_USER_PATH withParameters:nil andRequestType:requestTypeMethod success:^(id response) {
-        
-        [MBProgressHUD hideHUDForView:self.view animated:YES];
+    [[RPNetworkManager defaultNetworkManager] VFServicewithMethodName:strMethodname withParameters:nil andRequestType:requestTypeMethod success:^(id response) {
         
         NSDictionary *dictData;
         if ([response isKindOfClass:[NSDictionary class]]) {
@@ -662,106 +475,57 @@ didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info
         }
         if ([[dictData objectForKey:@"ErrorCode"]  intValue] == 200 ) {
             
-            DCParserConfiguration *config = [DCParserConfiguration configuration];
-            DCObjectMapping *mapper = [DCObjectMapping mapKeyPath:@"Id" toAttribute:@"userID" onClass:[RunnerUser class]];
-            [config addObjectMapping:mapper];
-            
-            
-            DCKeyValueObjectMapping *parser = [DCKeyValueObjectMapping mapperForClass: [RunnerUser class] andConfiguration:config];
-            RunnerUser *user = [parser parseDictionary:[dictData objectForKey:@"Result"]];
-            
-            if (user) {
-                RPLog(@"Get User Result : %@", user.description);
-                self.user =  user;
-                [AppManager sharedDataAccess].user = user;
-            }
-            completion();
+            // TODO: Handle Serilization
         }
         else
         {
             [[AppManager sharedDataAccess] showAlertWithTitle:@"Warning!" andMessage:[NSString stringWithFormat:@"%@", [dictData objectForKey:@"ErrorMessage"]] fromViewController:self];
         }
+        
     } failure:^(id failureMessage, NSError *error) {
+        
         [MBProgressHUD hideHUDForView:self.view animated:YES];
         RPLog(@"Error : %@", error.localizedDescription);
+
     }];
     
 }
-/*
--(void)connectionGetJoggerActivity
-{
-    NSString *requestTypeMethod =   [[AppManager sharedDataAccess]  getStringForRequestType: GET];
-    NSString *strMethodname = [NSString stringWithFormat:@"%@/%@",JOGGER_ACTIVITY, _user.userID ];
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    [[RPNetworkManager defaultNetworkManager] RPServicewithMethodName:strMethodname withParameters:nil andRequestType:requestTypeMethod success:^(id response) {
-        [MBProgressHUD hideHUDForView:self.view animated:YES];
 
+-(void)connectionChangeUserPasswordWithParam:(NSDictionary *)dictParam
+{
+
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    
+    NSString *requestTypeMethod =   [[AppManager sharedDataAccess]  getStringForRequestType: POST];
+    NSString *strMethodname = [NSString stringWithFormat:@"%@",JOGGER_ACTIVITY];
+
+    [[RPNetworkManager defaultNetworkManager] VFServicewithMethodName:strMethodname withParameters:dictParam andRequestType:requestTypeMethod success:^(id response) {
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+        
         NSDictionary *dictData;
         if ([response isKindOfClass:[NSDictionary class]]) {
             dictData = response;
         }
-        NSLog(@"%@", response);
         if ([[dictData objectForKey:@"ErrorCode"]  intValue] == 200 ) {
+            RPLog(@"Success : %@", response);
             
-            self.arrActivities = [dictData objectForKey:@"Result"];
-//            [self setScrollView];
-            [self createCustomUI];
-
+            [[AppManager sharedDataAccess] showAlertWithTitle:[NSString stringWithFormat:@"%@", [dictData objectForKey:@"ErrorMessage"]] andMessage:[NSString stringWithFormat:@"%@", [dictData objectForKey:@"Result"]] fromViewController:self];
         }
         else
         {
-            [[AppManager sharedDataAccess] showAlertWithTitle:@"Warning!" andMessage:[NSString stringWithFormat:@"%@", [dictData objectForKey:@"ErrorMessage"]] fromViewController:self];
+            [[AppManager sharedDataAccess] showAlertWithTitle:@"Error!" andMessage:[NSString stringWithFormat:@"%@", [dictData objectForKey:@"Result"]] fromViewController:self];
         }
-    } failure:^(id failureMessage, NSError *error) {
-        [MBProgressHUD hideHUDForView:self.view animated:YES];
-        RPLog(@"Error : %@", error.localizedDescription);
-    }];
-
-}
-*/
-
--(void)connectionGetJoggerFeedback
-{
-    NSString *requestTypeMethod =   [[AppManager sharedDataAccess]  getStringForRequestType: GET];
-    NSString *methodName = [NSString stringWithFormat:@"%@/%@",@"userfeedbacks", self.user.userID];
-    //userfeedbacks/{joggerId}
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    [[RPNetworkManager defaultNetworkManager] RPServicewithMethodName:methodName withParameters:nil andRequestType:requestTypeMethod success:^(id response) {
-        [MBProgressHUD hideHUDForView:self.view animated:YES];
-        
-        NSDictionary *dictData;
-        if ([response isKindOfClass:[NSDictionary class]]) {
-            dictData = response;
-        }
-        NSLog(@"%@", response);
-        if ([[dictData objectForKey:@"ErrorCode"]  intValue] == 200 ) {
-            [arrMFeedBacks removeAllObjects];
-            NSArray *arrFeedBack = [dictData objectForKey:@"Result"];
-            for (NSDictionary *dictFeedBack  in arrFeedBack) {
-                
-                NSString *strImagePath = [NSString stringWithFormat:@"%@", [dictFeedBack objectForKey:@"PhotoPath"]];
-                if (strImagePath.length > 0) {
-                    //TODO: Append the dict into main array
-                    [arrMFeedBacks addObject:dictFeedBack];
-                }
-            }
-        }
-        else
-        {
-            //Could Not Fetch Photos
-//            [[AppManager sharedDataAccess] showAlertWithTitle:@"Warning!" andMessage:[NSString stringWithFormat:@"%@", [dictData objectForKey:@"ErrorMessage"]] fromViewController:self];
-        }
-        
-        [self setScrollView];
-        [self createCustomUI];
-
         
     } failure:^(id failureMessage, NSError *error) {
+        
         [MBProgressHUD hideHUDForView:self.view animated:YES];
         RPLog(@"Error : %@", error.localizedDescription);
+        
     }];
-    
 }
+
+
+
 
 //upload image to server
 
@@ -774,11 +538,11 @@ didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info
     NSURLSession *session = [NSURLSession sessionWithConfiguration:config];
     
     //Image_type PNG ---->>> 1
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@/%d", RP_BASE_URL,POST_PROFILE_IMAGE_INBYTES,profileImageTypePNG]];
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@/%d", VENU_FEST_BASE_URL,POST_PROFILE_IMAGE_INBYTES,profileImageTypePNG]];
     
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:url];
     NSString *authKey = [[NSUserDefaults standardUserDefaults] objectForKey:@"AuthToken"];
-    [request addValue:RP_API_KEY forHTTPHeaderField:@"S-Api-Key"];
+    [request addValue:VENU_FEST_API_KEY forHTTPHeaderField:@"S-Api-Key"];
     [request addValue:authKey forHTTPHeaderField:@"S-Auth-Token"];
     [request addValue:@"application/json; charset=utf-8" forHTTPHeaderField:@"Content-type"];
 
@@ -811,7 +575,6 @@ didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info
                 
                 isProfileImageDownloaded = YES;
                 [[AppManager sharedDataAccess] showAlertWithTitle:@"Success!" andMessage:@"Your Profile Image has been changed successfully" fromViewController:self];
-                self.btnUpload.hidden=YES;
             }
             else
             {
@@ -823,7 +586,12 @@ didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info
     [postDataTask resume];
 }
 
+#pragma mark - View Dissapper
 
+-(void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:YES];
+}
 
 -(void)didReceiveMemoryWarning
 {

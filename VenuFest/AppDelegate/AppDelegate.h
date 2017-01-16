@@ -11,7 +11,8 @@
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
-
+@property (nonatomic) BOOL userLoggedIN;
+@property (nonatomic , assign) BOOL isuserLoggedinFirstTime;
 
 @end
 

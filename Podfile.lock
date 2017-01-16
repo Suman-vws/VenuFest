@@ -32,12 +32,14 @@ PODS:
   - FBSDKLoginKit (4.6.0):
     - FBSDKCoreKit
   - googleplus-ios-sdk (1.7.1)
+  - MBProgressHUD (1.0.0)
 
 DEPENDENCIES:
-  - AFNetworking (~> 3.0)
+  - AFNetworking (~> 3.1.0)
   - FBSDKCoreKit (= 4.6.0)
   - FBSDKLoginKit (= 4.6.0)
   - googleplus-ios-sdk (= 1.7.1)
+  - MBProgressHUD
 
 SPEC CHECKSUMS:
   AFNetworking: 5e0e199f73d8626b11e79750991f5d173d1f8b67
@@ -45,7 +47,8 @@ SPEC CHECKSUMS:
   FBSDKCoreKit: 9954492d90c5fd65ae831395697a1660360d61f1
   FBSDKLoginKit: 3d07febbfa884b9878cacba54f705bb41f07d4b6
   googleplus-ios-sdk: 065d9135061a5f84c07656a68ced48336408fe35
+  MBProgressHUD: 4890f671c94e8a0f3cf959aa731e9de2f036d71a
 
-PODFILE CHECKSUM: 78394f6bc7bd102f0a9db4712ce43ccc420f446d
+PODFILE CHECKSUM: f6413aa6f4aafdd2c72681375dc32e84fe55b5f7
 
 COCOAPODS: 1.1.1

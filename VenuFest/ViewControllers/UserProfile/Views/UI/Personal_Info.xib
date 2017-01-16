@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="8191" systemVersion="16C67" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="Eyc-ff-wvO" userLabel="ViewRunningTracks" customClass="Personal_infoView">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="360"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="70" sectionHeaderHeight="1" sectionFooterHeight="1" translatesAutoresizingMaskIntoConstraints="NO" id="HdT-u4-esr">
+                    <rect key="frame" x="0.0" y="10" width="320" height="340"/>
+                    <animations/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <connections>
+                        <outlet property="dataSource" destination="-1" id="qkQ-ux-Kk9"/>
+                        <outlet property="delegate" destination="-1" id="TSs-EX-MJb"/>
+                    </connections>
+                </tableView>
+            </subviews>
+            <animations/>
+            <constraints>
+                <constraint firstAttribute="bottom" secondItem="HdT-u4-esr" secondAttribute="bottom" constant="10" id="I93-DV-zuF"/>
+                <constraint firstAttribute="trailing" secondItem="HdT-u4-esr" secondAttribute="trailing" id="Rn3-yI-WgP"/>
+                <constraint firstItem="HdT-u4-esr" firstAttribute="top" secondItem="Eyc-ff-wvO" secondAttribute="top" constant="10" id="V4v-ox-LD9"/>
+                <constraint firstItem="HdT-u4-esr" firstAttribute="leading" secondItem="Eyc-ff-wvO" secondAttribute="leading" id="aVw-40-MvA"/>
+            </constraints>
+            <nil key="simulatedStatusBarMetrics"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <connections>
+                <outlet property="tblPersonalInfo" destination="HdT-u4-esr" id="dfT-pf-Baq"/>
+            </connections>
+            <point key="canvasLocation" x="235" y="-176"/>
+        </view>
+    </objects>
+</document>

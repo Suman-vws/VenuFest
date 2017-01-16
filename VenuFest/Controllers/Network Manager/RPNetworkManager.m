@@ -20,12 +20,7 @@
 
 #define REQUEST_TIMEOUT_THRESOLD 241
 
-@interface RPNetworkManager  ()<GPPSignInDelegate, CLLocationManagerDelegate>
-
-{
-    CLLocationManager *locationManager;
-
-}
+@interface RPNetworkManager  ()<GPPSignInDelegate>
 
 @property (nonatomic, strong) NSURL *requestURL;
 @property (nonatomic, assign) NSInteger lastResponseStatusCode;
@@ -50,8 +45,7 @@
 - (id) init {
     if ( (self = [super init]) ) {
         // Initialization code here.
-        [self configLocationManager];
-        
+       /*
         NSNumber *loginType = [[NSUserDefaults standardUserDefaults]  objectForKey:@"userLoginType"];
         if (loginType)
             self.loginType = [loginType intValue];
@@ -64,6 +58,7 @@
             self.loginType = [authType intValue];
         else
             self.authType = userAuthTypeNone;
+        */
     }
     return self;
 }
@@ -73,40 +68,6 @@
     return SHARED_INSTANCE([[self alloc] init]);
 }
 
-#pragma mark - LocationManager
-
--(void)configLocationManager
-{
-    locationManager = [[CLLocationManager alloc]  init];
-    locationManager.delegate = self;
-    locationManager.allowsBackgroundLocationUpdates = YES;
-    locationManager.desiredAccuracy = kCLLocationAccuracyBest;
-    locationManager.activityType = kCLLocationAccuracyBest;
-    // Movement threshold for new events
-    locationManager.distanceFilter =  kCLDistanceFilterNone;  //1.0;
-    [locationManager requestAlwaysAuthorization];
-    //testing purpose
-}
-
-#pragma mark - Location Manager Delegate
-
-- (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray<CLLocation *> *)locations
-{
-    CLLocation *location = [locations lastObject];
-    long timeNow = [[NSDate date]  timeIntervalSince1970];
-    
-    ActivityPoints *activityPoint =  [[ActivityPoints alloc]  init];
-    activityPoint.PointTime = [NSNumber numberWithLong:timeNow];
-    activityPoint.Lat = [NSNumber numberWithFloat:location.coordinate.latitude];
-    activityPoint.Lng = [NSNumber numberWithFloat:location.coordinate.longitude];
-    
-    RPLog(@"Ponits :%@", activityPoint);
-    [self stopUpdatingUserLcoation];
-    
-    //    NSString *latitude = [NSString stringWithFormat:@"%.4f", location.coordinate.latitude];
-    //    NSString *longitude = [NSString stringWithFormat:@"%.4f", location.coordinate.longitude];
-    [self connectionUpdateUserLastLocationWithLocation:activityPoint];
-}
 
 #pragma mark - Private Methods
 
@@ -164,7 +125,7 @@
 }
 
 -(void)hideLoadingIndicatorInView:(UIView *)view{
-    [MBProgressHUD hideAllHUDsForView:view animated:YES];
+    [MBProgressHUD hideHUDForView:view animated:YES];
     [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
 }
 
@@ -328,10 +289,10 @@
 
 #pragma mark - Network Connection Calling API
 
-- (void)RPServicewithMethodName:(NSString *)methodName withParameters:(NSDictionary *)params andRequestType:(NSString *)requestType success:(RPNetworkManagerSuccessBlock)success failure:(RPNetworkManagerFailureBlock) failure{
+- (void)VFServicewithMethodName:(NSString *)methodName withParameters:(NSDictionary *)params andRequestType:(NSString *)requestType success:(RPNetworkManagerSuccessBlock)success failure:(RPNetworkManagerFailureBlock) failure{
     
     [self resetCache];
-    [self createRequestURLFromBaseURLString:RP_BASE_URL andQueryPath:methodName];
+    [self createRequestURLFromBaseURLString:VENU_FEST_BASE_URL andQueryPath:methodName];
     __weak typeof(self) weakSelf = self;
     
     //get the Params & Method Name
@@ -347,13 +308,15 @@
     self.manager.requestSerializer = [AFJSONRequestSerializer serializer];
     
     //insert value for Auth-token
+    /*
     NSString *authKey = [[NSUserDefaults standardUserDefaults] objectForKey:@"AuthToken"];
 
-    NSDictionary *headers = @ {@"S-Api-Key" :RP_API_KEY, @"S-Auth-Token" :authKey};
+    NSDictionary *headers = @ {@"S-Api-Key" :VENU_FEST_API_KEY, @"S-Auth-Token" :authKey};
     
     for (NSString *key in [headers allKeys]) {
         [self.manager.requestSerializer setValue:[headers valueForKey:key] forHTTPHeaderField:key];
     }
+    */
     
     NSMutableURLRequest *request;
     if (params && ![requestType isEqualToString:@"GET"]) {
@@ -376,120 +339,12 @@
         }
         else
         {
-            NSDictionary *dictResult = (NSDictionary *)responseObject;
-            if ([[dictResult objectForKey:@"ErrorCode"]  intValue] == 401) {
-                [self connectionAuth:^(BOOL finished) {
-                    if(finished){
-                        [self RPServicewithMethodName:self.methodName withParameters:self.methodPramas andRequestType:self.methodType success:^(id response) {
-                            NSLog(@"Result From Uto Login : %@", response);
-                            
-//                            NSHTTPURLResponse *httpresponse = (NSHTTPURLResponse *) response;
-//                         weakSelf.lastResponseStatusCode = httpresponse.statusCode;
-                            weakSelf.lastResponseObject = response;
-                            success(weakSelf.lastResponseObject);
-                            
-                        }
-                        failure:^(id failureMessage, NSError *error) {
-                            NSLog(@"%@", error.localizedDescription);
-                            ;
-                        }];
-                    }
-                    else
-                        return;
-                }];
-            }
-            else{
-                //TODO: HANDLE SUCCESS & if any error
-                NSHTTPURLResponse *httpresponse = (NSHTTPURLResponse *) response;
-                weakSelf.lastResponseStatusCode = httpresponse.statusCode;
-                
-                weakSelf.lastResponseObject = responseObject;
-                success(responseObject);
-            }
-        }
-    }];
-    
-    [dataTask resume];
-    
-}
-
--(void)RPSignUpwithParameters:(NSDictionary *)params andRequestType:(NSString *)requestType success:(RPNetworkManagerSuccessBlock)success failure:(RPNetworkManagerFailureBlock) failure{
-    
-   
-    [self resetCache];
-    [self createRequestURLFromBaseURLString:RP_BASE_URL andQueryPath:USER_REGISTRATION_AND_LOGIN_PATH];
-    __weak typeof(self) weakSelf = self;
-    
-    self.manager = [[AFHTTPSessionManager alloc] initWithBaseURL:self.requestURL];
-    [self.manager.requestSerializer setTimeoutInterval:REQUEST_TIMEOUT_THRESOLD];
-    self.manager.requestSerializer = [AFJSONRequestSerializer serializer];
-    
-    NSDictionary *headers = @ {@"S-Api-Key" :RP_API_KEY};
-    
-    for (NSString *key in [headers allKeys]) {
-        [self.manager.requestSerializer setValue:[headers valueForKey:key] forHTTPHeaderField:key];
-    }
-    
-    NSMutableURLRequest *request = [self.manager.requestSerializer requestWithMethod:requestType URLString:[[NSURL URLWithString:[self.requestURL absoluteString] relativeToURL:_manager.baseURL] absoluteString] parameters:params error:nil];
-    
-    NSURLSessionDataTask *dataTask = [self.manager dataTaskWithRequest:request uploadProgress:nil downloadProgress:nil completionHandler:^(NSURLResponse * _Nonnull response, id  _Nullable responseObject, NSError * _Nullable error) {
-        
-        if (error) {
-            NSLog(@"%@", error.localizedDescription);
-            //show alert
-        }
-        else
-        {
             //TODO: HANDLE SUCCESS & if any error
             NSHTTPURLResponse *httpresponse = (NSHTTPURLResponse *) response;
             weakSelf.lastResponseStatusCode = httpresponse.statusCode;
             
             weakSelf.lastResponseObject = responseObject;
-            success(responseObject);
-        }
-        
-    }];
-    
-    [dataTask resume];
-
-}
-
-
--(void)RPForgetPasswordwithParameters:(NSDictionary *)params andRequestType:(NSString *)requestType success:(RPNetworkManagerSuccessBlock)success failure:(RPNetworkManagerFailureBlock) failure{
-    
-    
-    [self resetCache];
-    [self createRequestURLFromBaseURLString:RP_BASE_URL andQueryPath:FORGET_USER_PATH];
-    __weak typeof(self) weakSelf = self;
-    
-    self.manager = [[AFHTTPSessionManager alloc] initWithBaseURL:self.requestURL];
-    [self.manager.requestSerializer setTimeoutInterval:REQUEST_TIMEOUT_THRESOLD];
-    self.manager.requestSerializer = [AFJSONRequestSerializer serializer];
-    
-    NSDictionary *headers = @ {@"S-Api-Key" :RP_API_KEY};
-    
-    for (NSString *key in [headers allKeys]) {
-        [self.manager.requestSerializer setValue:[headers valueForKey:key] forHTTPHeaderField:key];
-    }
-    
-    NSMutableURLRequest *request = [self.manager.requestSerializer requestWithMethod:requestType URLString:[[NSURL URLWithString:[self.requestURL absoluteString] relativeToURL:_manager.baseURL] absoluteString] parameters:params error:nil];
-    
-    NSURLSessionDataTask *dataTask = [self.manager dataTaskWithRequest:request uploadProgress:nil downloadProgress:nil completionHandler:^(NSURLResponse * _Nonnull response, id  _Nullable responseObject, NSError * _Nullable error) {
-        
-        if (error) {
-            NSLog(@"%@", error.localizedDescription);
-            //show alert
-        }
-        else
-        {
-            //TODO: HANDLE SUCCESS & if any error
-            NSHTTPURLResponse *httpresponse = (NSHTTPURLResponse *) response;
-            weakSelf.lastResponseStatusCode = httpresponse.statusCode;
-            
-            weakSelf.lastResponseObject = responseObject;
-            success(responseObject);
-        }
-        
+            success(responseObject);        }
     }];
     
     [dataTask resume];
@@ -498,6 +353,9 @@
 
 
 #pragma mark - Auto Login
+
+/*
+ 
 -(void) connectionAuth:(authCompletion)completion;
  {
      [self createRequestURLFromBaseURLString:RP_BASE_URL andQueryPath:USER_REGISTRATION_AND_LOGIN_PATH];
@@ -553,60 +411,18 @@
              {
                 completion(NO);
              }
-             /*
              //TODO: On succesful Login & regenerated auth toke
-             [self RPServicewithMethodName:self.methodName withParameters:self.methodPramas andRequestType:self.methodType success:^(id response) {
-                 NSLog(@"Result From Uto Login : %@", response);
-             } failure:^(id failureMessage, NSError *error) {
-                 NSLog(@"%@", error.localizedDescription);
-                 ;
-             }];
-             */
+//             [self RPServicewithMethodName:self.methodName withParameters:self.methodPramas andRequestType:self.methodType success:^(id response) {
+//                 NSLog(@"Result From Uto Login : %@", response);
+//             } failure:^(id failureMessage, NSError *error) {
+//                 NSLog(@"%@", error.localizedDescription);
+//                 ;
+//             }];
          }
      }];
      
      [dataTask resume];
  }
-
--(void)startUpdatingUserLcoation
-{
-    [locationManager startUpdatingLocation];
-}
-
--(void)stopUpdatingUserLcoation
-{
-    [locationManager stopUpdatingLocation];
-}
-
--(void)connectionUpdateUserLastLocationWithLocation:(ActivityPoints *)locationPoint
-{
-    NSString *requestTypeMethod =   [[AppManager sharedDataAccess]  getStringForRequestType: PUT];
-    NSDictionary *params = @ {@"LastLocationTime" : locationPoint.PointTime, @"LastLocationLat" : locationPoint.Lat, @"LastLocationLng" :locationPoint.Lng};
-
-    [self RPServicewithMethodName:USER_LAST_LOCATION_PATH withParameters:params andRequestType:requestTypeMethod success:^(id response) {
-        
-//        [self stopUpdatingUserLcoation];
-
-        NSDictionary *dictData;
-        if ([response isKindOfClass:[NSDictionary class]]) {
-            dictData = response;
-        }
-        if ([[dictData objectForKey:@"ErrorCode"]  intValue] == 200 ) {
-            
-            RPLog(@"Result : %@", dictData);
-        }
-        else
-        {
-            RPLog(@"Error : %@", [dictData objectForKey:@"ErrorMessage"]);
-        }
-        
-    } failure:^(id failureMessage, NSError *error) {
-        RPLog(@"Error : %@", error.localizedDescription);
-//        [self stopUpdatingUserLcoation];
-    }];
-    
-}
-
-
+*/
 
 @end

@@ -35,12 +35,15 @@ typedef enum RequestTypes{
 @property (nonatomic, strong) NSString *strAuthToken;
 @property (assign) BOOL IsLoggedIn;
 
+@property (assign) userType loggedInUserType;
+
 
 //for social login
 
 @property (nonatomic, strong) NSString *strSocialLoginID;
 @property (nonatomic, strong) NSString *strSocialImageURL;
 //@property (nonatomic, assign) profileListType scrollListType;
+//@property (nonatomic, strong) RunnerUser *user;
 
 + (AppManager *) sharedDataAccess;
 -(void)initalization;
@@ -61,11 +64,9 @@ typedef enum RequestTypes{
 -(void)showAlertWithTitle:(NSString *)title andMessage:(NSString *)message;
 
 //returns the API request Type
--(NSString *)getStringForRequestType:(RequestType)type;
 -(void)clearUserLoginData;
 -(NSString *)getUserGenderTypeWithValue:(genderType)gender;
 -(NSString *)getDateFromJsonwithValue:(NSNumber *)value;
 -(NSArray *)getDateTimeFromJsonwithValue:(NSNumber *)value;
--(genderType)getUserGenderTypeWithText:(NSString *)text;
-
+-(NSString *)getStringForRequestType:(RequestType)type;
 @end

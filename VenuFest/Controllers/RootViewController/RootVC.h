@@ -8,9 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "SWRevealViewController.h"
-//#import "DCKeyValueObjectMapping.h"
-//#import "DCParserConfiguration.h"
-//#import "DCObjectMapping.h"
+
 #import "MBProgressHUD.h"
 #import "RPNetworkManager.h"
 #import "AppManager.h"
@@ -22,9 +20,7 @@
 }
 
 @property (nonatomic, strong) UILabel *lblHeader;
-@property (nonatomic, strong) UIImageView *imgVwLogo;
 @property (nonatomic, strong) UIView *headerView;
-
--(void)clickedNotification; //Only Runnr's Paradise
+@property (strong, nonatomic) NSLayoutConstraint *headerViewTopSpaceConst;
 
 @end

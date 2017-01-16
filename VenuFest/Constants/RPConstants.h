@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import  "VenuFest-Swift.h"
 
 #ifndef RPConstants_h
 #define RPConstants_h
@@ -79,6 +79,15 @@ typedef enum
 }feedType;
 
 
+typedef enum
+{
+    userTypeCustomer = 0,
+    userTypeVendor,
+    userTypeNone
+    
+}userType;
+
+
 /*!
  * @function ZCLog  Macro
  */
@@ -115,8 +124,8 @@ typedef enum
 
 UIKIT_EXTERN NSString *USER_LOGOUT_NOTIFICATION;
 
-UIKIT_EXTERN NSString *RP_BASE_URL;
-UIKIT_EXTERN NSString *RP_API_KEY;
+UIKIT_EXTERN NSString *VENU_FEST_BASE_URL;
+UIKIT_EXTERN NSString *VENU_FEST_API_KEY;
 UIKIT_EXTERN NSString *RP_GUID_ID; 
 
 UIKIT_EXTERN NSString *USER_REGISTRATION_AND_LOGIN_PATH;
@@ -214,8 +223,8 @@ UIKIT_EXTERN NSString *ACCEPT_FRIEND_REQUEST;
 #define  APPLICATION_TEXTFIELD_FONT_MEDIUM      [UIFont fontWithName:APPLICATION_TEXTFIELD_FONT_NAME size:APPLICATION_TEXTFIELD_FONT_SIZE_MEDIUM]
 #define  APPLICATION_TEXTFIELD_FONT_SMALL      [UIFont fontWithName:APPLICATION_TEXTFIELD_FONT_NAME size:APPLICATION_TEXTFIELD_FONT_SIZE_SMALL]
 
-#define  TEXT_FIELD_PLACEHOLDER_COLOR      [UIColor colorWithRed:78.0/255 green:78.0/255 blue:78.0/255 alpha:1.0]
-#define  TEXT_FIELD_INPUT_COLOR      [UIColor colorWithRed:65.0/255 green:65.0/255 blue:65.0/255 alpha:1.0]
+#define  TEXT_FIELD_PLACEHOLDER_COLOR      [UIColor colorWithRed:247.0/255 green:247.0/255 blue:247.0/255 alpha:1.0]
+#define  TEXT_FIELD_INPUT_COLOR      [UIColor colorWithRed:255.0/255 green:255.0/255 blue:255.0/255 alpha:1.0]
 
             //============================ BUTTONS ==============================
 

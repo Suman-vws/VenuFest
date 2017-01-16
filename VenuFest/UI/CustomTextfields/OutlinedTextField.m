@@ -18,6 +18,8 @@ static CGFloat const OTTextDampingRatio                     = 1.0f;
     UIView *line;
     UILabel *placeHolderLabel;
     BOOL showError;
+   NSAttributedString* initialPlaceholderText;
+   NSMutableAttributedString* upperCasedPlaceholderText;
 }
 
 - (instancetype)initWithFrame:(CGRect)frame {
@@ -105,8 +107,17 @@ static CGFloat const OTTextDampingRatio                     = 1.0f;
         [self addSubview:placeHolderLabel];
     }
     placeHolderLabel.alpha = 0;
-    placeHolderLabel.attributedText = self.attributedPlaceholder;
+    
+    initialPlaceholderText = self.attributedPlaceholder;
+    upperCasedPlaceholderText = [[NSMutableAttributedString alloc] initWithString:[[initialPlaceholderText string] uppercaseString]]; // Upper-Cased String
+    NSDictionary *attributesFromString = [initialPlaceholderText attributesAtIndex:0 longestEffectiveRange:nil inRange:NSMakeRange(0, initialPlaceholderText.length)];
+    [upperCasedPlaceholderText setAttributes:attributesFromString range:NSMakeRange(0, initialPlaceholderText.length)];
+    
+    placeHolderLabel.attributedText = upperCasedPlaceholderText;    //getting the max size for placeholder label
     [placeHolderLabel sizeToFit];
+    
+    placeHolderLabel.attributedText = self.attributedPlaceholder;
+
     
 }
 
@@ -118,18 +129,20 @@ static CGFloat const OTTextDampingRatio                     = 1.0f;
             placeHolderLabel.alpha = 1;
             self.attributedPlaceholder = nil;
         }
-        
+
         [UIView animateWithDuration:OTTextChangeAnimationDuration
                               delay:0.0f
              usingSpringWithDamping:OTTextDampingRatio
               initialSpringVelocity:OTTextChangeVelocity
                             options:UIViewAnimationOptionCurveEaseInOut animations:^{
                                 if (!self.text || self.text.length <= 0) {
-                                    placeHolderLabel.transform = CGAffineTransformMakeTranslation(self.leftView.frame.size.width,6);
+                                    placeHolderLabel.transform = CGAffineTransformMakeTranslation(self.leftView.frame.size.width, -2);
+                                    placeHolderLabel.attributedText = initialPlaceholderText;
   
                                 }
                                 else {
-                                    placeHolderLabel.transform = CGAffineTransformMakeTranslation(0, -placeHolderLabel.frame.size.height - 10);
+                                    placeHolderLabel.transform = CGAffineTransformMakeTranslation(0, -placeHolderLabel.frame.size.height - 5);
+                                    placeHolderLabel.attributedText = upperCasedPlaceholderText;
                                 }
                             }
                          completion:^(BOOL finished) {

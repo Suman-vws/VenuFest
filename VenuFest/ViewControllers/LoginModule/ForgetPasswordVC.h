@@ -7,24 +7,21 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "OutlinedButton.h"
+#import "OutlinedTextField.h"
 
 @interface ForgetPasswordVC : UIViewController
 
-//Header View
-@property (weak, nonatomic) IBOutlet UIView *vwheader;
-@property (weak, nonatomic) IBOutlet UILabel *lblHeader;
 @property (weak, nonatomic) IBOutlet UIButton *btnback;
 
-
-@property (weak, nonatomic) IBOutlet UILabel *lblPageTagLine;
-
 @property (weak, nonatomic) IBOutlet UIScrollView *scroll;
-@property (weak, nonatomic) IBOutlet UITextField *txtEmail;
+@property (weak, nonatomic) IBOutlet UILabel *lblHeader;
+@property (weak, nonatomic) IBOutlet UILabel *lblPageTagLine;
+@property (weak, nonatomic) IBOutlet OutlinedTextField *txtEmail;
+@property (weak, nonatomic) IBOutlet UIView *divEmail;
+@property (weak, nonatomic) IBOutlet UILabel *lblSupport;
+@property (weak, nonatomic) IBOutlet UIButton *btnSupportEmail;
 @property (weak, nonatomic) IBOutlet UIButton *btnSubmit;
 
-
-//FooterView
-@property (weak, nonatomic) IBOutlet UIView *vwfooter;
-@property (weak, nonatomic) IBOutlet UILabel *lblFooter;
 
 @end

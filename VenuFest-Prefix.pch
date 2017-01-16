@@ -1,0 +1,58 @@
+//
+//  Prefix header
+//
+//  The contents of this file are implicitly included at the beginning of every source file.
+//
+
+#import <Availability.h>
+
+#ifndef __IPHONE_5_0
+#warning "This project uses features only available in iOS SDK 5.0 and later."
+#endif
+
+#ifdef __OBJC__
+    #import <UIKit/UIKit.h>
+    #import <Foundation/Foundation.h>
+    #import <UIAlertView+Blocks/UIAlertView+Blocks.h>
+    #import "TImageDownloader.h"
+    #import "AFNetworking.h"
+    #import "AbstractViewController.h"
+    #import "MBProgressHUD.h"
+    #import "AppManager.h"
+    #import "Defines.h"
+    #import "Extender.h"
+
+#endif
+
+#define isIphone5 ([[UIScreen mainScreen] bounds].size.height>520)?true:false
+#define isIphone6_or_iPhone6_plus ([[UIScreen mainScreen] bounds].size.height>580)?true:false
+
+#define isIphone6 ([[UIScreen mainScreen] bounds].size.width == 375)?true:false
+
+#define extraHeightForIphone5 88.0f
+#define iphone5Height 568.0f
+#define iphone4Height 480.0f
+#define headerHeight 48.0f
+
+#define WARNING_MESSAGE_OF_DATA_LOSS @"Tapping back without save will lead to lost all unsave data."
+
+#define FACEBOOK_APPID @"365988593539418"
+
+#define maxHeightOfGoalImage 300.0f
+
+#define KEYBOARD_HEIGHT 216.0f
+#define KEYBOARD_HEIGHT_WITH_TOOLBAR 240.0f
+#define KEYBOARD_HEIGHT_WITH_TOOLBAR_SUGGESTION_BOX 270.0f
+
+#define UIColorDefaultBiomarkerBandColor [UIColor lightGrayColor]
+
+
+#define STATIC_ID_TSH_BIOMARKER         15
+#define STATIC_ID_TSH_VI                16
+#define STATIC_ID_RESTING_HEART_RATE    2
+#define STATIC_ID_PREG_BIOMARKER        35
+
+#define STATIC_ID_PA_LT_IN_MMOL         15
+#define STATIC_ID_PA_LT_IN_PERCENT      20
+#define STATIC_ID_PA_LT_IN_BPM          21
+#define STATIC_ID_PA_MAX_HEART_RATE     13
