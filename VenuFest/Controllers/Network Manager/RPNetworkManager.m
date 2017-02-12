@@ -196,8 +196,17 @@
      RPLog(@"Welcome: %@,\(userId) %@, (idToken) %@, \(fullName) %@, \(givenName) %@, \(familyName) %@, \(email) %@", @"User", userId, idToken, fullName, givenName, familyName, email);
      RPLog(@"Profile Image URl : %@", imageUrl ? imageUrl.absoluteString: @"no image found");
      
-     [self.googleSignInClient signOut];
-     [self.googleSignInClient disconnect];
+    //Save Data For User
+    [AppManager sharedDataAccess].strUserName = fullName;
+    [AppManager sharedDataAccess].strUserEmailId = email;
+    [AppManager sharedDataAccess].strSocialLoginID = userId;
+    [AppManager sharedDataAccess].strSocialImageURL = imageUrl.absoluteString;
+    [AppManager sharedDataAccess].strUserImagePath = imageUrl.absoluteString;
+    
+    [weakSelf callNotification];
+       
+    [self.googleSignInClient signOut];
+    [self.googleSignInClient disconnect];
         
     }
  }
@@ -317,21 +326,9 @@
         self.methodPramas = params;
     }
     
-    
     self.manager = [[AFHTTPSessionManager alloc] initWithBaseURL:self.requestURL];
     [self.manager.requestSerializer setTimeoutInterval:REQUEST_TIMEOUT_THRESOLD];
     self.manager.requestSerializer = [AFJSONRequestSerializer serializer];
-    
-    //insert value for Auth-token
-    /*
-    NSString *authKey = [[NSUserDefaults standardUserDefaults] objectForKey:@"AuthToken"];
-
-    NSDictionary *headers = @ {@"S-Api-Key" :VENU_FEST_API_KEY, @"S-Auth-Token" :authKey};
-    
-    for (NSString *key in [headers allKeys]) {
-        [self.manager.requestSerializer setValue:[headers valueForKey:key] forHTTPHeaderField:key];
-    }
-    */
     
     NSMutableURLRequest *request;
     if (params && ![requestType isEqualToString:@"GET"]) {

@@ -461,13 +461,12 @@ didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info
 #pragma mark - Webservice
 
 
--(void)connectionGetUserProfile
+-(void)connectionUserProfileDetails
 {
-    NSString *requestTypeMethod =   [[AppManager sharedDataAccess]  getStringForRequestType: GET];
-    NSString *strMethodname = [NSString stringWithFormat:@"%@",JOGGER_ACTIVITY];
+    NSString *requestTypeMethod =   [[AppManager sharedDataAccess]  getStringForRequestType: POST];
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     
-    [[RPNetworkManager defaultNetworkManager] VFServicewithMethodName:strMethodname withParameters:nil andRequestType:requestTypeMethod success:^(id response) {
+    [[RPNetworkManager defaultNetworkManager] VFServicewithMethodName:USER_PROFILE_PATH withParameters:nil andRequestType:requestTypeMethod success:^(id response) {
         
         NSDictionary *dictData;
         if ([response isKindOfClass:[NSDictionary class]]) {
@@ -495,11 +494,9 @@ didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info
 {
 
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    
     NSString *requestTypeMethod =   [[AppManager sharedDataAccess]  getStringForRequestType: POST];
-    NSString *strMethodname = [NSString stringWithFormat:@"%@",JOGGER_ACTIVITY];
 
-    [[RPNetworkManager defaultNetworkManager] VFServicewithMethodName:strMethodname withParameters:dictParam andRequestType:requestTypeMethod success:^(id response) {
+    [[RPNetworkManager defaultNetworkManager] VFServicewithMethodName:CHANGE_USER_PASSWORD_PATH withParameters:dictParam andRequestType:requestTypeMethod success:^(id response) {
         [MBProgressHUD hideHUDForView:self.view animated:YES];
         
         NSDictionary *dictData;
@@ -538,7 +535,7 @@ didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info
     NSURLSession *session = [NSURLSession sessionWithConfiguration:config];
     
     //Image_type PNG ---->>> 1
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@/%d", VENU_FEST_BASE_URL,POST_PROFILE_IMAGE_INBYTES,profileImageTypePNG]];
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", VENU_FEST_BASE_URL,UPDATE_USER_PROFILE_IMAGE_PATH]];
     
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:url];
     NSString *authKey = [[NSUserDefaults standardUserDefaults] objectForKey:@"AuthToken"];

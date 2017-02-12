@@ -311,14 +311,27 @@
 
 #pragma mark - Webservice
 
+/*
+ 
+ {
+ apitoken = "$2y$05$hrnlzrIV1fPkrVB7qBlH8e4NmNpFn7khR6GBkJY5QHd4NNSCHZVY.";
+ address = "Kolkata";
+ mobile = 923459895;
+ fname = MD;
+ lname = Aftab;
+ userid = 6;
+ }
+ 
+ */
+
 -(void)connectionUpdateUser
 {
-    NSDictionary *dictParam ;
-    
+    NSDictionary *dictParam = @{@"apitoken" :@"", @"address" : @"kolkata", @"mobile" : @"9432569874" , @"fname" :@"demo", @"lname" : @"user", @"userid" :@"10"};
     NSString *requestTypeMethod =   [[AppManager sharedDataAccess]  getStringForRequestType: PUT];
+    
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     
-    [[RPNetworkManager defaultNetworkManager] VFServicewithMethodName:UPDATE_USER_PATH withParameters:dictParam andRequestType:requestTypeMethod success:^(id response) {
+    [[RPNetworkManager defaultNetworkManager] VFServicewithMethodName:UPDATE_USER_PROFILE_PATH withParameters:dictParam andRequestType:requestTypeMethod success:^(id response) {
         
         NSDictionary *dictData;
         if ([response isKindOfClass:[NSDictionary class]]) {

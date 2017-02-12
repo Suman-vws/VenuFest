@@ -210,15 +210,23 @@
 
 #pragma mark - Webservice
 
+/*
+ {
+ apitoken =
+ "$2y$05$xqg81lxTmy0OSsLW1TzWL.usQ4u43srObJzkId8bQ2iqgxpRLRwjS";
+ email = "testsocial5@ouracademia.in";
+ }
+
+ */
+
 -(void)connectionRetrivePassword
 {
     //Email
-    NSDictionary *params = @{ @"emailId" : _txtEmail.text};
-    
+    NSDictionary *params = @{ @"apitoken" : @"", @"emailId" : _txtEmail.text};
     NSString *requestTypeMethod =  [[AppManager sharedDataAccess]  getStringForRequestType: POST];
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     
-    [[RPNetworkManager defaultNetworkManager] VFServicewithMethodName:@"" withParameters:params andRequestType:requestTypeMethod success:^(id response) {
+    [[RPNetworkManager defaultNetworkManager] VFServicewithMethodName:FORGET_USER_PATH withParameters:params andRequestType:requestTypeMethod success:^(id response) {
         [MBProgressHUD hideHUDForView:self.view animated:YES];
         
         NSDictionary *dictData;

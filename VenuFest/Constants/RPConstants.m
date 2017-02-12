@@ -15,74 +15,33 @@
 
 NSString *USER_LOGOUT_NOTIFICATION = @"USER_LOGOUT_EVENT";
 
-NSString *VENU_FEST_API_KEY = @"OEFFRTJERjUtNkM4NS00NDI5LUIxRTYtOTAyMTRCQzQ1NTgw";
-NSString *VENU_FEST_BASE_URL =  @"http://venuefest.teqnico.com/fest_connect/";
-NSString *RP_GUID_ID = @"00000000-0000-0000-0000-000000000000";
+//NSString *VENU_FEST_API_KEY = @"OEFFRTJERjUtNkM4NS00NDI5LUIxRTYtOTAyMTRCQzQ1NTgw";
+NSString *VENU_FEST_BASE_URL =  @"http://venuefest.teqnico.com/fest_connect/api/";
 
-NSString *USER_REGISTRATION_PATH = @"create_user.php";
-NSString *GET_USER_PATH = @"user";
-NSString *UPDATE_USER_PATH = @"user";
-NSString *FORGET_USER_PATH = @"forgotpass";
-NSString *USER_PROFILE_IMAGE_PATH = @"profileimage";
-NSString *POST_PROFILE_IMAGE = @"profileimage";
-NSString *POST_PROFILE_IMAGE_INBYTES = @"profileimagebytes";
-NSString *OTHER_USER_PROFILE = @"otheruser";
-NSString *JOGGER_ACTIVITY = @"joggeractivity";
-NSString *POST_ACTIVITY = @"activity";
-NSString *POST_FEEDBACK =  @"feedback";
-NSString *POST_FEEDBACK_IMAGE_INBYTES = @"feedbackimagebytes";
-NSString *ACTIVITY_PATH = @"activity";
-NSString *FEEDBACK_PATH =  @"feedback";
-NSString *TRACKS_PARAMS_PATH =  @"tracks";
-NSString *NEAREST_TRACKS_PATH =  @"nearesttracks";
-NSString *JOGGER_FRIENDS_PATH =  @"joggerfriends";
-NSString *SEND_FRIEND_REQUEST_PATH =  @"requestmessage";
-NSString *GET_NEARBY_JOGGER_PATH = @"nearbyjoggers";
-NSString *ACCEPT_FRIEND_REQUEST =  @"joggerfriend";
-NSString *USER_FEEDS_PATH = @"userfeeds";
-NSString *PRODUCTS_PATH = @"products";
-NSString *EVENTS_PATH = @"events";
-NSString *USER_LAST_LOCATION_PATH = @"lastlocation";
-NSString *SEARCH_JOGGER_FRIEND_PATH = @"searchjoggers/";
+NSString *USER_REGISTRATION_PATH = @"usersignup";
+NSString *USER_LOGIN_PATH = @"validatelogin";
+NSString *FORGET_USER_PATH = @"forgotpassword";
+NSString *USER_PROFILE_PATH = @"profiledetail";
+NSString *UPDATE_USER_PROFILE_PATH = @"updateprofile";
+NSString *UPDATE_USER_PROFILE_IMAGE_PATH = @"updateprofileImage";
+
+NSString *CHANGE_USER_PASSWORD_PATH = @"changepassword";
 
 #else
 
 NSString *USER_LOGOUT_NOTIFICATION = @"USER_LOGOUT_EVENT";
 
-NSString *RP_API_KEY = @"OEFFRTJERjUtNkM4NS00NDI5LUIxRTYtOTAyMTRCQzQ1NTgw";
-NSString *VENU_FEST_BASE_URL =  @"http://venuefest.teqnico.com/fest_connect/";
-NSString *RP_GUID_ID = @"00000000-0000-0000-0000-000000000000";
+//NSString *VENU_FEST_API_KEY = @"OEFFRTJERjUtNkM4NS00NDI5LUIxRTYtOTAyMTRCQzQ1NTgw";
+NSString *VENU_FEST_BASE_URL =  @"http://venuefest.teqnico.com/fest_connect/api/";
 
-// @"http://61.95.147.86/rpservicestaging/";   //Staging
-//live --->>  @"http://61.95.147.86/rpservice/";
+NSString *USER_LOGIN_PATH = @"user";
+NSString *USER_REGISTRATION_PATH = @"usersignup";
+NSString *FORGET_USER_PATH = @"forgotpassword";
+NSString *USER_PROFILE_PATH = @"profiledetail";
+NSString *UPDATE_USER_PROFILE_PATH = @"updateprofile";
+NSString *UPDATE_USER_PROFILE_IMAGE_PATH = @"updateprofileImage";
 
-NSString *USER_REGISTRATION_PATH = @"create_user.php";
-
-NSString *USER_REGISTRATION_AND_LOGIN_PATH = @"user";
-NSString *GET_USER_PATH = @"user";
-NSString *UPDATE_USER_PATH = @"user";
-NSString *FORGET_USER_PATH = @"forgotpass";
-NSString *USER_PROFILE_IMAGE_PATH = @"profileimage";
-NSString *POST_PROFILE_IMAGE = @"profileimage";
-NSString *POST_PROFILE_IMAGE_INBYTES = @"profileimagebytes";
-NSString *OTHER_USER_PROFILE = @"otheruser";
-NSString *JOGGER_ACTIVITY = @"joggeractivity";
-NSString *POST_ACTIVITY = @"activity";
-NSString *POST_FEEDBACK =  @"feedback";
-NSString *POST_FEEDBACK_IMAGE_INBYTES = @"feedbackimagebytes";
-NSString *ACTIVITY_PATH = @"activity";
-NSString *FEEDBACK_PATH =  @"feedback";
-NSString *TRACKS_PARAMS_PATH =  @"tracks";
-NSString *NEAREST_TRACKS_PATH =  @"nearesttracks";
-NSString *JOGGER_FRIENDS_PATH =  @"joggerfriends";
-NSString *SEND_FRIEND_REQUEST_PATH =  @"requestmessage";
-NSString *GET_NEARBY_JOGGER_PATH = @"nearbyjoggers";
-NSString *ACCEPT_FRIEND_REQUEST =  @"joggerfriend";
-NSString *USER_FEEDS_PATH = @"userfeeds";
-NSString *PRODUCTS_PATH = @"products";
-NSString *EVENTS_PATH = @"events";
-NSString *USER_LAST_LOCATION_PATH = @"lastlocation";
-NSString *SEARCH_JOGGER_FRIEND_PATH = @"searchjoggers/";
+NSString *CHANGE_USER_PASSWORD_PATH = @"changepassword";
 
 #endif
 
@@ -115,8 +74,6 @@ NSString * FACEBOOK_API_CALLBACK_NOTIFICATION = @"__FACEBOOK_API_CALLBACK_NOTIFI
 
 NSString * GOOGLE_PLUS_API_CLIENT_ID =  @"1020819682155-evs20ejou86pnismn2b6sjol0toa67s9.apps.googleusercontent.com";
 NSString * GOOGLE_PLUS_REVERSED_CLIENT_ID =  @"com.googleusercontent.apps.1020819682155-evs20ejou86pnismn2b6sjol0toa67s9";
-
-//@"1020819682155-evs20ejou86pnismn2b6sjol0toa67s9.apps.googleusercontent.com";
 
 NSString * GOOGLE_PLUS_API_CALLBACK_URL_SCHEME = @"com.mcs.VenuFest";
 NSString * USER_DID_LOGGED_IN_NOTIFICATION  = @"__USER_DID_LOGGED_IN_NOTIFICATION__";

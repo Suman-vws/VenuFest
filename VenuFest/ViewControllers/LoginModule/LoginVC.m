@@ -35,7 +35,7 @@
     if ([AppManager sharedDataAccess].IsLoggedIn) {
         [self gotoHome];
     }
-    appDelegate = [UIApplication sharedApplication].delegate;
+    appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
 
     loginVw = [[loginView alloc] init];
     loginVw.delegate = self;
@@ -199,19 +199,25 @@
 
 #pragma mark - User Login With App Credential
 
+/*
+ {
+ apitoken =
+ "$2y$05$xqg81lxTmy0OSsLW1TzWL.usQ4u43srObJzkId8bQ2iqgxpRLRwjS";
+ email = "testsocial5@ouracademia.in";
+ password = 12345;
+ }
+
+ */
+
 -(void)performUserLoginWithUserName:(NSString *)userName andPassword:(NSString *)password
 {
     //TODO: Handle User Login
-    /*
-     [RPNetworkManager defaultNetworkManager].authType = userAuthTypeLogin;
-     [RPNetworkManager defaultNetworkManager].loginType = userLoginTypeNormal;
-     [AppManager sharedDataAccess].strUserEmailId = _txtEmail.text;
-     [AppManager sharedDataAccess].strUserPassword = _txtpassword.text;
-     [self connectionUserLogin];
-     */
-    NSDictionary *params = @{@"LoginType" :@"", @"UserName" : userName, @"Email" : userName , @"Password" :password, @"SocialLoginId" : @"", @"AuthenticationType" :@"", @"SocialImageUrl" : @""};
-//    [self connectionUserLoginWithDetails:params];
-    [self gotoHome];
+     [AppManager sharedDataAccess].strUserEmailId = userName;
+     [AppManager sharedDataAccess].strUserPassword = password;
+//    NSDictionary *params = @{@"LoginType" :@"", @"UserName" : userName, @"Email" : userName , @"Password" :password, @"SocialLoginId" : @"", @"AuthenticationType" :@"", @"SocialImageUrl" : @""};
+    NSDictionary *params = @{@"apitoken" :@"", @"email" : userName, @"Password" :password};
+    [self connectionUserLoginWithDetails:params];
+//    [self gotoHome];
 
 }
 
@@ -245,30 +251,18 @@
     [self.navigationController pushViewController:forgotVC animated:YES];
 }
 
--(void)gotoUserSignup
-{
-    //TODO: Handle User Sign Up
-}
 
 #pragma mark - Social Login
 
 -(void)performUserGPlusLogin
  {
-     //     [RPNetworkManager defaultNetworkManager].authType = userAuthTypeLogin;
-     //     [RPNetworkManager defaultNetworkManager].loginType = userLoginTypeGPlus;
-
       [[RPNetworkManager defaultNetworkManager] loginUsingGooglePlusInViewController:self loginHandler:nil];
  }
  
  -(void)performUserFBLogin
  {
-//     [RPNetworkManager defaultNetworkManager].authType = userAuthTypeLogin;
-//     [RPNetworkManager defaultNetworkManager].loginType = userLoginTypeFacebook;
-     
      [[RPNetworkManager defaultNetworkManager] loginWithFbFromViewController:self];
  }
-
-
 
 
 -(void)UserSocialLoginNotification
@@ -283,10 +277,9 @@
 {
 
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
- 
     NSString *requestTypeMethod =   [[AppManager sharedDataAccess]  getStringForRequestType: POST];
    
-    [[RPNetworkManager defaultNetworkManager] VFServicewithMethodName:@"" withParameters:dictParam andRequestType:requestTypeMethod success:^(id response) {
+    [[RPNetworkManager defaultNetworkManager] VFServicewithMethodName:USER_LOGIN_PATH withParameters:dictParam andRequestType:requestTypeMethod success:^(id response) {
         [MBProgressHUD hideHUDForView:self.view animated:YES];
         
         NSDictionary *dictData;
@@ -296,7 +289,7 @@
         if ([[dictData objectForKey:@"ErrorCode"]  intValue] == 200 ) {
             RPLog(@"Success : %@", response);
             
-            [[AppManager sharedDataAccess] showAlertWithTitle:[NSString stringWithFormat:@"%@", [dictData objectForKey:@"ErrorMessage"]] andMessage:[NSString stringWithFormat:@"%@", [dictData objectForKey:@"Result"]] fromViewController:self];
+            [self showAlertWithTitle:[NSString stringWithFormat:@"%@", [dictData objectForKey:@"ErrorMessage"]] andMessage:[NSString stringWithFormat:@"%@", [dictData objectForKey:@"Result"]] fromViewController:self];
         }
         else
         {
@@ -332,13 +325,11 @@
 -(void)connectionUserSignupWithDetails:(NSDictionary *)dictParam
 {
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    
     NSString *requestTypeMethod =   [[AppManager sharedDataAccess]  getStringForRequestType: POST];
-    NSString *strMethodname = [NSString stringWithFormat:@"%@",USER_REGISTRATION_PATH];
     
-    NSDictionary *params = @{@"name" : @"Suman ios", @"address" : @"kolkata", @"contactnumber" : @"8820044725", @"emailaddress" : @"suman@yopmail.com", @"username": @"demo_user", @"password" : @"123456"};
+//    NSDictionary *params = @{@"name" : @"Suman ios", @"address" : @"kolkata", @"contactnumber" : @"8820044725", @"emailaddress" : @"suman@yopmail.com", @"username": @"demo_user", @"password" : @"123456"};
 
-    [[RPNetworkManager defaultNetworkManager] VFServicewithMethodName:strMethodname withParameters:params andRequestType:requestTypeMethod success:^(id response) {
+    [[RPNetworkManager defaultNetworkManager] VFServicewithMethodName:USER_REGISTRATION_PATH withParameters:dictParam andRequestType:requestTypeMethod success:^(id response) {
         [MBProgressHUD hideHUDForView:self.view animated:YES];
         
         NSDictionary *dictData;
@@ -363,7 +354,7 @@
     }];
 }
 
-
+#pragma mark - Test Network Connection Method
 
 /*
  RL : http://venuefest.teqnico.com/fest_connect/get_all_users.php
@@ -376,7 +367,7 @@
  password	String
  */
 
-
+/*
 -(void)connectionGetAllUSer
 {
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
@@ -407,6 +398,8 @@
         
     }];
 }
+
+*/
 
 
 #pragma mark - Alert

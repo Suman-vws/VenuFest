@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		0F47805444B1B0E155F45AE1 /* libPods-VenuFestUITests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C2119B2B258DF14DF4FBFF7A /* libPods-VenuFestUITests.a */; };
-		1700CF2E1E20CC89005189B4 /* ADVSegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1700CF2D1E20CC89005189B4 /* ADVSegmentedControl.swift */; };
 		1709F0401E1ADF3500F95561 /* cover1.png in Resources */ = {isa = PBXBuildFile; fileRef = 1709F03E1E1ADF3500F95561 /* cover1.png */; };
 		1709F0411E1ADF3500F95561 /* cover2.png in Resources */ = {isa = PBXBuildFile; fileRef = 1709F03F1E1ADF3500F95561 /* cover2.png */; };
 		1719237C1E1941BF00BCC41E /* loginView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1719237B1E1941BF00BCC41E /* loginView.m */; };
@@ -79,7 +78,6 @@
 
 /* Begin PBXFileReference section */
 		1700CF2C1E20CC88005189B4 /* VenuFest-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "VenuFest-Bridging-Header.h"; sourceTree = "<group>"; };
-		1700CF2D1E20CC89005189B4 /* ADVSegmentedControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ADVSegmentedControl.swift; path = Libs/CustomSegmentController/ADVSegmentedControl.swift; sourceTree = "<group>"; };
 		1709F03E1E1ADF3500F95561 /* cover1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cover1.png; sourceTree = "<group>"; };
 		1709F03F1E1ADF3500F95561 /* cover2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cover2.png; sourceTree = "<group>"; };
 		1719237A1E1941BF00BCC41E /* loginView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = loginView.h; path = ViewControllers/LoginModule/Views/loginView.h; sourceTree = "<group>"; };
@@ -565,7 +563,6 @@
 		17C79E4D1E1F7AF800D854AF /* CustomSegmentController */ = {
 			isa = PBXGroup;
 			children = (
-				1700CF2D1E20CC89005189B4 /* ADVSegmentedControl.swift */,
 				1700CF2C1E20CC88005189B4 /* VenuFest-Bridging-Header.h */,
 			);
 			name = CustomSegmentController;
@@ -914,7 +911,6 @@
 				17C23A5F1E1EE1AD000478B3 /* Personal_infoView.m in Sources */,
 				178E31A91DF7057A00EFD2AC /* MenuTableVC.m in Sources */,
 				1719237C1E1941BF00BCC41E /* loginView.m in Sources */,
-				1700CF2E1E20CC89005189B4 /* ADVSegmentedControl.swift in Sources */,
 				178E32211DF7097F00EFD2AC /* SettingsVC.m in Sources */,
 				17C79E661E1F7BC100D854AF /* SBJsonWriter.m in Sources */,
 				17C23A681E1EE1DC000478B3 /* PersonalInfoCell.m in Sources */,
@@ -1087,7 +1083,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "VenuFest/VenuFest-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 2.3;
 			};
 			name = Debug;
 		};
@@ -1105,7 +1101,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.mcs.VenuFest;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "VenuFest/VenuFest-Bridging-Header.h";
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 2.3;
 			};
 			name = Release;
 		};

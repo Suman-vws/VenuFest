@@ -25,15 +25,6 @@ typedef enum
 
 typedef enum
 {
-    userExprienceNormal = 0,
-    userExprienceGood,
-    userExprienceExcellent,
-    userExprienceNone
-    
-}userExprience;
-
-typedef enum
-{
     userAuthTypeLogin = 0,
     userAuthTypeRegistration,
     userAuthTypeNone
@@ -61,23 +52,6 @@ typedef enum
     profileImageTypeJPG = 0,
     profileImageTypePNG,
 }profileImageType;
-
-typedef enum
-{
-    RequestTypeAddFriend = 0,
-    RequestTypeUnfriend,
-    RequestTypeInformation,
-    RequestTypeAdminNotification,
-    
-}friendRequestType;
-
-
-typedef enum
-{
-    feedTypeAdmin = 0,
-    feedTypeStory,
-}feedType;
-
 
 typedef enum
 {
@@ -126,34 +100,15 @@ UIKIT_EXTERN NSString *USER_LOGOUT_NOTIFICATION;
 
 UIKIT_EXTERN NSString *VENU_FEST_BASE_URL;
 UIKIT_EXTERN NSString *VENU_FEST_API_KEY;
-UIKIT_EXTERN NSString *RP_GUID_ID; 
 
 UIKIT_EXTERN NSString *USER_REGISTRATION_PATH;
-UIKIT_EXTERN NSString *GET_USER_PATH;
-UIKIT_EXTERN NSString *UPDATE_USER_PATH;
-
+UIKIT_EXTERN NSString *USER_LOGIN_PATH;
 UIKIT_EXTERN NSString *FORGET_USER_PATH;
+UIKIT_EXTERN NSString *USER_PROFILE_PATH;
+UIKIT_EXTERN NSString *UPDATE_USER_PROFILE_PATH;
+UIKIT_EXTERN NSString *UPDATE_USER_PROFILE_IMAGE_PATH;
 
-UIKIT_EXTERN NSString *USER_PROFILE_IMAGE_PATH;
-UIKIT_EXTERN NSString *POST_PROFILE_IMAGE;  // imagetype
-UIKIT_EXTERN NSString *POST_PROFILE_IMAGE_INBYTES;  // imagetypeInBytes
-UIKIT_EXTERN NSString *OTHER_USER_PROFILE;
-UIKIT_EXTERN NSString *JOGGER_ACTIVITY;
-UIKIT_EXTERN NSString *POST_ACTIVITY;
-UIKIT_EXTERN NSString *POST_FEEDBACK;
-UIKIT_EXTERN NSString *POST_FEEDBACK_IMAGE_INBYTES;
-UIKIT_EXTERN NSString *ACTIVITY_PATH;
-UIKIT_EXTERN NSString *FEEDBACK_PATH;
-UIKIT_EXTERN NSString *TRACKS_PARAMS_PATH;
-UIKIT_EXTERN NSString *NEAREST_TRACKS_PATH;
-UIKIT_EXTERN NSString *JOGGER_FRIENDS_PATH;
-UIKIT_EXTERN NSString *SEND_FRIEND_REQUEST_PATH;
-UIKIT_EXTERN NSString *GET_NEARBY_JOGGER_PATH;
-UIKIT_EXTERN NSString *USER_FEEDS_PATH;
-UIKIT_EXTERN NSString *PRODUCTS_PATH;
-UIKIT_EXTERN NSString *EVENTS_PATH;
-UIKIT_EXTERN NSString *USER_LAST_LOCATION_PATH;
-UIKIT_EXTERN NSString *SEARCH_JOGGER_FRIEND_PATH;
+UIKIT_EXTERN NSString *CHANGE_USER_PASSWORD_PATH;
 
 
 UIKIT_EXTERN NSString  *TOP_BAR_TITLE_FONT_NAME;
