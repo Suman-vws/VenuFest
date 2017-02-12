@@ -72,7 +72,6 @@
         success = [[FBSDKApplicationDelegate sharedInstance] application:application openURL:url sourceApplication:sourceApplication annotation:annotation];
     }
     else if ([[[url scheme] lowercaseString] isEqualToString:[GOOGLE_PLUS_REVERSED_CLIENT_ID lowercaseString]]){
-//        success = [GPPURLHandler handleURL:url sourceApplication:sourceApplication annotation:annotation];
         success =  [[GIDSignIn sharedInstance] handleURL:url sourceApplication:sourceApplication
                                           annotation:annotation];
     }

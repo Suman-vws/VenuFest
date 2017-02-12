@@ -90,7 +90,6 @@
 
 #pragma mark - Social Login Properties
 
-//google plus
 - (GIDSignIn *) googleSignInClient{
     if (!_googleSignInClient) {
         _googleSignInClient = [GIDSignIn sharedInstance];
@@ -133,58 +132,6 @@
 }
 
 #pragma mark - Google SignIn Delegate
-/*
-- (void)finishedWithAuth:(GTMOAuth2Authentication *)auth error:(NSError *)error {
-    
-    __weak typeof(self) weakSelf = self;
-    if (error) {
-        RPLog(@"Google Plus Sign in Error : %@", error.debugDescription);
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [weakSelf hideLoadingIndicatorInView:weakSelf.targetVC.view];
-            weakSelf.targetVC = nil;
-        });
-    }
-    else {
-        [weakSelf hideLoadingIndicatorInView:weakSelf.targetVC.view];
-
-        if ([GPPSignIn sharedInstance].authentication == nil) {
-            RPLog(@"Google Plus Sign in Error : %@", error.debugDescription);
-        }
-        else {
-            // The googlePlusUser member will be populated only if the appropriate
-            // scope is set when signing in.
-            GTLPlusPerson *person = [GPPSignIn sharedInstance].googlePlusUser;
-            if (person == nil) {
-                RPLog(@"Google Plus Sign in Error : %@", error.debugDescription);
-            }
-            else {
-                RPLog(@"Name: %@ EmailId: %@",person.displayName,[GPPSignIn sharedInstance].userEmail);
-                NSString *strName = person.displayName;
-                NSString *strUserEmail = [GPPSignIn sharedInstance].userEmail;
-                NSString *strUserId = [GPPSignIn sharedInstance].userID;
-                NSString *strProfileImgUrl = person.image.url;
-                
-                //Save Data For User
-                [AppManager sharedDataAccess].strUserEmailId = strUserEmail;
-                [AppManager sharedDataAccess].strSocialLoginID = strUserId;
-                [AppManager sharedDataAccess].strSocialImageURL = strProfileImgUrl;
-                [AppManager sharedDataAccess].strUserImagePath = strProfileImgUrl;
-                [AppManager sharedDataAccess].strUserName = strName;
-                
-                [weakSelf hideLoadingIndicatorInView:weakSelf.targetVC.view];
-                [weakSelf callNotification];
-                [[GPPSignIn sharedInstance] signOut];
-                
-            }
-        }
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [weakSelf hideLoadingIndicatorInView:weakSelf.targetVC.view];
-            weakSelf.targetVC = nil;
-        });
-    }
-}
-*/
-
 
 - (void)signIn:(GIDSignIn *)signIn presentViewController:(UIViewController *)viewController
 {

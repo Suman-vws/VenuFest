@@ -10,22 +10,6 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "VenuFest/Controllers/Network Manager/RPNetworkManager.m"
-            timestampString = "508578124.851692"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "156"
-            endingLineNumber = "156"
-            landmarkName = "@implementation RPNetworkManager"
-            landmarkType = "3">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "VenuFest/Controllers/Network Manager/RPNetworkManager.m"
             timestampString = "508578378.531643"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
