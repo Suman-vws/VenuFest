@@ -34,6 +34,9 @@ typedef void(^authCompletion)(BOOL);
 
 - (void) VFServicewithMethodName:(NSString *)methodName withParameters:(NSDictionary *)params andRequestType:(NSString *)requestType  success:(RPNetworkManagerSuccessBlock)success failure:(RPNetworkManagerFailureBlock) failure;
 
+- (void)showLoadingIndicatorInView:(UIView *)view;
+-(void)hideLoadingIndicatorInView:(UIView *)view;
+
 //Social Login
 - (void)loginWithFbFromViewController:(UIViewController *)vc;
 - (void) loginUsingGooglePlusInViewController:(UIViewController *)vc loginHandler:(void(^)(id ))result;

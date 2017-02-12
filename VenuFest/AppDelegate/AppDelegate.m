@@ -8,7 +8,7 @@
 
 #import "AppDelegate.h"
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
-#import <GooglePlus/GooglePlus.h>
+#import <GoogleSignIn/GoogleSignIn.h>
 
 @interface AppDelegate ()
 
@@ -71,8 +71,10 @@
     if ([[url scheme] isEqualToString:FACEBOOK_API_CALLBACK_URL_SCHEME]){
         success = [[FBSDKApplicationDelegate sharedInstance] application:application openURL:url sourceApplication:sourceApplication annotation:annotation];
     }
-    else if ([[[url scheme] lowercaseString] isEqualToString:[GOOGLE_PLUS_API_CALLBACK_URL_SCHEME lowercaseString]]){
-        success = [GPPURLHandler handleURL:url sourceApplication:sourceApplication annotation:annotation];
+    else if ([[[url scheme] lowercaseString] isEqualToString:[GOOGLE_PLUS_REVERSED_CLIENT_ID lowercaseString]]){
+//        success = [GPPURLHandler handleURL:url sourceApplication:sourceApplication annotation:annotation];
+        success =  [[GIDSignIn sharedInstance] handleURL:url sourceApplication:sourceApplication
+                                          annotation:annotation];
     }
     
     

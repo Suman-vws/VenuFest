@@ -18,10 +18,71 @@
 	<string>1.0</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>fb1144340155656269</string>
+			</array>
+		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>com.mcs.VenuFest</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>fb1144340155656269</string>
+			</array>
+		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>REVERSED_CLIENT_ID</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>com.googleusercontent.apps.1020819682155-evs20ejou86pnismn2b6sjol0toa67s9</string>
+			</array>
+		</dict>
+	</array>
 	<key>CFBundleVersion</key>
 	<string>1</string>
+	<key>FacebookAppID</key>
+	<string>1144340155656269</string>
+	<key>FacebookDisplayName</key>
+	<string>VenuFest</string>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>fbapi</string>
+		<string>fb-messenger-api</string>
+		<string>fbauth2</string>
+		<string>fbshareextension</string>
+		<string>com.googleusercontent.apps.1020819682155-evs20ejou86pnismn2b6sjol0toa67s9</string>
+		<string>com-google-gidconsent-google</string>
+		<string>com-google-gidconsent-youtube</string>
+		<string>com-google-gidconsent</string>
+		<string>com.google.gppconsent.2.4.1</string>
+		<string>com.google.gppconsent.2.4.0</string>
+		<string>googlechrome</string>
+		<string>googlechrome-x-callback</string>
+		<string>hasgplus4</string>
+		<string>com.google.gppconsent.2.3.0</string>
+		<string>com.google.gppconsent.2.2.0</string>
+		<string>com.google.gppconsent</string>
+	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+	</dict>
+	<key>UIAppFonts</key>
+	<array>
+		<string>SinkinSans-300Light.otf</string>
+	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
@@ -42,77 +103,6 @@
 		<string>UIInterfaceOrientationPortraitUpsideDown</string>
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
-	</array>
-	<key>CFBundleURLTypes</key>
-	<array>
-        <dict>
-            <key>CFBundleURLSchemes</key>
-            <array>
-                <string>fb1144340155656269</string>
-            </array>
-        </dict>
-		<dict>
-            <key>CFBundleTypeRole</key>
-            <string>Editor</string>
-			<key>CFBundleURLName</key>
-			<string>com.suman.VenuFest</string>
-			<key>CFBundleURLSchemes</key>
-			<array>
-				<string>fb1144340155656269</string>
-			</array>
-		</dict>
-		<dict>
-            <key>CFBundleTypeRole</key>
-            <string>Editor</string>
-			<key>CFBundleURLName</key>
-			<string>REVERSED_CLIENT_ID</string>
-			<key>CFBundleURLSchemes</key>
-			<array>
-                <string>com.googleusercontent.apps.1020819682155-evs20ejou86pnismn2b6sjol0toa67s9</string>
-			</array>
-		</dict>
-	</array>
-	<key>FacebookAppID</key>
-	<string>1144340155656269</string>
-	<key>FacebookDisplayName</key>
-	<string>VenuFest</string>
-	<key>LSApplicationQueriesSchemes</key>
-	<array>
-		<string>fbapi</string>
-		<string>fb-messenger-api</string>
-		<string>fbauth2</string>
-		<string>fbshareextension</string>
-		<string>com.googleusercontent.apps.1020819682155-evs20ejou86pnismn2b6sjol0toa67s9</string>
-		<string>com-google-gidconsent-google</string>
-		<string>com-google-gidconsent-youtube</string>
-		<string>com-google-gidconsent</string>
-		<string>com.google.gppconsent</string>
-		<string>com.google.gppconsent.2.4.1</string>
-		<string>com.google.gppconsent.2.4.0</string>
-		<string>com.google.gppconsent.2.3.0</string>
-		<string>com.google.gppconsent.2.2.0</string>
-		<string>hasgplus4</string>
-		<string>googlechrome</string>
-		<string>googlechrome-x-callback</string>
-	</array>
-	<key>NSAppTransportSecurity</key>
-	<dict>
-		<key>NSAllowsArbitraryLoads</key>
-		<true/>
-		<key>NSExceptionDomains</key>
-		<dict>
-			<key>http://61.95.147.86</key>
-			<dict>
-				<key>NSIncludesSubdomains</key>
-				<true/>
-				<key>NSThirdPartyExceptionRequiresForwardSecrecy</key>
-				<false/>
-			</dict>
-		</dict>
-	</dict>
-	<key>UIAppFonts</key>
-	<array>
-		<string>SinkinSans-300Light.otf</string>
 	</array>
 </dict>
 </plist>

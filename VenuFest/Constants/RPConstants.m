@@ -16,10 +16,10 @@
 NSString *USER_LOGOUT_NOTIFICATION = @"USER_LOGOUT_EVENT";
 
 NSString *VENU_FEST_API_KEY = @"OEFFRTJERjUtNkM4NS00NDI5LUIxRTYtOTAyMTRCQzQ1NTgw";
-NSString *VENU_FEST_BASE_URL =  @"http://61.95.147.86/rpservice/";
+NSString *VENU_FEST_BASE_URL =  @"http://venuefest.teqnico.com/fest_connect/";
 NSString *RP_GUID_ID = @"00000000-0000-0000-0000-000000000000";
 
-NSString *USER_REGISTRATION_AND_LOGIN_PATH = @"user";
+NSString *USER_REGISTRATION_PATH = @"create_user.php";
 NSString *GET_USER_PATH = @"user";
 NSString *UPDATE_USER_PATH = @"user";
 NSString *FORGET_USER_PATH = @"forgotpass";
@@ -50,11 +50,13 @@ NSString *SEARCH_JOGGER_FRIEND_PATH = @"searchjoggers/";
 NSString *USER_LOGOUT_NOTIFICATION = @"USER_LOGOUT_EVENT";
 
 NSString *RP_API_KEY = @"OEFFRTJERjUtNkM4NS00NDI5LUIxRTYtOTAyMTRCQzQ1NTgw";
-NSString *RP_BASE_URL =  @"http://61.95.147.86/rpservice/";
+NSString *VENU_FEST_BASE_URL =  @"http://venuefest.teqnico.com/fest_connect/";
 NSString *RP_GUID_ID = @"00000000-0000-0000-0000-000000000000";
 
 // @"http://61.95.147.86/rpservicestaging/";   //Staging
 //live --->>  @"http://61.95.147.86/rpservice/";
+
+NSString *USER_REGISTRATION_PATH = @"create_user.php";
 
 NSString *USER_REGISTRATION_AND_LOGIN_PATH = @"user";
 NSString *GET_USER_PATH = @"user";
@@ -111,9 +113,12 @@ CGFloat APPLICATION_BODY_FONT_SIZE_SMALL = 12.0f;
 NSString * FACEBOOK_API_CALLBACK_URL_SCHEME = @"fb1144340155656269";
 NSString * FACEBOOK_API_CALLBACK_NOTIFICATION = @"__FACEBOOK_API_CALLBACK_NOTIFICATION__";
 
-NSString * GOOGLE_PLUS_API_CLIENT_ID =
-@"1020819682155-evs20ejou86pnismn2b6sjol0toa67s9.apps.googleusercontent.com";
-NSString * GOOGLE_PLUS_API_CALLBACK_URL_SCHEME = @"com.suman.VenuFest";
+NSString * GOOGLE_PLUS_API_CLIENT_ID =  @"1020819682155-evs20ejou86pnismn2b6sjol0toa67s9.apps.googleusercontent.com";
+NSString * GOOGLE_PLUS_REVERSED_CLIENT_ID =  @"com.googleusercontent.apps.1020819682155-evs20ejou86pnismn2b6sjol0toa67s9";
+
+//@"1020819682155-evs20ejou86pnismn2b6sjol0toa67s9.apps.googleusercontent.com";
+
+NSString * GOOGLE_PLUS_API_CALLBACK_URL_SCHEME = @"com.mcs.VenuFest";
 NSString * USER_DID_LOGGED_IN_NOTIFICATION  = @"__USER_DID_LOGGED_IN_NOTIFICATION__";
 
 

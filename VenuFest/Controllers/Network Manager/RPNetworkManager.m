@@ -13,14 +13,13 @@
 #import "MBProgressHUD.h"
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
 #import <FBSDKLoginKit/FBSDKLoginKit.h>
-#import <GooglePlus/GooglePlus.h>
-#import <GoogleOpenSource/GoogleOpenSource.h>
+#import <GoogleSignIn/GoogleSignIn.h>
 
 
 
 #define REQUEST_TIMEOUT_THRESOLD 241
 
-@interface RPNetworkManager  ()<GPPSignInDelegate>
+@interface RPNetworkManager  ()<GIDSignInDelegate, GIDSignInUIDelegate>
 
 @property (nonatomic, strong) NSURL *requestURL;
 @property (nonatomic, assign) NSInteger lastResponseStatusCode;
@@ -35,7 +34,7 @@
 @property (nonatomic, strong) UIViewController *targetVC;
 
 
-@property (nonatomic, strong)  GPPSignIn *gppClient;
+@property (nonatomic, strong) GIDSignIn* googleSignInClient;
 @property (nonatomic, strong) FBSDKLoginManager *fbClient;
 
 @end
@@ -92,21 +91,16 @@
 #pragma mark - Social Login Properties
 
 //google plus
-- (GPPSignIn *) gppClient{
-    if (!_gppClient) {
-        _gppClient = [GPPSignIn sharedInstance];
-        _gppClient.shouldFetchGooglePlusUser = YES;
-        _gppClient.shouldFetchGoogleUserEmail = YES;
-        _gppClient.shouldFetchGoogleUserID = YES;
-        _gppClient.clientID = GOOGLE_PLUS_API_CLIENT_ID;
-        // Uncomment one of these two statements for the scope you chose in the previous step
-        _gppClient.scopes = @[ kGTLAuthScopePlusLogin ];
-        // "https://www.googleapis.com/auth/plus.login" scope
-        //signIn.scopes = @[ @"profile" ];            // "profile" scope
-        // Optional: declare signIn.actions, see "app activities"
-        _gppClient.delegate = self;
+- (GIDSignIn *) googleSignInClient{
+    if (!_googleSignInClient) {
+        _googleSignInClient = [GIDSignIn sharedInstance];
+        _googleSignInClient.shouldFetchBasicProfile = YES;
+        _googleSignInClient.clientID = GOOGLE_PLUS_API_CLIENT_ID;
+        _googleSignInClient.scopes = @[ @"profile", @"email" ];
+        _googleSignInClient.delegate = self;
+        _googleSignInClient.uiDelegate = self;
     }
-    return _gppClient;
+    return _googleSignInClient;
 }
 
 //Facebook
@@ -132,15 +126,14 @@
 #pragma mark - Google+
 
 - (void) loginUsingGooglePlusInViewController:(UIViewController *)vc loginHandler:(void(^)(id ))result{
+    
     self.targetVC = vc;
     [self showLoadingIndicatorInView:vc.view];
-    [self.gppClient authenticate];
-    NSLog(@"result %@", result);
-    
+    [self.googleSignInClient signIn];
 }
 
-#pragma mark - GPPSignInDelegate
-
+#pragma mark - Google SignIn Delegate
+/*
 - (void)finishedWithAuth:(GTMOAuth2Authentication *)auth error:(NSError *)error {
     
     __weak typeof(self) weakSelf = self;
@@ -190,8 +183,83 @@
         });
     }
 }
+*/
 
 
+- (void)signIn:(GIDSignIn *)signIn presentViewController:(UIViewController *)viewController
+{
+    __weak typeof(self) weakSelf = self;
+
+    dispatch_async(dispatch_get_main_queue(), ^{
+        
+        [weakSelf.targetVC presentViewController:viewController animated:YES completion:nil];
+
+    });
+}
+
+- (void)signIn:(GIDSignIn *)signIn dismissViewController:(UIViewController *)viewController
+{
+    __weak typeof(self) weakSelf = self;
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        
+        [weakSelf.targetVC dismissViewControllerAnimated:YES completion:nil];
+        
+    });
+
+}
+- (void)signInWillDispatch:(GIDSignIn *)signIn error:(NSError *)error
+{
+    if (error)
+        RPLog(@"Google Plus Sign in Error : %@", error.debugDescription);
+    __weak typeof(self) weakSelf = self;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [weakSelf hideLoadingIndicatorInView:weakSelf.targetVC.view];
+    });
+}
+
+-(void)signIn:(GIDSignIn *)signIn didSignInForUser:(GIDGoogleUser *)user withError:(NSError *)error {
+    
+    __weak typeof(self) weakSelf = self;
+    if (error) {
+        RPLog(@"Google Plus Sign in Error : %@", error.debugDescription);
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [weakSelf hideLoadingIndicatorInView:weakSelf.targetVC.view];
+            weakSelf.targetVC = nil;
+        });
+    }
+    else {
+        [weakSelf hideLoadingIndicatorInView:weakSelf.targetVC.view];
+     // Perform any operations on signed in user here.
+     RPLog(@"Signed in user");
+     
+     NSString *userId = user.userID;                 // For client-side use only!
+     NSString *idToken = user.authentication.idToken; // Safe to send to the server
+     NSString *fullName = user.profile.name;
+     NSString *givenName = user.profile.givenName;
+     NSString *familyName = user.profile.familyName;
+     NSString *email = user.profile.email;
+     NSURL *imageUrl;
+     if(user.profile.hasImage){
+         // crash here !!!!!!!! cannot get imageUrl here, why?
+         imageUrl = [self.googleSignInClient.currentUser.profile imageURLWithDimension:120];
+         RPLog(@"image url: %@", imageUrl.absoluteString);
+     }
+     
+     RPLog(@"Welcome: %@,\(userId) %@, (idToken) %@, \(fullName) %@, \(givenName) %@, \(familyName) %@, \(email) %@", @"User", userId, idToken, fullName, givenName, familyName, email);
+     RPLog(@"Profile Image URl : %@", imageUrl ? imageUrl.absoluteString: @"no image found");
+     
+     [self.googleSignInClient signOut];
+     [self.googleSignInClient disconnect];
+        
+    }
+ }
+
+ - (void)signIn:(GIDSignIn *)signIn didDisconnectWithUser:(GIDGoogleUser *)user withError:(NSError *)error {
+     // Perform any operations when the user disconnects from app here.
+     RPLog(@"Disconnected user");
+ }
+ 
 #pragma mark - FaceBook
 
 - (void)loginWithFbFromViewController:(UIViewController *)vc{

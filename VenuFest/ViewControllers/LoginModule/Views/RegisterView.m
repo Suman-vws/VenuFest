@@ -316,6 +316,23 @@
 
 #pragma mark - Click Events
 
+/*
+ URL : http://venuefest.teqnico.com/fest_connect/create_user.php
+ Method	Post
+ Input Parameters:
+ Parameter Name
+ Data Type
+ name	String
+ address	String
+ contactnumber	String
+ emailaddress	String
+ username	String
+ password	String
+ Output
+ success	1
+ failure	0
+ */
+
 -(IBAction)clcikedRegisterUser:(id)sender
 {
     self.btnRegister.userInteractionEnabled = NO;
@@ -324,8 +341,10 @@
     });
     
     if ([self validateSignupData ]) {
-        NSDictionary *dictUserData = @{@"name" : _txtFullName.text, @"address" : _txtAddress.text, @"contctno" : _txtContactNo.text, @"email" : _txtEmail.text, @"username": _txtUserName.text, @"password" : _txtpassword.text};
+//        NSDictionary *dictUserData = @{@"name" : _txtFullName.text, @"address" : _txtAddress.text, @"contctno" : _txtContactNo.text, @"email" : _txtEmail.text, @"username": _txtUserName.text, @"password" : _txtpassword.text};
         
+        NSDictionary *dictUserData = @{@"name" : _txtFullName.text, @"address" : _txtAddress.text, @"contactnumber" : _txtContactNo.text, @"emailaddress" : _txtEmail.text, @"username": _txtUserName.text, @"password" : _txtpassword.text};
+
         if ([self.delegate respondsToSelector:@selector(RegisterButtonTappedWithUserData:)] && dictUserData) {
                 [self.delegate RegisterButtonTappedWithUserData:dictUserData];
         }

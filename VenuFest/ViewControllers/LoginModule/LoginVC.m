@@ -258,7 +258,6 @@
      //     [RPNetworkManager defaultNetworkManager].loginType = userLoginTypeGPlus;
 
       [[RPNetworkManager defaultNetworkManager] loginUsingGooglePlusInViewController:self loginHandler:nil];
- 
  }
  
  -(void)performUserFBLogin
@@ -312,14 +311,34 @@
     }];
 }
 
+
+/*
+ URL : http://venuefest.teqnico.com/fest_connect/create_user.php
+ Method	Post
+ Input Parameters:
+ Parameter Name
+ Data Type
+ name	String
+ address	String
+ contactnumber	String
+ emailaddress	String
+ username	String
+ password	String
+ Output
+ success	1
+ failure	0
+ */
+
 -(void)connectionUserSignupWithDetails:(NSDictionary *)dictParam
 {
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     
     NSString *requestTypeMethod =   [[AppManager sharedDataAccess]  getStringForRequestType: POST];
-    NSString *strMethodname = [NSString stringWithFormat:@"%@",JOGGER_ACTIVITY];
+    NSString *strMethodname = [NSString stringWithFormat:@"%@",USER_REGISTRATION_PATH];
     
-    [[RPNetworkManager defaultNetworkManager] VFServicewithMethodName:strMethodname withParameters:dictParam andRequestType:requestTypeMethod success:^(id response) {
+    NSDictionary *params = @{@"name" : @"Suman ios", @"address" : @"kolkata", @"contactnumber" : @"8820044725", @"emailaddress" : @"suman@yopmail.com", @"username": @"demo_user", @"password" : @"123456"};
+
+    [[RPNetworkManager defaultNetworkManager] VFServicewithMethodName:strMethodname withParameters:params andRequestType:requestTypeMethod success:^(id response) {
         [MBProgressHUD hideHUDForView:self.view animated:YES];
         
         NSDictionary *dictData;
@@ -343,6 +362,52 @@
         
     }];
 }
+
+
+
+/*
+ RL : http://venuefest.teqnico.com/fest_connect/get_all_users.php
+ Method	Get
+ Input Parameters:
+ Parameter Name
+ Data Type
+ name	String
+ username	String
+ password	String
+ */
+
+
+-(void)connectionGetAllUSer
+{
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    
+    NSString *requestTypeMethod =   [[AppManager sharedDataAccess]  getStringForRequestType: POST];
+    NSDictionary *dictParam = @{@"name" : @"rana" , @"username": @"rana", @"password" : @"rana123"};
+
+    [[RPNetworkManager defaultNetworkManager] VFServicewithMethodName:@"get_all_users.php" withParameters:dictParam andRequestType:requestTypeMethod success:^(id response) {
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+        
+        NSDictionary *dictData;
+        if ([response isKindOfClass:[NSDictionary class]]) {
+            dictData = response;
+        }
+        if ([[dictData objectForKey:@"ErrorCode"]  intValue] == 200 ) {
+            RPLog(@"Success : %@", response);
+            
+        }
+        else
+        {
+            [[AppManager sharedDataAccess] showAlertWithTitle:@"Error!" andMessage:[NSString stringWithFormat:@"%@", [dictData objectForKey:@"Result"]] fromViewController:self];
+        }
+        
+    } failure:^(id failureMessage, NSError *error) {
+        
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+        RPLog(@"Error : %@", error.localizedDescription);
+        
+    }];
+}
+
 
 #pragma mark - Alert
 

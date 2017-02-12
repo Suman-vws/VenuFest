@@ -17,7 +17,10 @@ target 'VenuFest' do
 
 	#Google Plus Dependency
  	#    pod 'GooglePlusOpenSource', '1.7.1'
-  	pod 'googleplus-ios-sdk', '1.7.1'
+    # pod 'googleplus-ios-sdk', '1.7.1'
+    pod 'Google'
+    pod 'GoogleSignIn', '~> 4.0'
+
 
 
   target 'VenuFestTests' do

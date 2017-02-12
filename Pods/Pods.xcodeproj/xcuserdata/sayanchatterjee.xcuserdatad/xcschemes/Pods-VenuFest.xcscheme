@@ -14,7 +14,7 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = 'primary'
-               BlueprintIdentifier = 'B64476CF13F85C3CFB919F7C28046DAB'
+               BlueprintIdentifier = 'AE0D522BB01846DEC91F19B1F5D7C321'
                BlueprintName = 'Pods-VenuFest'
                ReferencedContainer = 'container:Pods.xcodeproj'
                BuildableName = 'libPods-VenuFest.a'>

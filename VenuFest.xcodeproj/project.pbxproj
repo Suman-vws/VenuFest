@@ -8,20 +8,20 @@
 
 /* Begin PBXBuildFile section */
 		0F47805444B1B0E155F45AE1 /* libPods-VenuFestUITests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C2119B2B258DF14DF4FBFF7A /* libPods-VenuFestUITests.a */; };
-		1700CF2E1E20CC89005189B4 /* ADVSegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1700CF2D1E20CC89005189B4 /* ADVSegmentedControl.swift */; settings = {ASSET_TAGS = (); }; };
-		1709F0401E1ADF3500F95561 /* cover1.png in Resources */ = {isa = PBXBuildFile; fileRef = 1709F03E1E1ADF3500F95561 /* cover1.png */; settings = {ASSET_TAGS = (); }; };
-		1709F0411E1ADF3500F95561 /* cover2.png in Resources */ = {isa = PBXBuildFile; fileRef = 1709F03F1E1ADF3500F95561 /* cover2.png */; settings = {ASSET_TAGS = (); }; };
-		1719237C1E1941BF00BCC41E /* loginView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1719237B1E1941BF00BCC41E /* loginView.m */; settings = {ASSET_TAGS = (); }; };
-		171923801E19420D00BCC41E /* loginVIew.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1719237F1E19420D00BCC41E /* loginVIew.xib */; settings = {ASSET_TAGS = (); }; };
-		171923871E19426A00BCC41E /* registerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 171923861E19426A00BCC41E /* registerView.xib */; settings = {ASSET_TAGS = (); }; };
-		1719238D1E1951B900BCC41E /* RegisterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1719238C1E1951B900BCC41E /* RegisterView.m */; settings = {ASSET_TAGS = (); }; };
+		1700CF2E1E20CC89005189B4 /* ADVSegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1700CF2D1E20CC89005189B4 /* ADVSegmentedControl.swift */; };
+		1709F0401E1ADF3500F95561 /* cover1.png in Resources */ = {isa = PBXBuildFile; fileRef = 1709F03E1E1ADF3500F95561 /* cover1.png */; };
+		1709F0411E1ADF3500F95561 /* cover2.png in Resources */ = {isa = PBXBuildFile; fileRef = 1709F03F1E1ADF3500F95561 /* cover2.png */; };
+		1719237C1E1941BF00BCC41E /* loginView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1719237B1E1941BF00BCC41E /* loginView.m */; };
+		171923801E19420D00BCC41E /* loginVIew.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1719237F1E19420D00BCC41E /* loginVIew.xib */; };
+		171923871E19426A00BCC41E /* registerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 171923861E19426A00BCC41E /* registerView.xib */; };
+		1719238D1E1951B900BCC41E /* RegisterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1719238C1E1951B900BCC41E /* RegisterView.m */; };
 		17350D131DF34C0E001C1D53 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 17350D121DF34C0E001C1D53 /* main.m */; };
 		17350D1C1DF34C0E001C1D53 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 17350D1A1DF34C0E001C1D53 /* Main.storyboard */; };
 		17350D1E1DF34C0E001C1D53 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 17350D1D1DF34C0E001C1D53 /* Assets.xcassets */; };
 		17350D211DF34C0E001C1D53 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 17350D1F1DF34C0E001C1D53 /* LaunchScreen.storyboard */; };
 		17350D2C1DF34C0F001C1D53 /* VenuFestTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 17350D2B1DF34C0F001C1D53 /* VenuFestTests.m */; };
 		17350D371DF34C0F001C1D53 /* VenuFestUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 17350D361DF34C0F001C1D53 /* VenuFestUITests.m */; };
-		177FFC351E269EF50053D750 /* MyAssestsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 177FFC341E269EF50053D750 /* MyAssestsVC.m */; settings = {ASSET_TAGS = (); }; };
+		177FFC351E269EF50053D750 /* MyAssestsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 177FFC341E269EF50053D750 /* MyAssestsVC.m */; };
 		178E31891DF704EF00EFD2AC /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 178E31881DF704EF00EFD2AC /* AppDelegate.m */; };
 		178E31961DF7051900EFD2AC /* AppManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 178E31951DF7051900EFD2AC /* AppManager.m */; };
 		178E319A1DF7053300EFD2AC /* RPNetworkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 178E31991DF7053300EFD2AC /* RPNetworkManager.m */; };
@@ -42,14 +42,14 @@
 		178E32251DF709B000EFD2AC /* HelpVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 178E32241DF709B000EFD2AC /* HelpVC.m */; };
 		178E322B1DF70A0B00EFD2AC /* RPConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 178E322A1DF70A0B00EFD2AC /* RPConstants.m */; };
 		178E32301DF70B6A00EFD2AC /* SinkinSans-300Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = 178E322F1DF70B6A00EFD2AC /* SinkinSans-300Light.otf */; };
-		17C23A5F1E1EE1AD000478B3 /* Personal_infoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 17C23A5D1E1EE1AD000478B3 /* Personal_infoView.m */; settings = {ASSET_TAGS = (); }; };
-		17C23A631E1EE1BC000478B3 /* Personal_Info.xib in Resources */ = {isa = PBXBuildFile; fileRef = 17C23A621E1EE1BC000478B3 /* Personal_Info.xib */; settings = {ASSET_TAGS = (); }; };
-		17C23A681E1EE1DC000478B3 /* PersonalInfoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 17C23A661E1EE1DC000478B3 /* PersonalInfoCell.m */; settings = {ASSET_TAGS = (); }; };
-		17C23A691E1EE1DC000478B3 /* PersonalInfoCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 17C23A671E1EE1DC000478B3 /* PersonalInfoCell.xib */; settings = {ASSET_TAGS = (); }; };
-		17C23A6E1E1EE1FE000478B3 /* EditProfileVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 17C23A6B1E1EE1FE000478B3 /* EditProfileVC.m */; settings = {ASSET_TAGS = (); }; };
-		17C23A6F1E1EE1FE000478B3 /* ProfileVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 17C23A6D1E1EE1FE000478B3 /* ProfileVC.m */; settings = {ASSET_TAGS = (); }; };
-		17C23A731E1EE47B000478B3 /* ChangePasswordView.m in Sources */ = {isa = PBXBuildFile; fileRef = 17C23A721E1EE47B000478B3 /* ChangePasswordView.m */; settings = {ASSET_TAGS = (); }; };
-		17C23A771E1EE567000478B3 /* ChangePassword.xib in Resources */ = {isa = PBXBuildFile; fileRef = 17C23A761E1EE567000478B3 /* ChangePassword.xib */; settings = {ASSET_TAGS = (); }; };
+		17C23A5F1E1EE1AD000478B3 /* Personal_infoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 17C23A5D1E1EE1AD000478B3 /* Personal_infoView.m */; };
+		17C23A631E1EE1BC000478B3 /* Personal_Info.xib in Resources */ = {isa = PBXBuildFile; fileRef = 17C23A621E1EE1BC000478B3 /* Personal_Info.xib */; };
+		17C23A681E1EE1DC000478B3 /* PersonalInfoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 17C23A661E1EE1DC000478B3 /* PersonalInfoCell.m */; };
+		17C23A691E1EE1DC000478B3 /* PersonalInfoCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 17C23A671E1EE1DC000478B3 /* PersonalInfoCell.xib */; };
+		17C23A6E1E1EE1FE000478B3 /* EditProfileVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 17C23A6B1E1EE1FE000478B3 /* EditProfileVC.m */; };
+		17C23A6F1E1EE1FE000478B3 /* ProfileVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 17C23A6D1E1EE1FE000478B3 /* ProfileVC.m */; };
+		17C23A731E1EE47B000478B3 /* ChangePasswordView.m in Sources */ = {isa = PBXBuildFile; fileRef = 17C23A721E1EE47B000478B3 /* ChangePasswordView.m */; };
+		17C23A771E1EE567000478B3 /* ChangePassword.xib in Resources */ = {isa = PBXBuildFile; fileRef = 17C23A761E1EE567000478B3 /* ChangePassword.xib */; };
 		17C79E611E1F7BC100D854AF /* NSObject+SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 17C79E561E1F7BC100D854AF /* NSObject+SBJSON.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		17C79E621E1F7BC100D854AF /* NSString+SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 17C79E581E1F7BC100D854AF /* NSString+SBJSON.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		17C79E631E1F7BC100D854AF /* SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 17C79E5A1E1F7BC100D854AF /* SBJSON.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -691,6 +691,7 @@
 				TargetAttributes = {
 					17350D0D1DF34C0E001C1D53 = {
 						CreatedOnToolsVersion = 7.0.1;
+						LastSwiftMigration = 0820;
 					};
 					17350D261DF34C0F001C1D53 = {
 						CreatedOnToolsVersion = 7.0.1;
@@ -1082,10 +1083,11 @@
 				INFOPLIST_FILE = VenuFest/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.suman.VenuFest;
+				PRODUCT_BUNDLE_IDENTIFIER = com.mcs.VenuFest;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "VenuFest/VenuFest-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
@@ -1100,9 +1102,10 @@
 				INFOPLIST_FILE = VenuFest/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.suman.VenuFest;
+				PRODUCT_BUNDLE_IDENTIFIER = com.mcs.VenuFest;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "VenuFest/VenuFest-Bridging-Header.h";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};

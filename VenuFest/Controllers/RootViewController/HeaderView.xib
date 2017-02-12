@@ -1,13 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="8191" systemVersion="16C67" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="16D32" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
-        <mutableArray key="AVGARDN_0.TTF">
+        <array key="AVGARDN_0.TTF">
             <string>AvantGardeITCbyBT-Book</string>
-        </mutableArray>
+        </array>
     </customFonts>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
@@ -21,7 +25,6 @@
                     <subviews>
                         <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HF1-N5-TIK">
                             <rect key="frame" x="10" y="16" width="40" height="40"/>
-                            <animations/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="40" id="2EO-2J-YWU"/>
                                 <constraint firstAttribute="height" constant="40" id="Gfh-iK-1n5"/>
@@ -31,14 +34,13 @@
                         </button>
                         <label opaque="NO" userInteractionEnabled="NO" tag="2" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Home" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="UGe-89-vId">
                             <rect key="frame" x="65" y="8" width="190" height="45"/>
-                            <animations/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="AvantGardeITCbyBT-Book" family="AvantGarde Bk BT" pointSize="20"/>
-                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <button opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3Ib-dW-eSg">
                             <rect key="frame" x="270" y="16" width="40" height="40"/>
-                            <animations/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="40" id="FFQ-6Y-i2n"/>
                                 <constraint firstAttribute="width" constant="40" id="Y58-OF-z3s"/>
@@ -46,8 +48,7 @@
                             <state key="normal" image="search"/>
                         </button>
                     </subviews>
-                    <animations/>
-                    <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                    <color key="backgroundColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
                         <constraint firstItem="HF1-N5-TIK" firstAttribute="leading" secondItem="p71-dM-05L" secondAttribute="leading" constant="10" identifier="menu_leading" id="ANS-w7-yFh"/>
                         <constraint firstItem="HF1-N5-TIK" firstAttribute="top" secondItem="p71-dM-05L" secondAttribute="top" constant="16" identifier="menu_top" id="idJ-4j-37E"/>
@@ -56,7 +57,6 @@
                     </constraints>
                 </view>
             </subviews>
-            <animations/>
             <constraints>
                 <constraint firstAttribute="bottom" secondItem="p71-dM-05L" secondAttribute="bottom" identifier="bottom_space" id="Oit-2J-yuz"/>
                 <constraint firstAttribute="trailing" secondItem="p71-dM-05L" secondAttribute="trailing" id="TB7-11-Ihy"/>
@@ -70,7 +70,7 @@
         </view>
     </objects>
     <resources>
-        <image name="menu" width="19" height="16"/>
-        <image name="search" width="21" height="21"/>
+        <image name="menu" width="19" height="15"/>
+        <image name="search" width="15" height="15"/>
     </resources>
 </document>
