@@ -323,7 +323,7 @@
             <objects>
                 <navigationController navigationBarHidden="YES" id="YQd-5c-RuH" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Item" id="4PM-V8-Q26"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="ZvO-Lp-HXz">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="ZvO-Lp-HXz">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -449,7 +449,7 @@
             <objects>
                 <navigationController navigationBarHidden="YES" id="Jmm-Gg-SEY" sceneMemberID="viewController">
                     <navigationItem key="navigationItem" id="GIe-16-Xmd"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Gt2-mc-sqY">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="Gt2-mc-sqY">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -485,7 +485,7 @@
             <objects>
                 <navigationController navigationBarHidden="YES" id="Dbq-tn-EKc" sceneMemberID="viewController">
                     <navigationItem key="navigationItem" id="YGr-NZ-XIS"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Wbq-sd-0Ym">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="Wbq-sd-0Ym">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -578,23 +578,23 @@
                                         <rect key="frame" x="0.0" y="28" width="320" height="100"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="C8P-vG-T8u" id="nbc-uw-gkl">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="99"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="99.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="defaulttrack.png" translatesAutoresizingMaskIntoConstraints="NO" id="H6J-7B-Eqm">
-                                                    <rect key="frame" x="14" y="13" width="69" height="76"/>
+                                                    <rect key="frame" x="14" y="13" width="69" height="75"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="69" id="Vhe-bc-2OZ"/>
                                                     </constraints>
                                                 </imageView>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="day.png" translatesAutoresizingMaskIntoConstraints="NO" id="N2V-CB-Fgx">
-                                                    <rect key="frame" x="90" y="21" width="10" height="11"/>
+                                                    <rect key="frame" x="90" y="21" width="10" height="10"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="10" id="n3q-dD-6GF"/>
                                                     </constraints>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Monday,21" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ryb-Sx-vPh">
-                                                    <rect key="frame" x="106" y="13" width="91" height="27"/>
+                                                    <rect key="frame" x="106" y="13" width="91" height="26"/>
                                                     <fontDescription key="fontDescription" name="AvantGardeITCbyBT-Book" family="AvantGarde Bk BT" pointSize="14"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -606,10 +606,10 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="timeActivity.png" translatesAutoresizingMaskIntoConstraints="NO" id="dWf-QK-IhI">
-                                                    <rect key="frame" x="90" y="43" width="12" height="12"/>
+                                                    <rect key="frame" x="90" y="42" width="12" height="14"/>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="00.20 hour" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Lxa-WO-mJ7">
-                                                    <rect key="frame" x="106" y="37" width="80" height="27"/>
+                                                    <rect key="frame" x="106" y="37" width="80" height="26"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="80" id="M9P-bI-fOT"/>
                                                     </constraints>
@@ -618,10 +618,10 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="caloriesActivity.png" translatesAutoresizingMaskIntoConstraints="NO" id="r7S-0K-o3C">
-                                                    <rect key="frame" x="89" y="67" width="13" height="13"/>
+                                                    <rect key="frame" x="89" y="68" width="13" height="12"/>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="7.20" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2w7-jV-i99">
-                                                    <rect key="frame" x="106" y="61" width="80" height="27"/>
+                                                    <rect key="frame" x="106" y="60" width="80" height="28"/>
                                                     <fontDescription key="fontDescription" name="AvantGardeITCbyBT-Book" family="AvantGarde Bk BT" pointSize="14"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -799,7 +799,7 @@
                                                 </connections>
                                             </scrollView>
                                         </subviews>
-                                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <constraints>
                                             <constraint firstAttribute="trailing" secondItem="OuT-4t-Fx2" secondAttribute="trailing" id="4b8-lg-j6D"/>
                                             <constraint firstItem="mxo-KS-D82" firstAttribute="top" secondItem="OuT-4t-Fx2" secondAttribute="bottom" id="518-KO-r9B"/>
@@ -814,6 +814,7 @@
                                         </constraints>
                                     </view>
                                 </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstItem="gT8-QP-hPm" firstAttribute="centerY" secondItem="tuy-2J-zcd" secondAttribute="centerY" id="4gG-1S-72K"/>
                                     <constraint firstItem="gT8-QP-hPm" firstAttribute="top" secondItem="tuy-2J-zcd" secondAttribute="top" id="4hY-Du-4zG"/>
@@ -852,7 +853,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="s1L-xE-Hn2" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-3087" y="-2321"/>
+            <point key="canvasLocation" x="-2677" y="-2336"/>
         </scene>
         <!--Forget PasswordVC-->
         <scene sceneID="8R1-F9-3EA">
@@ -1063,7 +1064,7 @@
                         <viewControllerLayoutGuide type="bottom" id="vVG-fc-qk7"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="1DC-3X-vGW">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="Signup" translatesAutoresizingMaskIntoConstraints="NO" id="E1C-6E-UQB">
@@ -1429,6 +1430,8 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="8RB-KM-ACx"/>
+                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <size key="freeformSize" width="320" height="667"/>
                     <connections>
                         <outlet property="btnFemale" destination="K4H-ry-cak" id="VVe-sy-1Pm"/>
                         <outlet property="btnMale" destination="rfG-Jg-iuZ" id="be6-LS-rQL"/>
@@ -1451,13 +1454,13 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="46t-38-GXz" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-2637" y="-2309"/>
+            <point key="canvasLocation" x="-1886" y="-2291"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="CaA-Ug-3bO">
             <objects>
                 <navigationController navigationBarHidden="YES" id="jac-8G-rz5" sceneMemberID="viewController">
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="gBK-Xt-3WP">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="gBK-Xt-3WP">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -1518,7 +1521,7 @@
             <objects>
                 <navigationController navigationBarHidden="YES" id="aHa-nO-Nz4" sceneMemberID="viewController">
                     <navigationItem key="navigationItem" id="l5Y-oV-3WJ"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="xC7-jO-DIa">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="xC7-jO-DIa">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -1632,7 +1635,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="62l-hk-TXE" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-3087" y="-1569"/>
+            <point key="canvasLocation" x="-2634" y="-1569"/>
         </scene>
         <!--My AssestsVC-->
         <scene sceneID="aes-qt-FId">
@@ -1717,7 +1720,7 @@
             <objects>
                 <navigationController navigationBarHidden="YES" id="j6y-W0-Ayt" sceneMemberID="viewController">
                     <navigationItem key="navigationItem" id="IND-zu-jUM"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="FfQ-z1-IsD">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="FfQ-z1-IsD">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>

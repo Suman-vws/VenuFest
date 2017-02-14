@@ -10,6 +10,7 @@
 		0F47805444B1B0E155F45AE1 /* libPods-VenuFestUITests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C2119B2B258DF14DF4FBFF7A /* libPods-VenuFestUITests.a */; };
 		1709F0401E1ADF3500F95561 /* cover1.png in Resources */ = {isa = PBXBuildFile; fileRef = 1709F03E1E1ADF3500F95561 /* cover1.png */; };
 		1709F0411E1ADF3500F95561 /* cover2.png in Resources */ = {isa = PBXBuildFile; fileRef = 1709F03F1E1ADF3500F95561 /* cover2.png */; };
+		171168631E50782E00B044B8 /* ADVSegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 171168621E50782E00B044B8 /* ADVSegmentedControl.swift */; };
 		1719237C1E1941BF00BCC41E /* loginView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1719237B1E1941BF00BCC41E /* loginView.m */; };
 		171923801E19420D00BCC41E /* loginVIew.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1719237F1E19420D00BCC41E /* loginVIew.xib */; };
 		171923871E19426A00BCC41E /* registerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 171923861E19426A00BCC41E /* registerView.xib */; };
@@ -80,6 +81,7 @@
 		1700CF2C1E20CC88005189B4 /* VenuFest-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "VenuFest-Bridging-Header.h"; sourceTree = "<group>"; };
 		1709F03E1E1ADF3500F95561 /* cover1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cover1.png; sourceTree = "<group>"; };
 		1709F03F1E1ADF3500F95561 /* cover2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cover2.png; sourceTree = "<group>"; };
+		171168621E50782E00B044B8 /* ADVSegmentedControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ADVSegmentedControl.swift; path = Libs/CustomSegmentController/ADVSegmentedControl.swift; sourceTree = "<group>"; };
 		1719237A1E1941BF00BCC41E /* loginView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = loginView.h; path = ViewControllers/LoginModule/Views/loginView.h; sourceTree = "<group>"; };
 		1719237B1E1941BF00BCC41E /* loginView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = loginView.m; path = ViewControllers/LoginModule/Views/loginView.m; sourceTree = "<group>"; };
 		1719237F1E19420D00BCC41E /* loginVIew.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = loginVIew.xib; path = ViewControllers/LoginModule/Views/loginVIew.xib; sourceTree = "<group>"; };
@@ -563,6 +565,7 @@
 		17C79E4D1E1F7AF800D854AF /* CustomSegmentController */ = {
 			isa = PBXGroup;
 			children = (
+				171168621E50782E00B044B8 /* ADVSegmentedControl.swift */,
 				1700CF2C1E20CC88005189B4 /* VenuFest-Bridging-Header.h */,
 			);
 			name = CustomSegmentController;
@@ -904,6 +907,7 @@
 				17C79E641E1F7BC100D854AF /* SBJsonBase.m in Sources */,
 				178E31B31DF705E400EFD2AC /* OutlinedButton.m in Sources */,
 				178E31A31DF7055E00EFD2AC /* RPTabBarController.m in Sources */,
+				171168631E50782E00B044B8 /* ADVSegmentedControl.swift in Sources */,
 				17C79E651E1F7BC100D854AF /* SBJsonParser.m in Sources */,
 				178E32161DF7087300EFD2AC /* TermsConditionsVC.m in Sources */,
 				178E31891DF704EF00EFD2AC /* AppDelegate.m in Sources */,
@@ -1109,6 +1113,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = D5F9368A31DBC74A43A9AF56 /* Pods-VenuFestTests.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				INFOPLIST_FILE = VenuFestTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -1122,6 +1127,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = ED5A4EC50AA123A8F4A3FAEA /* Pods-VenuFestTests.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				INFOPLIST_FILE = VenuFestTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -1135,6 +1141,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 27121A3D859553E2EDA3C7E8 /* Pods-VenuFestUITests.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				INFOPLIST_FILE = VenuFestUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.suman.VenuFestUITests;
@@ -1148,6 +1155,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 1E6F329CD0F43B3DBCED8E27 /* Pods-VenuFestUITests.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				INFOPLIST_FILE = VenuFestUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.suman.VenuFestUITests;

@@ -538,11 +538,12 @@ didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info
     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", VENU_FEST_BASE_URL,UPDATE_USER_PROFILE_IMAGE_PATH]];
     
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:url];
+    /*
     NSString *authKey = [[NSUserDefaults standardUserDefaults] objectForKey:@"AuthToken"];
     [request addValue:VENU_FEST_API_KEY forHTTPHeaderField:@"S-Api-Key"];
     [request addValue:authKey forHTTPHeaderField:@"S-Auth-Token"];
     [request addValue:@"application/json; charset=utf-8" forHTTPHeaderField:@"Content-type"];
-
+*/
     [request setHTTPMethod:@"POST"];
 
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];

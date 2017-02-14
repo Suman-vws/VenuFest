@@ -211,6 +211,7 @@
 
 -(void)performUserLoginWithUserName:(NSString *)userName andPassword:(NSString *)password
 {
+    /*
     //TODO: Handle User Login
      [AppManager sharedDataAccess].strUserEmailId = userName;
      [AppManager sharedDataAccess].strUserPassword = password;
@@ -218,6 +219,9 @@
     NSDictionary *params = @{@"apitoken" :@"", @"email" : userName, @"Password" :password};
     [self connectionUserLoginWithDetails:params];
 //    [self gotoHome];
+    
+    */
+    [self gotoHome];
 
 }
 
