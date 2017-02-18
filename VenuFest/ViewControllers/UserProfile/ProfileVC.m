@@ -48,7 +48,7 @@
     
 }
 
--(void)addConstrainsForView:(UIView *)childView withRefence:(UIView *)parentView
+-(void)addConstrainsForChildView:(UIView *)childView withRefence:(UIView *)parentView
 {
     NSLayoutConstraint *width =[NSLayoutConstraint
                                 constraintWithItem:childView
@@ -119,7 +119,7 @@
             personalVw.backgroundColor = [UIColor whiteColor];
             [self.bottomScrollVw addSubview:personalVw];
 //            [personalVw configData];
-            [self addConstrainsForView:personalVw withRefence:self.bottomScrollVw];
+            [self addConstrainsForChildView:personalVw withRefence:self.bottomScrollVw];
 
             break;
         }
@@ -198,9 +198,9 @@
     self.lblUserName.textColor = APP_BUTTON_BACKGROUND_COLOR;
 
     
-    UITapGestureRecognizer *DoubletapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTapGesture:)];
-    DoubletapGesture.numberOfTapsRequired = 1;
-    [_imgVwProfilePic addGestureRecognizer:DoubletapGesture];
+    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTapGesture:)];
+    tapGesture.numberOfTapsRequired = 1;
+    [_imgVwProfilePic addGestureRecognizer:tapGesture];
 
     // ============== Download Profile Image ==========
     /*

@@ -32,9 +32,8 @@
                             <inset key="contentEdgeInsets" minX="0.0" minY="10" maxX="0.0" maxY="0.0"/>
                             <state key="normal" image="menu"/>
                         </button>
-                        <label opaque="NO" userInteractionEnabled="NO" tag="2" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Home" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="UGe-89-vId">
-                            <rect key="frame" x="65" y="8" width="190" height="45"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <label opaque="NO" userInteractionEnabled="NO" tag="2" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Home" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="UGe-89-vId">
+                            <rect key="frame" x="65" y="16" width="190" height="45"/>
                             <fontDescription key="fontDescription" name="AvantGardeITCbyBT-Book" family="AvantGarde Bk BT" pointSize="20"/>
                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
@@ -50,8 +49,12 @@
                     </subviews>
                     <color key="backgroundColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
+                        <constraint firstAttribute="bottom" secondItem="UGe-89-vId" secondAttribute="bottom" constant="-1" id="4TA-Os-qPK"/>
                         <constraint firstItem="HF1-N5-TIK" firstAttribute="leading" secondItem="p71-dM-05L" secondAttribute="leading" constant="10" identifier="menu_leading" id="ANS-w7-yFh"/>
+                        <constraint firstItem="UGe-89-vId" firstAttribute="top" secondItem="p71-dM-05L" secondAttribute="top" constant="16" id="IMh-3h-TI5"/>
+                        <constraint firstItem="3Ib-dW-eSg" firstAttribute="leading" secondItem="UGe-89-vId" secondAttribute="trailing" constant="15" id="cJH-3n-mNa"/>
                         <constraint firstItem="HF1-N5-TIK" firstAttribute="top" secondItem="p71-dM-05L" secondAttribute="top" constant="16" identifier="menu_top" id="idJ-4j-37E"/>
+                        <constraint firstItem="UGe-89-vId" firstAttribute="leading" secondItem="HF1-N5-TIK" secondAttribute="trailing" constant="15" id="oWQ-se-i5I"/>
                         <constraint firstItem="3Ib-dW-eSg" firstAttribute="top" secondItem="p71-dM-05L" secondAttribute="top" constant="16" identifier="search_top" id="taa-xL-LeD"/>
                         <constraint firstAttribute="trailing" secondItem="3Ib-dW-eSg" secondAttribute="trailing" constant="10" identifier="search_trailing" id="ybT-Fk-AeV"/>
                     </constraints>
