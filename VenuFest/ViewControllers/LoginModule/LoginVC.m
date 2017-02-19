@@ -9,21 +9,12 @@
 #import "LoginVC.h"
 #import "RPConstants.h"
 #import "AppManager.h"
-#import "loginView.h"
-#import "RegisterView.h"
 #import "ForgetPasswordVC.h"
 #import "LiveFeedVC.h"
-#import "AppDelegate.h"
 #import "TermsConditionsVC.h"
+#import "SelectUserTypeVC.h"
 
-@interface LoginVC ()<LoginViewDelegate, RegisterViewDelegate>
-{
-    loginView *loginVw;
-    RegisterView *regVw;
-    BOOL isFilpped;
-    AppDelegate *appDelegate;
-
-}
+@interface LoginVC ()
 
 @end
 
@@ -32,172 +23,334 @@
 -(void)viewDidLoad
 {
     [super viewDidLoad];
-    if ([AppManager sharedDataAccess].IsLoggedIn) {
+    if ([AppManager sharedDataAccess].isUserLoggedIN) {
         [self gotoHome];
     }
-    appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
-
-    loginVw = [[loginView alloc] init];
-    loginVw.delegate = self;
-    loginVw.userInteractionEnabled = YES;
-
-    regVw = [[RegisterView alloc]  init];
-    regVw.delegate = self;
-    regVw.userInteractionEnabled = YES;
-
-    isFilpped = NO;
-    [self addChildView:loginVw InView:self.containerView andAnimation:YES];
-
+ 
+    [self createCustomizeUI];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(UserSocialLoginNotification) name:USER_DID_LOGGED_IN_NOTIFICATION object:nil];
-    
 }
 
 
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:YES];
-
 }
 
-#pragma mark - Setup Sub Views
+#pragma mark - Customize UI
 
-//ADD Child View
--(void)addChildView:(UIView *)childView InView:(UIView *)parentView andAnimation:(BOOL)animation{
-    
-    childView.frame = parentView.bounds;
-    childView.translatesAutoresizingMaskIntoConstraints = NO;
-    [parentView addSubview:childView];
-    [self addConstrainsForView:childView withRefence:parentView];
-    
-}
-
--(void)addConstrainsForView:(UIView *)childView withRefence:(UIView *)parentView
+-(void)createCustomizeUI
 {
-    NSLayoutConstraint *width =[NSLayoutConstraint
-                                constraintWithItem:childView
-                                attribute:NSLayoutAttributeWidth
-                                relatedBy:0
-                                toItem:parentView
-                                attribute:NSLayoutAttributeWidth
-                                multiplier:1.0
-                                constant:0];
-    NSLayoutConstraint *height =[NSLayoutConstraint
-                                 constraintWithItem:childView
-                                 attribute:NSLayoutAttributeHeight
-                                 relatedBy:0
-                                 toItem:parentView
-                                 attribute:NSLayoutAttributeHeight
-                                 multiplier:1.0
-                                 constant:0];
-    NSLayoutConstraint *top = [NSLayoutConstraint
-                               constraintWithItem:childView
-                               attribute:NSLayoutAttributeTop
-                               relatedBy:NSLayoutRelationEqual
-                               toItem:parentView
-                               attribute:NSLayoutAttributeTop
-                               multiplier:1.0f
-                               constant:0.f];
+    self.btnLoginGplus.accessibilityHint = @"Gplus";
+    self.btnLoginFacebook.accessibilityHint = @"fb";
     
-    NSLayoutConstraint *leading = [NSLayoutConstraint
-                                   constraintWithItem:childView
-                                   attribute:NSLayoutAttributeLeading
-                                   relatedBy:NSLayoutRelationEqual
-                                   toItem:parentView
-                                   attribute:NSLayoutAttributeLeading
-                                   multiplier:1.0f
-                                   constant:0.f];
+    self.btnLogin.backgroundColor = APP_BUTTON_BACKGROUND_COLOR;
+    [self.btnLogin setTitleColor:APP_BUTTON_TEXT_COLOR forState:UIControlStateNormal];
+    self.btnLogin.tintColor = APP_BUTTON_TEXT_COLOR;
+    self.btnLogin.titleLabel.font =  APP_BUTTON_TITLE_FONT;
     
-    [parentView addConstraint:width];
-    [parentView addConstraint:height];
-    [parentView addConstraint:top];
-    [parentView addConstraint:leading];
+    self.btnLoginFacebook.backgroundColor = FB_BUTTON_BACKGROUND_COLOR;
+    [self.btnLoginFacebook setTitleColor:APP_BUTTON_TEXT_COLOR forState:UIControlStateNormal];
+    self.btnLoginFacebook.tintColor = APP_BUTTON_TEXT_COLOR;
+    self.btnLoginFacebook.titleLabel.font =  APP_BUTTON_TITLE_FONT_SMALL;
+    
+    self.btnLoginGplus.backgroundColor = GPLUS_BUTTON_BACKGROUND_COLOR;
+    [self.btnLoginGplus setTitleColor:APP_BUTTON_TEXT_COLOR forState:UIControlStateNormal];
+    self.btnLoginGplus.tintColor = APP_BUTTON_TEXT_COLOR;
+    self.btnLoginGplus.titleLabel.font =  APP_BUTTON_TITLE_FONT_SMALL;
+    
+    //    self.btnRegister.backgroundColor = REGISTER_BUTTON_BACKGROUND_COLOR;
+    [self.btnRegister setTitleColor:APP_BUTTON_TEXT_COLOR forState:UIControlStateNormal];
+    self.btnForgetPassword.titleLabel.font =  APP_BUTTON_TITLE_FONT_MEDIUM;
+    
+    self.btnForgetPassword.backgroundColor = [UIColor clearColor];
+    [self.btnForgetPassword setTitleColor:APP_BUTTON_TEXT_COLOR forState:UIControlStateNormal];
+    self.btnForgetPassword.titleLabel.font =  APP_BUTTON_TITLE_FONT_SMALL;
+    
+    
+    [self customizeTextField:_txtEmail];
+    [self.txtEmail setPlaceholder:@"Email ID"];
+    
+    [self customizeTextField:_txtpassword];
+    [self.txtpassword setPlaceholder:@"Password"];
     
 }
 
-#pragma mark - Login View Delegate Methods
-
--(void)socialLoginButtonTappedWithSender:(UIButton *)sender
+-(void)setPlaceHolderColor:(UITextField*)txtField
 {
-    if ([sender.accessibilityHint isEqualToString:@"Gplus"]) {
-        [self performUserGPlusLogin];
+    
+    if ([txtField respondsToSelector:@selector(setAttributedPlaceholder:)]) {
+        txtField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:txtField.placeholder attributes:@{NSForegroundColorAttributeName: TEXT_FIELD_PLACEHOLDER_COLOR}];
+        txtField.tintColor = TEXT_FIELD_INPUT_COLOR;
     }
-    else if ([sender.accessibilityHint isEqualToString:@"fb"])
+}
+
+-(void)customizeTextField:(UITextField *)textField
+{
+    textField.font = APPLICATION_TEXTFIELD_FONT_MEDIUM;
+    [self setPlaceHolderColor:textField];
+    [self setupLeftViewForTextField:textField];
+    /*    if (textField == _txtpassword)
+     [self setupRightViewForTxtField:textField];
+     */
+}
+
+-(void)setupLeftViewForTextField:(UITextField *)textField
+{
+    UIView *leftView = [[UIView alloc]  initWithFrame:CGRectMake(0, 0, 32, 20)];
+    leftView.backgroundColor = [UIColor clearColor];
+    textField.leftView = leftView;
+    textField.leftViewMode = UITextFieldViewModeAlways;
+    leftView.contentMode = UIViewContentModeScaleAspectFit;
+    
+    UIImageView *imgView = [[UIImageView alloc]  initWithFrame:CGRectMake(0, -3, 25, 20)];
+    [leftView addSubview:imgView];
+    
+    if (textField == _txtEmail)
+        imgView.image = [UIImage imageNamed:@"mail"];
+    else if (textField == _txtpassword)
+        imgView.image = [UIImage imageNamed:@"lock"];
+    imgView.contentMode = UIViewContentModeScaleAspectFit;
+    
+//    imgView.center = leftView.center;
+    
+}
+
+// ============ For Padding ============
+
+-(void)setupPaddingView:(UITextField *)textField
+{
+    UIView *leftView = [[UIView alloc]  initWithFrame:CGRectMake(0, 0, 8, 20)];
+    leftView.backgroundColor = [UIColor clearColor];
+    textField.leftView = leftView;
+    textField.leftViewMode = UITextFieldViewModeAlways;
+}
+
+
+// ============ For Show password ============
+
+-(void)setupRightViewForTxtField:(UITextField *)textField
+{
+    UIView *rightView = [[UIView alloc]  initWithFrame:CGRectMake(0, 2, 32, 16)];
+    //    rightView.layer.cornerRadius = rightView.frame.size.width / 2;
+    rightView.backgroundColor = [UIColor clearColor];
+    textField.rightView = rightView;
+    textField.rightViewMode = UITextFieldViewModeAlways;
+    
+    UIImageView *imgVw = [[UIImageView alloc]  initWithFrame:CGRectMake(2, 2, rightView.frame.size.width - 2, rightView.frame.size.height - 2 )];
+    [imgVw setImage:[UIImage imageNamed:@"password-eye"] ];
+    imgVw.contentMode = UIViewContentModeScaleAspectFit;
+    [rightView addSubview:imgVw];
+    
+    [self addGesturewithView:rightView];
+}
+-(void)addGesturewithView:(UIView *)view
+{
+    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc]  initWithTarget:self action:@selector(tappedShowHidePassword:)];
+    
+    tapGesture.accessibilityHint = @"1";
+    tapGesture.numberOfTapsRequired = 1;
+    [view addGestureRecognizer:tapGesture];
+}
+
+-(void)tappedShowHidePassword:(UITapGestureRecognizer *)sender
+{
+    UITextField *txtField;
+    if ([[sender.view superview] isKindOfClass:[UITextField class]]) {
+        txtField =  (UITextField *) [sender.view superview];
+    }
+    
+    if ([sender.accessibilityHint isEqualToString:@"0"]) {
+        sender.accessibilityHint = @"1";
+        txtField.secureTextEntry = NO;
+        
+    }
+    //Hide password in textfield
+    else if([sender.accessibilityHint isEqualToString:@"1"])
     {
-        [self performUserFBLogin];
+        sender.accessibilityHint = @"0";
+        txtField.secureTextEntry = YES;
     }
 }
 
--(void)userLoginButtonTappedWithUserName:(NSString *)userName andPassword:(NSString *)password
+// ============ End Show-Hide Password ============
+
+-(void)addBottomBorderForView:(UIView *)Vw withcolor:(UIColor *)color andHeight:(CGFloat)height
 {
-    [self performUserLoginWithUserName:userName andPassword:password];
+    NSArray *layers = [Vw.layer sublayers];
+    for (CALayer *layer in layers) {
+        if ([layer.accessibilityHint isEqualToString:@"101"]) {
+            [layer setFrame:CGRectMake(0.0f, Vw.frame.size.height-height, Vw.frame.size.width, height)];
+            layer.backgroundColor = color.CGColor;
+            return;
+        }
+    }
+    
+    CALayer *bottomBorder = [CALayer layer];
+    bottomBorder.accessibilityHint = @"101";
+    bottomBorder.frame = CGRectMake(0.0f, Vw.frame.size.height-height, Vw.frame.size.width, height);
+    bottomBorder.backgroundColor = color.CGColor;
+    [Vw.layer addSublayer:bottomBorder];
 }
 
--(void)userForgotPasswordButtonTappedWithSender:(UIButton *)sender
+// ============ Mark Error In Text Field For Validation Error ============
+
+
+-(void)customizeTextFieldForError:(UITextField *)textField
 {
-    [self gotoForgotPassword];
+    [self addBottomBorderForView:textField withcolor:TXTFIELD_ERROR_COLOR_RED andHeight:2];
+    [self setupRightViewForWarning:textField];
 }
 
--(void)userSignUpButtonTappedWithSender:(UIButton *)sender
+-(void)setupRightViewForWarning:(UITextField *)textField
 {
-    [self flipViewAnimation];
+    UIView *rightView = [[UIView alloc]  initWithFrame:CGRectMake(0, 0, 25, 25)];
+    rightView.backgroundColor = [UIColor clearColor];
+    textField.rightView = rightView;
+    textField.rightViewMode = UITextFieldViewModeAlways;
+    
+    UIImageView *imgVw = [[UIImageView alloc]  initWithFrame:CGRectMake(1, 1, rightView.frame.size.width - 2, rightView.frame.size.height - 2 )];
+    imgVw.tag = 101;
+    [imgVw setImage:[UIImage imageNamed:@"error"] ];
+    imgVw.contentMode = UIViewContentModeScaleAspectFit;
+    [rightView addSubview:imgVw];
 }
 
-#pragma mark - Register View Delegate Methods
+// Frame Animation
 
--(void)RegisterButtonTappedWithUserData:(NSDictionary *)dictUserData;
+-(void)animateFrameTextFieldFrame:(UITextField *)txtField
 {
-    [self connectionUserSignupWithDetails:dictUserData];
+    CAKeyframeAnimation *animation = [CAKeyframeAnimation animation];
+    animation.keyPath = @"position.x";
+    animation.values = @[ @0, @10, @-10, @10, @0 ];
+    animation.keyTimes = @[ @0, @(1 / 6.0), @(3 / 6.0), @(5 / 6.0), @1 ];
+    animation.duration = 0.3;
+    
+    animation.additive = YES;
+    
+    [txtField.layer addAnimation:animation forKey:@"shake"];
 }
 
--(void)AlreadyHaveanAccount:(UIButton *)sender
+
+#pragma mark - Uitext Field delegate Methods
+
+-(void)textFieldDidBeginEditing:(UITextField *)textField
 {
-    [self flipViewAnimation];
+    //for setup the right view after the warning effect
+    UIView *rightView = textField.rightView;
+    for (UIImageView *imgVw in [rightView subviews]) {
+        if (imgVw.tag == 101) {
+            [imgVw removeFromSuperview];
+        }
+    }
+    /*
+     if (textField != _txtEmail )
+     {
+     [self setupRightViewForTxtField:textField];
+     }
+     */
+    
+    //animate scroll view .....
+    if (textField == _txtEmail)
+    {
+        [self animateScrollOffsetwithYpos:90 andHeight:160];
+    }
+    else if (textField == _txtpassword)
+    {
+        [self animateScrollOffsetwithYpos:150 andHeight:160];
+    }
+    [self addBottomBorderForView:textField withcolor:TEXT_FIELD_PLACEHOLDER_COLOR andHeight:1];
+}
+-(void)textFieldDidEndEditing:(UITextField *)textField
+{
+    [self addBottomBorderForView:textField withcolor:[UIColor clearColor] andHeight:0];
+    if (textField == _txtpassword)
+        [self animateScrollOffsetwithYpos:0 andHeight:5];
 }
 
-//animation
--(void)flipViewAnimation
+-(BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    if ([textField isEqual:self.txtEmail]) {
+        [_txtEmail resignFirstResponder];
+        [_txtpassword becomeFirstResponder];
+    }
+    else
+        [textField resignFirstResponder];
+    return  YES;
+}
+
+//Helpers Animation of scroll
+
+-(void)animateScrollOffsetwithYpos:(CGFloat)Ypos andHeight:(CGFloat)height
+{
+    CGPoint offset = self.scroll.contentOffset;
+    offset.y = Ypos;
+    [UIView animateWithDuration:0.5
+                     animations:^{
+                         [self.scroll setContentOffset:offset];
+                     }
+                     completion:^(BOOL finished){
+                     }];
+    
+    _scroll.contentSize = CGSizeMake(self.view.frame.size.width, self.scroll.frame.size.height+ height);
+}
+
+#pragma mark - Click Events
+
+-(IBAction)clickedGplusLogin:(UIButton *)sender
+ {
+      [[VFNetworkManager defaultNetworkManager] loginUsingGooglePlusInViewController:self loginHandler:nil];
+ }
+ 
+-(IBAction)clickedFBLogin:(UIButton *)sender
+{
+     [[VFNetworkManager defaultNetworkManager] loginWithFbFromViewController:self];
+ }
+
+-(IBAction)clickedRegister:(UIButton *)sender
+{
+    [AppManager sharedDataAccess].socialUser.isSocialSignup = false;
+    [self gotoSelectUser];
+}
+
+-(void)gotoSelectUser
+{
+    SelectUserTypeVC *selectUser = [self.storyboard instantiateViewControllerWithIdentifier:@"SelectUserTypeVC"];
+    [self.navigationController pushViewController:selectUser animated:YES];
+}
+
+-(IBAction)LoginButtonTapped:(id)sender
 {
     
-    [UIView transitionWithView:self.containerView
-                      duration:1
-                       options:UIViewAnimationOptionTransitionFlipFromLeft
-                    animations:^{
-                        
-                        if (!isFilpped) {
-                            for (UIView *child in self.containerView.subviews) {
-                                if ([child isKindOfClass:[loginView class]]) {
-                                    [child removeFromSuperview];
-                                    loginVw = nil;
-                                }
-                            }
-                            if (!regVw) {
-                                regVw = [[RegisterView alloc]  init];
-                                regVw.delegate = self;
-                                regVw.userInteractionEnabled = YES;
-                            }
-                            [self addChildView:regVw InView:self.containerView andAnimation:YES];
-                            isFilpped = YES;
-                        } else {
-                            for (UIView *child in self.containerView.subviews) {
-                                if ([child isKindOfClass:[RegisterView class]]) {
-                                    [child removeFromSuperview];
-                                    regVw = nil;
-                                }
-                            }
-                            if (!loginVw) {
-                                loginVw = [[loginView alloc] init];
-                                loginVw.delegate = self;
-                                loginVw.userInteractionEnabled = YES;
-                            }
-                            [self addChildView:loginVw InView:self.containerView andAnimation:YES];
-                            isFilpped = NO;
-                        }
-                        
-                    } completion:nil];
+    self.btnLogin.userInteractionEnabled = NO;
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 1 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+        self.btnLogin.userInteractionEnabled = YES;
+    });
+
+    [self gotoHome];
+    /*
+    if ([self  validateLoginData]) {
+        [self gotoHome];
+    }   */
 }
 
+-(IBAction)clickedForgetPassword:(UIButton *)sender
+{
+    //TODO: Handle Show Forgot Password View
+    ForgetPasswordVC *forgotVC = [self.storyboard instantiateViewControllerWithIdentifier:@"ForgetPasswordVC"];
+    [self.navigationController pushViewController:forgotVC animated:YES];
+}
 
-#pragma mark - User Login With App Credential
+// Social Call Back
+
+-(void)UserSocialLoginNotification
+{
+//    [self connectionUserLoginWithDetails:nil];
+    NSLog(@"Social Login Succesful");
+    [AppManager sharedDataAccess].socialUser.isSocialSignup = true;
+    [self gotoSelectUser];
+}
+
 
 /*
  {
@@ -206,34 +359,42 @@
  email = "testsocial5@ouracademia.in";
  password = 12345;
  }
-
+ 
  */
 
--(void)performUserLoginWithUserName:(NSString *)userName andPassword:(NSString *)password
+#pragma mark - Helpers
+
+-(BOOL)validateLoginData
 {
-    /*
-    //TODO: Handle User Login
-     [AppManager sharedDataAccess].strUserEmailId = userName;
-     [AppManager sharedDataAccess].strUserPassword = password;
-//    NSDictionary *params = @{@"LoginType" :@"", @"UserName" : userName, @"Email" : userName , @"Password" :password, @"SocialLoginId" : @"", @"AuthenticationType" :@"", @"SocialImageUrl" : @""};
-    NSDictionary *params = @{@"apitoken" :@"", @"email" : userName, @"Password" :password};
-    [self connectionUserLoginWithDetails:params];
-//    [self gotoHome];
     
-    */
-    [self gotoHome];
-
+    BOOL isValid = YES;
+    NSString *strMsg = @"";
+    if (![[AppManager sharedDataAccess] validateEmailWithString:_txtEmail.text]) {
+        isValid = NO;
+        strMsg = @"Please Enter a valid Email.";
+        [self customizeTextFieldForError:_txtEmail];
+        [self animateFrameTextFieldFrame:_txtEmail];
+    }
+    else if ([_txtpassword.text isEqualToString:@""]) {
+        isValid = NO;
+        strMsg = @"Please Enter A Valid password.";
+        [self customizeTextFieldForError:_txtpassword];
+        [self animateFrameTextFieldFrame:_txtpassword];
+    }
+    if (strMsg.length > 0) {
+        //         [[AppManager sharedDataAccess] showAlertWithTitle:@"Alert!" andMessage:strMsg fromViewController:self];
+        NSLog(@"Validation Error");
+    }
+    return isValid;
 }
-
-#pragma mark - Navigation
 
 -(void)gotoHome
 {
     //TODO: Handle Show Forgot Password View
-//    LiveFeedVC *homeVC = [self.storyboard instantiateViewControllerWithIdentifier:@"LiveFeedVC"];
-//    [self.navigationController pushViewController:homeVC animated:YES];
+    //    LiveFeedVC *homeVC = [self.storyboard instantiateViewControllerWithIdentifier:@"LiveFeedVC"];
+    //    [self.navigationController pushViewController:homeVC animated:YES];
     
-    if (appDelegate.isuserLoggedinFirstTime) {
+    if ([AppManager sharedDataAccess].isuserLoggedinFirstTime) {
         TermsConditionsVC *termsVC = [self.storyboard instantiateViewControllerWithIdentifier:@"TermsConditionsVC"];
         UINavigationController *nav = [[UINavigationController alloc]  initWithRootViewController:termsVC];
         nav.navigationBar.hidden = YES;
@@ -241,38 +402,10 @@
     }
     else
     {
-        [AppManager sharedDataAccess].IsLoggedIn = YES;
         [AppManager sharedDataAccess].loggedInUserType = userTypeCustomer;
         SWRevealViewController *revealVC = [self.storyboard instantiateViewControllerWithIdentifier:@"SWRevealViewController"];
         [self.navigationController pushViewController:revealVC animated:YES];
     }
-}
-
--(void)gotoForgotPassword
-{
-    //TODO: Handle Show Forgot Password View
-    ForgetPasswordVC *forgotVC = [self.storyboard instantiateViewControllerWithIdentifier:@"ForgetPasswordVC"];
-    [self.navigationController pushViewController:forgotVC animated:YES];
-}
-
-
-#pragma mark - Social Login
-
--(void)performUserGPlusLogin
- {
-      [[RPNetworkManager defaultNetworkManager] loginUsingGooglePlusInViewController:self loginHandler:nil];
- }
- 
- -(void)performUserFBLogin
- {
-     [[RPNetworkManager defaultNetworkManager] loginWithFbFromViewController:self];
- }
-
-
--(void)UserSocialLoginNotification
-{
-//    [self connectionUserLoginWithDetails:nil];
-    NSLog(@"Social Login Succesful");
 }
 
 #pragma mark - Webservice
@@ -281,9 +414,9 @@
 {
 
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    NSString *requestTypeMethod =   [[AppManager sharedDataAccess]  getStringForRequestType: POST];
+    NSString *requestTypeMethod =   [[VFNetworkManager defaultNetworkManager]  getStringForRequestType: POST];
    
-    [[RPNetworkManager defaultNetworkManager] VFServicewithMethodName:USER_LOGIN_PATH withParameters:dictParam andRequestType:requestTypeMethod success:^(id response) {
+    [[VFNetworkManager defaultNetworkManager] VFServicewithMethodName:USER_LOGIN_PATH withParameters:dictParam andRequestType:requestTypeMethod success:^(id response) {
         [MBProgressHUD hideHUDForView:self.view animated:YES];
         
         NSDictionary *dictData;
@@ -329,11 +462,11 @@
 -(void)connectionUserSignupWithDetails:(NSDictionary *)dictParam
 {
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    NSString *requestTypeMethod =   [[AppManager sharedDataAccess]  getStringForRequestType: POST];
+    NSString *requestTypeMethod =   [[VFNetworkManager defaultNetworkManager]  getStringForRequestType: POST];
     
 //    NSDictionary *params = @{@"name" : @"Suman ios", @"address" : @"kolkata", @"contactnumber" : @"8820044725", @"emailaddress" : @"suman@yopmail.com", @"username": @"demo_user", @"password" : @"123456"};
 
-    [[RPNetworkManager defaultNetworkManager] VFServicewithMethodName:USER_REGISTRATION_PATH withParameters:dictParam andRequestType:requestTypeMethod success:^(id response) {
+    [[VFNetworkManager defaultNetworkManager] VFServicewithMethodName:USER_REGISTRATION_PATH withParameters:dictParam andRequestType:requestTypeMethod success:^(id response) {
         [MBProgressHUD hideHUDForView:self.view animated:YES];
         
         NSDictionary *dictData;
@@ -376,10 +509,10 @@
 {
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     
-    NSString *requestTypeMethod =   [[AppManager sharedDataAccess]  getStringForRequestType: POST];
+    NSString *requestTypeMethod =   [[VFNetworkManager defaultNetworkManager]  getStringForRequestType: POST];
     NSDictionary *dictParam = @{@"name" : @"rana" , @"username": @"rana", @"password" : @"rana123"};
 
-    [[RPNetworkManager defaultNetworkManager] VFServicewithMethodName:@"get_all_users.php" withParameters:dictParam andRequestType:requestTypeMethod success:^(id response) {
+    [[VFNetworkManager defaultNetworkManager] VFServicewithMethodName:@"get_all_users.php" withParameters:dictParam andRequestType:requestTypeMethod success:^(id response) {
         [MBProgressHUD hideHUDForView:self.view animated:YES];
         
         NSDictionary *dictData;
@@ -417,7 +550,7 @@
                                    style:UIAlertActionStyleCancel
                                    handler:^(UIAlertAction *action)
                                    {
-                                       [AppManager sharedDataAccess].IsLoggedIn = YES;
+                                       [AppManager sharedDataAccess].isUserLoggedIN = YES;
                                        [self gotoHome];
                                    }];
     

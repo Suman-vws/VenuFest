@@ -10,11 +10,11 @@
 #import "RPConstants.h"
 //#import  "ActivityPoints.h"
 
-typedef void(^RPNetworkManagerSuccessBlock)  (id response);
-typedef void(^RPNetworkManagerFailureBlock)  (id failureMessage, NSError *error);
+typedef void(^VFNetworkManagerSuccessBlock)  (id response);
+typedef void(^VFNetworkManagerFailureBlock)  (id failureMessage, NSError *error);
 typedef void(^authCompletion)(BOOL);
 
-@interface RPNetworkManager : NSObject
+@interface VFNetworkManager : NSObject
 
 
 @property (nonatomic, strong, readonly) NSURL *requestURL;
@@ -32,7 +32,7 @@ typedef void(^authCompletion)(BOOL);
 
 + (instancetype) defaultNetworkManager;
 
-- (void) VFServicewithMethodName:(NSString *)methodName withParameters:(NSDictionary *)params andRequestType:(NSString *)requestType  success:(RPNetworkManagerSuccessBlock)success failure:(RPNetworkManagerFailureBlock) failure;
+- (void) VFServicewithMethodName:(NSString *)methodName withParameters:(NSDictionary *)params andRequestType:(NSString *)requestType  success:(VFNetworkManagerSuccessBlock)success failure:(VFNetworkManagerFailureBlock) failure;
 
 - (void)showLoadingIndicatorInView:(UIView *)view;
 -(void)hideLoadingIndicatorInView:(UIView *)view;
@@ -40,6 +40,9 @@ typedef void(^authCompletion)(BOOL);
 //Social Login
 - (void)loginWithFbFromViewController:(UIViewController *)vc;
 - (void) loginUsingGooglePlusInViewController:(UIViewController *)vc loginHandler:(void(^)(id ))result;
+
+//Utility
+-(NSString *)getStringForRequestType:(RequestType)type;
 
 
 @end

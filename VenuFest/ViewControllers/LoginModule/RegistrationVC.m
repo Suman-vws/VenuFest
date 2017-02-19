@@ -11,9 +11,8 @@
 #import "RPNetworkManager.h"
 #import "AppManager.h"
 #import "MBProgressHUD.h"
-//#import "TermsVC.h"
 
-@interface RegistrationVC ()
+@interface RegistrationVC ()<UITextFieldDelegate>
 {
     NSString *userName;
 }
@@ -27,7 +26,10 @@
     [super viewDidLoad];
     [self createCustomizeUI];
     self.scroll.contentSize = CGSizeMake(self.scroll.frame.size.width, self.scroll.frame.size.height+10);
-
+    
+    if ([AppManager sharedDataAccess].socialUser.isSocialSignup) {
+        [self getUserSocialSignupData];
+    }
 }
 
 
@@ -36,52 +38,121 @@
     [super viewWillAppear:YES];
 }
 
+#pragma mark - Initialize Info For Social Registration
+
+-(void)getUserSocialSignupData
+{
+    if ([AppManager sharedDataAccess].socialUser.userName.length) {
+        self.txtFullName.text = [AppManager sharedDataAccess].socialUser.userName;
+        self.txtFullName.userInteractionEnabled = NO;
+    }
+    if ([AppManager sharedDataAccess].socialUser.userEmail.length) {
+        self.txtEmail.text = [AppManager sharedDataAccess].socialUser.userEmail;
+        self.txtEmail.userInteractionEnabled = NO;
+    }
+}
+
 #pragma mark - Customize UI
 
 -(void)createCustomizeUI
 {
-    self.vwheader.backgroundColor = TOP_BAR_BACKGROUND_COLOR;
-    self.lblHeader.text = @"Create New Account";
-//    self.lblHeader.font = TOP_BAR_TITLE_FONT;
-    self.lblHeader.textColor = TOP_BAR_TEXT_COLOR;
+    self.lblHeader.font =   [UIFont fontWithName: APPLICATION_FONT_NAME size:37];
+    self.lblHeader.textColor = BODY_TEXT_COLOR_WHITE;
+    self.lblUserType.font =   BODY_TEXT_FONT;
+    self.lblUserType.textColor = BODY_TEXT_COLOR_WHITE;
+    self.lblUserType.text = self.regType;
     
-    self.vwfooter.backgroundColor = BOTTOM_BAR_BACKGROUND_COLOR;
-    self.lblFooter.text = @"All rights reserved © FITOFY FITNESS SOLUTIONS PVT LTD.";
-//    self.lblFooter.font = BOTTOM_BAR_TITLE_FONT;
-    self.lblFooter.textColor = BOTTOM_BAR_TEXT_COLOR;
-    UITapGestureRecognizer *tapProfile= [[UITapGestureRecognizer alloc]  initWithTarget:self action:@selector(clickedFooterView)];
-    tapProfile.numberOfTapsRequired = 1;
-    [self.vwfooter addGestureRecognizer:tapProfile];
-
-    self.btnSubmit.backgroundColor = APP_BUTTON_BACKGROUND_COLOR;
-    [self.btnSubmit setTitleColor:APP_BUTTON_TEXT_COLOR forState:UIControlStateNormal];
-    self.btnSubmit.tintColor = APP_BUTTON_TEXT_COLOR;
+    self.btnRegister.backgroundColor = APP_BUTTON_BACKGROUND_COLOR;
+    [self.btnRegister setTitleColor:APP_BUTTON_TEXT_COLOR forState:UIControlStateNormal];
+    self.btnRegister.tintColor = APP_BUTTON_TEXT_COLOR;
+    self.btnRegister.titleLabel.font =  APP_BUTTON_TITLE_FONT;
     
-    [self customizeTextField:_txtUserName];
-    [self.txtEmail setPlaceholder:@"Name"];
-    [self customizeTextField:_txtEmail];
-    [self.txtEmail setPlaceholder:@"Email"];
-    [self customizeTextField:_txtpassword];
+    self.btnAlreadyRegistered.backgroundColor = [UIColor clearColor];
+    [self.btnAlreadyRegistered setTitleColor:APP_BUTTON_TEXT_COLOR forState:UIControlStateNormal];
+    self.btnAlreadyRegistered.titleLabel.font =  APP_BUTTON_TITLE_FONT_MEDIUM;
+    
+    self.btnBack.backgroundColor = [UIColor clearColor];
+    [self.btnBack setTitleColor:APP_BUTTON_BACKGROUND_COLOR forState:UIControlStateNormal];
+    self.btnBack.titleLabel.font =  APP_BUTTON_TITLE_FONT_MEDIUM;
+    
+    [self customizeTextField:_txtFullName withLeftViewImage:@"user"];
+    [self.txtFullName setPlaceholder:@"Name"];
+    
+    [self customizeTextField:_txtAddress withLeftViewImage:@"address"];
+    [self.txtAddress setPlaceholder:@"Address"];
+    
+    [self customizeTextField:_txtContactNo withLeftViewImage:@"contact"];
+    [self.txtContactNo setPlaceholder:@"Contact Number"];
+    _txtContactNo.inputAccessoryView = [self customizeAccessoryView];
+    
+    [self customizeTextField:_txtEmail withLeftViewImage:@"mail"];
+    [self.txtEmail setPlaceholder:@"Email Address"];
+    
+    [self customizeTextField:_txtpassword withLeftViewImage:@"lock"];
     [self.txtpassword setPlaceholder:@"Password"];
-    [self customizeTextField:_txtConfirmpassword];
-    [self.txtConfirmpassword setPlaceholder:@"Confirm Password"];
     
-/*
-    // SignIn Tag-Line
-    NSString *str1 = @"REGISTER";
-    NSString *str2 = @"YOUR ACCOUNT";
-    [self setUpAttributeTextForlable:_lblPageTagLine WithItem1:str1 Font1:PAGE_TITLE_FONT color1:TOP_BAR_BACKGROUND_COLOR andItem2:str2 Font2:PAGE_TITLE_FONT color2:PAGE_TITLE_TEXT_COLOR_BLACK];
- */
+    [self customizeTextField:_txtConfirmPassword withLeftViewImage:@"lock"];
+    [self.txtConfirmPassword setPlaceholder:@"Re-enter password"];
+    
 }
 
 -(void)setPlaceHolderColor:(UITextField*)txtField
 {
-    
     if ([txtField respondsToSelector:@selector(setAttributedPlaceholder:)]) {
         txtField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:txtField.placeholder attributes:@{NSForegroundColorAttributeName: TEXT_FIELD_PLACEHOLDER_COLOR}];
         txtField.tintColor = TEXT_FIELD_INPUT_COLOR;
     }
 }
+
+-(void)customizeTextField:(UITextField *)textField withLeftViewImage:(NSString *)strImage
+{
+    textField.delegate = self;
+    textField.font = APPLICATION_TEXTFIELD_FONT_MEDIUM;
+    [self setPlaceHolderColor:textField];
+    [self setupLeftViewForTextField:textField withLeftViewImage:strImage];
+}
+
+-(void)setupLeftViewForTextField:(UITextField *)textField withLeftViewImage:(NSString *)strImage
+{
+    UIView *leftView = [[UIView alloc]  initWithFrame:CGRectMake(0, 0, 32, 20)];
+    leftView.backgroundColor = [UIColor clearColor];
+    textField.leftView = leftView;
+    textField.leftViewMode = UITextFieldViewModeAlways;
+    leftView.contentMode = UIViewContentModeScaleAspectFit;
+    
+    UIImageView *imgView = [[UIImageView alloc]  initWithFrame:CGRectMake(0, -3, 25, 20)];
+    [leftView addSubview:imgView];
+    
+    imgView.image = [UIImage imageNamed:strImage];
+    imgView.contentMode = UIViewContentModeScaleAspectFit;
+    
+//    imgView.center = leftView.center;
+    
+}
+
+//Tool Bar
+-(UIToolbar *)customizeAccessoryView
+{
+    UIToolbar *toolbar = [[UIToolbar alloc] init];
+    [toolbar setBarStyle:UIBarStyleBlackTranslucent];
+    [toolbar sizeToFit];
+    
+    UIBarButtonItem *buttonflexible = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
+    UIBarButtonItem *buttonDone = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(doneClicked:)];
+    buttonDone.tintColor = TOP_BAR_BACKGROUND_COLOR;
+    
+    [toolbar setItems:[NSArray arrayWithObjects:buttonflexible,buttonDone, nil]];
+    [toolbar sizeToFit];
+    
+    return toolbar;
+}
+
+-(void)doneClicked:(id)sender
+{
+    [self.view endEditing:YES];
+}
+
+// ============ For Padding ============
 
 -(void)setupPaddingView:(UITextField *)textField
 {
@@ -91,120 +162,24 @@
     textField.leftViewMode = UITextFieldViewModeAlways;
 }
 
--(void)customizeTextField:(UITextField *)textField
-{
-//    [self addBottomBorderForView:textField withcolor:TEXT_FIELD_PLACEHOLDER_COLOR andHeight:1];
-    [self setPlaceHolderColor:textField];
-    [self setupLeftViewForTextField:textField];
-//    if (textField != _txtEmail) {
-//        [self setupRightViewForTxtField:textField];
-//    }
-//    [self setupPaddingView:textField];
 
-}
-
--(void)setupLeftViewForTextField:(UITextField *)textField
-{
-    UIView *leftView = [[UIView alloc]  initWithFrame:CGRectMake(0, 0, 25, 20)];
-    leftView.backgroundColor = [UIColor clearColor];
-    textField.leftView = leftView;
-    textField.leftViewMode = UITextFieldViewModeAlways;
-    leftView.contentMode = UIViewContentModeScaleAspectFit;
-    
-    UIImageView *imgView = [[UIImageView alloc]  initWithFrame:CGRectMake(0, 0, 25, 20)];
-    [leftView addSubview:imgView];
-    
-    if (textField == _txtUserName)
-        imgView.image = [UIImage imageNamed:@"User.png"];
-
-    else if (textField == _txtEmail){
-        imgView.image = [UIImage imageNamed:@"mail.png"];
-    }
-    else
-        imgView.image = [UIImage imageNamed:@"password.png"];
-    
-    [imgView sizeToFit];
-    imgView.center = leftView.center;
-    
-}
-
-
--(void)setupRightViewForWarning:(UITextField *)textField
-{
-    UIView *rightView = [[UIView alloc]  initWithFrame:CGRectMake(0, 5, 32, 18)];
-    rightView.backgroundColor = [UIColor clearColor];
-    textField.rightView = rightView;
-    textField.rightViewMode = UITextFieldViewModeAlways;
-    
-    UIImageView *imgVw = [[UIImageView alloc]  initWithFrame:CGRectMake(1, 1, rightView.frame.size.width - 2, rightView.frame.size.height - 2 )];
-    imgVw.tag = 101;
-    [imgVw setImage:[UIImage imageNamed:@"error"] ];
-    imgVw.contentMode = UIViewContentModeScaleAspectFit;
-    [rightView addSubview:imgVw];
-}
-
-
--(void)setUpAttributeTextForlable:(UILabel *)Lbl WithItem1:(NSString *)str1 Font1:(UIFont *)font1 color1:(UIColor *)color1 andItem2:(NSString *)str2 Font2:(UIFont *)font2 color2:(UIColor *)color2
-{
-    NSString *str = [NSString stringWithFormat:@"%@ %@", str1, str2];
-    NSMutableAttributedString *attributeString = [[NSMutableAttributedString alloc] initWithString:str];
-    
-    NSRange range1 = str1 ? [str rangeOfString:str1] : NSMakeRange(0, 0);
-    
-    [attributeString addAttribute:NSFontAttributeName value:font1 range:range1];
-    [attributeString addAttribute:NSForegroundColorAttributeName value:color1 range:range1];
-    
-    if (str2.length > 0) {
-        NSRange range2 = str2 ? [str rangeOfString:str2] : NSMakeRange(0, 0);
-        [attributeString addAttribute:NSFontAttributeName value:font2 range:range2];
-        [attributeString addAttribute:NSForegroundColorAttributeName value:color2 range:range2];
-    }
-    
-    Lbl.attributedText = attributeString;
-}
-
--(void)customizeTextFieldForError:(UITextField *)textField
-{
-    [self addBottomBorderForView:textField withcolor:TXTFIELD_ERROR_COLOR_RED andHeight:2];
-    [self setupRightViewForWarning:textField];
-}
-
--(void)addBottomBorderForView:(UIView *)Vw withcolor:(UIColor *)color andHeight:(CGFloat)height
-{
-    NSArray *layers = [Vw.layer sublayers];
-    for (CALayer *layer in layers) {
-        if ([layer.accessibilityHint isEqualToString:@"101"]) {
-            [layer setFrame:CGRectMake(0.0f, Vw.frame.size.height-height, Vw.frame.size.width, height)];
-            layer.backgroundColor = color.CGColor;
-            return;
-        }
-    }
-    
-    CALayer *bottomBorder = [CALayer layer];
-    bottomBorder.accessibilityHint = @"101";
-    bottomBorder.frame = CGRectMake(0.0f, Vw.frame.size.height-height, Vw.frame.size.width, height);
-    bottomBorder.backgroundColor = color.CGColor;
-    [Vw.layer addSublayer:bottomBorder];
-}
-
-
+// ============ For Show password ============
 
 -(void)setupRightViewForTxtField:(UITextField *)textField
 {
-    UIView *rightView = [[UIView alloc]  initWithFrame:CGRectMake(0, 5, 30, 30)];
+    UIView *rightView = [[UIView alloc]  initWithFrame:CGRectMake(0, 2, 32, 16)];
     //    rightView.layer.cornerRadius = rightView.frame.size.width / 2;
     rightView.backgroundColor = [UIColor clearColor];
     textField.rightView = rightView;
     textField.rightViewMode = UITextFieldViewModeAlways;
     
     UIImageView *imgVw = [[UIImageView alloc]  initWithFrame:CGRectMake(2, 2, rightView.frame.size.width - 2, rightView.frame.size.height - 2 )];
-    [imgVw setImage:[UIImage imageNamed:@"password-eye"]];
+    [imgVw setImage:[UIImage imageNamed:@"password-eye"] ];
     imgVw.contentMode = UIViewContentModeScaleAspectFit;
     [rightView addSubview:imgVw];
     
     [self addGesturewithView:rightView];
 }
-
 -(void)addGesturewithView:(UIView *)view
 {
     UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc]  initWithTarget:self action:@selector(tappedShowHidePassword:)];
@@ -234,6 +209,64 @@
     }
 }
 
+// ============ End Show-Hide Password ============
+
+-(void)addBottomBorderForView:(UIView *)Vw withcolor:(UIColor *)color andHeight:(CGFloat)height
+{
+    NSArray *layers = [Vw.layer sublayers];
+    for (CALayer *layer in layers) {
+        if ([layer.accessibilityHint isEqualToString:@"101"]) {
+            [layer setFrame:CGRectMake(0.0f, Vw.frame.size.height-height, Vw.frame.size.width, height)];
+            layer.backgroundColor = color.CGColor;
+            return;
+        }
+    }
+    
+    CALayer *bottomBorder = [CALayer layer];
+    bottomBorder.accessibilityHint = @"101";
+    bottomBorder.frame = CGRectMake(0.0f, Vw.frame.size.height-height, Vw.frame.size.width, height);
+    bottomBorder.backgroundColor = color.CGColor;
+    [Vw.layer addSublayer:bottomBorder];
+}
+
+// ============ Mark Error In Text Field For Validation Error ============
+
+
+-(void)customizeTextFieldForError:(UITextField *)textField
+{
+    [self addBottomBorderForView:textField withcolor:TXTFIELD_ERROR_COLOR_RED andHeight:2];
+    [self setupRightViewForWarning:textField];
+}
+
+-(void)setupRightViewForWarning:(UITextField *)textField
+{
+    UIView *rightView = [[UIView alloc]  initWithFrame:CGRectMake(0, 0, 25, 25)];
+    rightView.backgroundColor = [UIColor clearColor];
+    textField.rightView = rightView;
+    textField.rightViewMode = UITextFieldViewModeAlways;
+    
+    UIImageView *imgVw = [[UIImageView alloc]  initWithFrame:CGRectMake(1, 1, rightView.frame.size.width - 2, rightView.frame.size.height - 2 )];
+    imgVw.tag = 101;
+    [imgVw setImage:[UIImage imageNamed:@"error"] ];
+    imgVw.contentMode = UIViewContentModeScaleAspectFit;
+    [rightView addSubview:imgVw];
+}
+
+#pragma  mark - Frame Animation
+
+-(void)animateFrameTextFieldFrame:(UITextField *)txtField
+{
+    CAKeyframeAnimation *animation = [CAKeyframeAnimation animation];
+    animation.keyPath = @"position.x";
+    animation.values = @[ @0, @10, @-10, @10, @0 ];
+    animation.keyTimes = @[ @0, @(1 / 6.0), @(3 / 6.0), @(5 / 6.0), @1 ];
+    animation.duration = 0.3;
+    
+    animation.additive = YES;
+    
+    [txtField.layer addAnimation:animation forKey:@"shake"];
+}
+
 
 #pragma mark - Uitext Field delegate Methods
 
@@ -246,59 +279,54 @@
             [imgVw removeFromSuperview];
         }
     }
-//    if (textField != _txtEmail )
-//    {
-//        [self setupRightViewForTxtField:textField];
-//    }
-    [self addBottomBorderForView:textField withcolor:TEXT_FIELD_PLACEHOLDER_COLOR andHeight:1];
-
-//    [self addBottomBorderForView:textField withcolor:TEXT_FIELD_INPUT_COLOR andHeight:2];
-    
+    /*
+     if (textField != _txtEmail )
+     {
+     [self setupRightViewForTxtField:textField];
+     }
+     */
     
     //animate scroll view .....
-    if (textField == _txtUserName)
+    if (textField == _txtFullName)
     {
-        [self animateScrollOffsetwithYpos:60 andHeight:250];
+        [self animateScrollOffsetwithYpos:90 andHeight:350];
+    }
+    else if (textField == _txtAddress)
+    {
+        [self animateScrollOffsetwithYpos:150 andHeight:350];
+    }
+    else if (textField == _txtContactNo)
+    {
+        [self animateScrollOffsetwithYpos:210 andHeight:350];
     }
     else if (textField == _txtEmail)
     {
-        [self animateScrollOffsetwithYpos:120 andHeight:250];
+        [self animateScrollOffsetwithYpos:270 andHeight:350];
     }
     else if (textField == _txtpassword)
     {
-        [self animateScrollOffsetwithYpos:180 andHeight:250];
+        [self animateScrollOffsetwithYpos:330 andHeight:350];
     }
-    else if (textField == _txtConfirmpassword)
+    else if (textField == _txtConfirmPassword)
     {
-        [self animateScrollOffsetwithYpos:240 andHeight:250];
+        [self animateScrollOffsetwithYpos:400 andHeight:350];
     }
+
+    [self addBottomBorderForView:textField withcolor:TEXT_FIELD_PLACEHOLDER_COLOR andHeight:1];
 }
 
 -(void)textFieldDidEndEditing:(UITextField *)textField
 {
-    [self addBottomBorderForView:textField withcolor:TEXT_FIELD_PLACEHOLDER_COLOR andHeight:0];
-    [self animateScrollOffsetwithYpos:0 andHeight:5];
+    [self addBottomBorderForView:textField withcolor:[UIColor clearColor] andHeight:0];
+    if (textField == _txtConfirmPassword) {
+        [self animateScrollOffsetwithYpos:0 andHeight:160];
+    }
+    
 }
 
 -(BOOL)textFieldShouldReturn:(UITextField *)textField
 {
-    if (textField == _txtUserName)
-    {
-        [_txtEmail becomeFirstResponder];
-    }
-    else if (textField == _txtEmail)
-    {
-        [_txtpassword becomeFirstResponder];
-    }
-    else if (textField == _txtpassword)
-    {
-        [_txtConfirmpassword becomeFirstResponder];
-    }
-    else if (textField == _txtConfirmpassword)
-    {
-        [textField resignFirstResponder];
-    }
-    
+    [textField resignFirstResponder];
     return  YES;
 }
 
@@ -318,83 +346,61 @@
     _scroll.contentSize = CGSizeMake(self.view.frame.size.width, self.scroll.frame.size.height+ height);
 }
 
+#pragma mark - Clicked Events
 
-#pragma mark - Click Events
-
--(void)clickedFooterView
+-(IBAction)clcikedRegisterUser:(UIButton *)sender
 {
-    //TermsVC *termsVC = [self.storyboard instantiateViewControllerWithIdentifier:@"TermsVC"];
-    //termsVC.isPresentModal = YES;
-    //[self presentViewController:termsVC animated:YES completion:nil];
-}
-
--(IBAction)clickedback:(id)sender{
-
-    [self.navigationController popViewControllerAnimated:YES];
-
-}
-
--(IBAction)clickedSubmit:(id)sender
-{
-    self.btnSubmit.userInteractionEnabled = NO;
+    self.btnRegister.userInteractionEnabled = NO;
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 1 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
-        self.btnSubmit.userInteractionEnabled = YES;
+        self.btnRegister.userInteractionEnabled = YES;
     });
     
-    if ([self validateSingupData]) {
-        [RPNetworkManager defaultNetworkManager].authType = userAuthTypeRegistration;
-        [RPNetworkManager defaultNetworkManager].loginType = userLoginTypeNormal;
+    if ([self validateSignupData ]) {
         
-        /*
-        [AppManager sharedDataAccess].strUserName =   userName;  // _txtUserName.text;  //Trimmed For White Spaces
-        [AppManager sharedDataAccess].strUserEmailId = _txtEmail.text;
-        [AppManager sharedDataAccess].strUserPassword = _txtpassword.text;
-        */
+//        NSDictionary *dictUserData = @{@"name" : _txtFullName.text, @"address" : _txtAddress.text, @"contactnumber" : _txtContactNo.text, @"emailaddress" : _txtEmail.text, @"username": _txtUserName.text, @"password" : _txtpassword.text};
         
-        [self connectionUserRegister];
     }
 }
 
-
--(BOOL)validateSingupData
+-(IBAction)clickedAlreadyRegister:(id)sender
 {
-    //    it will remove all extra space from left as well as right but not from middle
-    NSString* result = [_txtUserName.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
-    userName = result;
+    [self.navigationController popToRootViewControllerAnimated:NO];
+    
+}
+-(IBAction)clickedback:(id)sender{
+    
+    [self.navigationController popViewControllerAnimated:YES];
+    
+}
 
+#pragma mark - validation Checking
+
+-(BOOL)validateSignupData
+{
+    //Need To About The mandetory Fields.....
     BOOL isValid = YES;
     NSString *strMsg = @"";
-    if (![[AppManager sharedDataAccess] isValidUserName:result]) {
+    if (![[AppManager sharedDataAccess] validateEmailWithString:_txtEmail.text]) {
         isValid = NO;
-        [self customizeTextFieldForError:_txtUserName];
-        strMsg = @"Please Enter a Valid Name. Name can contain only alphabetic charecters.";
-    }
-    
-    else if (![[AppManager sharedDataAccess] validateEmailWithString:_txtEmail.text]) {
-        isValid = NO;
+        strMsg = @"Please Enter a valid Email.";
         [self customizeTextFieldForError:_txtEmail];
-         strMsg = @"Please Enter a valid Email.";
+        [self animateFrameTextFieldFrame:_txtEmail];
     }
     else if ([_txtpassword.text isEqualToString:@""]) {
         isValid = NO;
         strMsg = @"Please Enter A Valid password.";
         [self customizeTextFieldForError:_txtpassword];
-    }
-    else if (![_txtpassword.text isEqualToString:_txtConfirmpassword.text ])
-    {
-        isValid = NO;
-        strMsg = @"Confirm Password Mismatch.";
-        [self customizeTextFieldForError:_txtConfirmpassword];
+        [self animateFrameTextFieldFrame:_txtpassword];
     }
     if (strMsg.length > 0) {
-         [[AppManager sharedDataAccess] showAlertWithTitle:@"More info needed!" andMessage:strMsg fromViewController:self];
+        //         [[AppManager sharedDataAccess] showAlertWithTitle:@"Alert!" andMessage:strMsg fromViewController:self];
+        NSLog(@"Validation Error");
     }
     return isValid;
 }
 
-
 #pragma mark - Webservice
-
+/*
 -(void)connectionUserRegister
 {
     NSString *strUserName = @""; //[AppManager sharedDataAccess].strUserName
@@ -409,9 +415,9 @@
 
     NSDictionary *params = @{@"LoginType" :[NSNumber numberWithInt:loginType], @"UserName" : strUserName, @"Email" : strEmailId, @"Password" :strPassword, @"SocialLoginId" : socialId != nil ? socialId : @"", @"AuthenticationType" :[NSNumber numberWithInt:authType], @"SocialImageUrl" : imageURL};
    
-    NSString *requestTypeMethod =   [[AppManager sharedDataAccess]  getStringForRequestType: POST];
+    NSString *requestTypeMethod =   [[VFNetworkManager defaultNetworkManager]  getStringForRequestType: POST];
     
-    [[RPNetworkManager defaultNetworkManager] RPSignUpwithParameters:params andRequestType:requestTypeMethod success:^(id response) {
+    [[VFNetworkManager defaultNetworkManager] RPSignUpwithParameters:params andRequestType:requestTypeMethod success:^(id response) {
         
         [MBProgressHUD hideHUDForView:self.view animated:YES];
 
@@ -442,12 +448,10 @@
         RPLog(@"failureMessage : %@, Error :%@", failureMessage,error.localizedDescription);
     }];
 }
-
+*/
 -(void)clearLoginData
 {
-    [RPNetworkManager defaultNetworkManager].loginType = userLoginTypeNone;
-    [RPNetworkManager defaultNetworkManager].authType = userAuthTypeNone;
-    [[AppManager sharedDataAccess] clearUserLoginData];
+    [[AppManager sharedDataAccess] clearInstance];
 }
 
 

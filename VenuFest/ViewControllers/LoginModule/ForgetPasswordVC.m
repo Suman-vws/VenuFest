@@ -37,16 +37,24 @@
 -(void)createCustomizeUI
 {
     [self customizeTextField:_txtEmail];
-    [self.txtEmail setPlaceholder:@"Login ID"];
-    
+    [self.txtEmail setPlaceholder:@"Email ID"];
+    self.lblHeader.font = [UIFont fontWithName: APPLICATION_FONT_NAME size:28];
+    self.lblHeader.textColor = BODY_TEXT_COLOR_WHITE;
+    self.lblPageTagLine.font = BODY_TEXT_FONT;
+    self.lblPageTagLine.textColor = BODY_TEXT_COLOR_WHITE;
+    self.lblSupport.font = BODY_TEXT_FONT_SMALL;
+    self.lblSupport.textColor = BODY_TEXT_COLOR_WHITE;
+    self.divEmail.backgroundColor = [UIColor clearColor];
     self.btnSubmit.backgroundColor = APP_BUTTON_BACKGROUND_COLOR;
     [self.btnSubmit setTitleColor:APP_BUTTON_TEXT_COLOR forState:UIControlStateNormal];
     self.btnSubmit.tintColor = APP_BUTTON_TEXT_COLOR;
-
+    self.btnSupportEmail.titleLabel.font = APP_BUTTON_TITLE_FONT;
     self.btnSupportEmail.backgroundColor = [UIColor clearColor];
     [self.btnSupportEmail setTitleColor:APP_BUTTON_TEXT_COLOR forState:UIControlStateNormal];
+    [self.btnSupportEmail.titleLabel setFont:APP_BUTTON_TITLE_FONT_MEDIUM];
 
 }
+
 -(void)setPlaceHolderColor:(UITextField*)txtField
 {
     
@@ -66,28 +74,25 @@
 
 -(void)customizeTextField:(UITextField *)textField
 {
+    textField.font = APPLICATION_TEXTFIELD_FONT_MEDIUM;
     [self setPlaceHolderColor:textField];
     [self setupLeftViewForTextField:textField];
-//    [self addBottomBorderForView:textField withcolor:TEXT_FIELD_PLACEHOLDER_COLOR andHeight:1];
-//    [self setupPaddingView:textField];
-
 }
 
 -(void)setupLeftViewForTextField:(UITextField *)textField
 {
-    UIView *leftView = [[UIView alloc]  initWithFrame:CGRectMake(0, 0, 25, 20)];
+    UIView *leftView = [[UIView alloc]  initWithFrame:CGRectMake(0, 0, 32, 20)];
     leftView.backgroundColor = [UIColor clearColor];
     textField.leftView = leftView;
     textField.leftViewMode = UITextFieldViewModeAlways;
     leftView.contentMode = UIViewContentModeScaleAspectFit;
     
-    UIImageView *imgView = [[UIImageView alloc]  initWithFrame:CGRectMake(0, 0, 25, 20)];
+    UIImageView *imgView = [[UIImageView alloc]  initWithFrame:CGRectMake(0, -3, 25, 20)];
     [leftView addSubview:imgView];
     
-    imgView.image = [UIImage imageNamed:@"User.png"];
-    [imgView sizeToFit];
-    
-    imgView.center = leftView.center;
+    imgView.image = [UIImage imageNamed:@"user"];
+    imgView.contentMode = UIViewContentModeScaleAspectFit;
+//    imgView.center = leftView.center;
     
 }
 
@@ -223,10 +228,10 @@
 {
     //Email
     NSDictionary *params = @{ @"apitoken" : @"", @"emailId" : _txtEmail.text};
-    NSString *requestTypeMethod =  [[AppManager sharedDataAccess]  getStringForRequestType: POST];
+    NSString *requestTypeMethod =  [[VFNetworkManager defaultNetworkManager]  getStringForRequestType: POST];
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     
-    [[RPNetworkManager defaultNetworkManager] VFServicewithMethodName:FORGET_USER_PATH withParameters:params andRequestType:requestTypeMethod success:^(id response) {
+    [[VFNetworkManager defaultNetworkManager] VFServicewithMethodName:FORGET_USER_PATH withParameters:params andRequestType:requestTypeMethod success:^(id response) {
         [MBProgressHUD hideHUDForView:self.view animated:YES];
         
         NSDictionary *dictData;

@@ -327,11 +327,11 @@
 -(void)connectionUpdateUser
 {
     NSDictionary *dictParam = @{@"apitoken" :@"", @"address" : @"kolkata", @"mobile" : @"9432569874" , @"fname" :@"demo", @"lname" : @"user", @"userid" :@"10"};
-    NSString *requestTypeMethod =   [[AppManager sharedDataAccess]  getStringForRequestType: PUT];
+    NSString *requestTypeMethod =   [[VFNetworkManager defaultNetworkManager]  getStringForRequestType: PUT];
     
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     
-    [[RPNetworkManager defaultNetworkManager] VFServicewithMethodName:UPDATE_USER_PROFILE_PATH withParameters:dictParam andRequestType:requestTypeMethod success:^(id response) {
+    [[VFNetworkManager defaultNetworkManager] VFServicewithMethodName:UPDATE_USER_PROFILE_PATH withParameters:dictParam andRequestType:requestTypeMethod success:^(id response) {
         
         NSDictionary *dictData;
         if ([response isKindOfClass:[NSDictionary class]]) {

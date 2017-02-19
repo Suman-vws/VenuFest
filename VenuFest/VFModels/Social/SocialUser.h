@@ -10,4 +10,11 @@
 
 @interface SocialUser : NSObject
 
+@property (nonatomic, strong) NSString *userName;
+@property (nonatomic, strong) NSString *userSocialID;
+@property (nonatomic, strong) NSString *userEmail;
+@property (nonatomic, strong) NSString *userProfileImg;
+
+@property(nonatomic) BOOL isSocialSignup;
+
 @end

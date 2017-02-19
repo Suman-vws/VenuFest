@@ -96,7 +96,7 @@
 -(void) setupLablesFor:(UILabel *)label
 {
     label.font = BODY_TEXT_FONT_SMALL;
-    label.textColor = PAGE_TITLE_TEXT_COLOR_BLACK;
+    label.textColor = [UIColor blackColor];
 }
 
 -(void)setupDataForCellWithIndex:(NSInteger)index andCell:(PersonalInfoCell *)cell

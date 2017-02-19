@@ -8,27 +8,32 @@
 
 #import <UIKit/UIKit.h>
 #import "OutlinedTextField.h"
-
+#import "OutlinedButton.h"
 
 @interface RegistrationVC : UIViewController
 
-//Header View
-@property (weak, nonatomic) IBOutlet UIView *vwheader;
+@property (strong, nonatomic) NSString *regType;
+
 @property (weak, nonatomic) IBOutlet UILabel *lblHeader;
-@property (weak, nonatomic) IBOutlet UIButton *btnback;
-
-@property (weak, nonatomic) IBOutlet UILabel *lblPageTagLine;
-
+@property (weak, nonatomic) IBOutlet UILabel *lblUserType;
 
 @property (weak, nonatomic) IBOutlet UIScrollView *scroll;
-@property (weak, nonatomic) IBOutlet OutlinedTextField *txtUserName;
+@property (weak, nonatomic) IBOutlet OutlinedTextField *txtFullName;
+@property (weak, nonatomic) IBOutlet UIView *divFullName;
+@property (weak, nonatomic) IBOutlet OutlinedTextField *txtAddress;
+@property (weak, nonatomic) IBOutlet UIView *divAddress;
+@property (weak, nonatomic) IBOutlet OutlinedTextField *txtContactNo;
+@property (weak, nonatomic) IBOutlet UIView *divContactNo;
 @property (weak, nonatomic) IBOutlet OutlinedTextField *txtEmail;
+@property (weak, nonatomic) IBOutlet UIView *divEmail;
 @property (weak, nonatomic) IBOutlet OutlinedTextField *txtpassword;
-@property (weak, nonatomic) IBOutlet OutlinedTextField *txtConfirmpassword;
-@property (weak, nonatomic) IBOutlet UIButton *btnSubmit;
+@property (weak, nonatomic) IBOutlet UIView *divPassword;
+@property (weak, nonatomic) IBOutlet OutlinedTextField *txtConfirmPassword;
+@property (weak, nonatomic) IBOutlet UIView *divConfirmPassword;
+//buttons
+@property (weak, nonatomic) IBOutlet OutlinedButton *btnRegister;
+@property (weak, nonatomic) IBOutlet UIButton *btnAlreadyRegistered;
+@property (weak, nonatomic) IBOutlet UIButton *btnBack;
 
-//FooterView
-@property (weak, nonatomic) IBOutlet UIView *vwfooter;
-@property (weak, nonatomic) IBOutlet UILabel *lblFooter;
 
 @end

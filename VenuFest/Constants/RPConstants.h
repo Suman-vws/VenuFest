@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import  "VenuFest-Swift.h"
+#import "UIColor+AppColor.h"
 
 #ifndef RPConstants_h
 #define RPConstants_h
@@ -61,6 +62,14 @@ typedef enum
     
 }userType;
 
+typedef enum RequestTypes{
+    
+    GET,
+    POST,
+    PUT,
+    DELETE
+    
+}RequestType;
 
 /*!
  * @function ZCLog  Macro
@@ -98,6 +107,7 @@ typedef enum
 
 UIKIT_EXTERN NSString *USER_LOGOUT_NOTIFICATION;
 
+// ============= URL PATHS ===============
 UIKIT_EXTERN NSString *VENU_FEST_BASE_URL;
 UIKIT_EXTERN NSString *VENU_FEST_API_KEY;
 
@@ -110,28 +120,27 @@ UIKIT_EXTERN NSString *UPDATE_USER_PROFILE_IMAGE_PATH;
 
 UIKIT_EXTERN NSString *CHANGE_USER_PASSWORD_PATH;
 
+// ============= END ===============
 
-UIKIT_EXTERN NSString  *TOP_BAR_TITLE_FONT_NAME;
+UIKIT_EXTERN NSString  *APPLICATION_FONT_NAME;
+
+
 UIKIT_EXTERN CGFloat TOP_BAR_TITLE_FONT_SIZE;
 
-UIKIT_EXTERN NSString  *BOTTOM_BAR_TITLE_FONT_NAME;
-UIKIT_EXTERN CGFloat BOTTOM_BAR_TITLE_FONT_SIZE;
+UIKIT_EXTERN CGFloat  APP_BUTTON_TITLE_FONT_SIZE;
+UIKIT_EXTERN CGFloat  APP_BUTTON_TITLE_FONT_SIZE_MEDIUM;
+UIKIT_EXTERN CGFloat  APP_BUTTON_TITLE_FONT_SIZE_SMALL;
 
 
-UIKIT_EXTERN NSString  *TAB_BAR_TITLE_FONT_NAME;
-UIKIT_EXTERN CGFloat TAB_BAR_TITLE_FONT_SIZE;
-
-
-UIKIT_EXTERN NSString  *APPLICATION_TEXTFIELD_FONT_NAME;
 UIKIT_EXTERN CGFloat  APPLICATION_TEXTFIELD_FONT_SIZE;
 UIKIT_EXTERN CGFloat  APPLICATION_TEXTFIELD_FONT_SIZE_MEDIUM;
 UIKIT_EXTERN CGFloat  APPLICATION_TEXTFIELD_FONT_SIZE_SMALL;
 
-UIKIT_EXTERN NSString  * APPLICATION_BODY_FONT_NAME;
 UIKIT_EXTERN CGFloat APPLICATION_BODY_FONT_SIZE;
 UIKIT_EXTERN CGFloat APPLICATION_BODY_FONT_SIZE_MEDIUM;
 UIKIT_EXTERN CGFloat APPLICATION_BODY_FONT_SIZE_SMALL;
 
+// ============= SOCIAL LOGIN DETAILS ===============
 
 UIKIT_EXTERN NSString * FACEBOOK_API_CALLBACK_URL_SCHEME;
 UIKIT_EXTERN NSString * FACEBOOK_API_CALLBACK_NOTIFICATION;
@@ -140,125 +149,64 @@ UIKIT_EXTERN NSString * GOOGLE_PLUS_API_CALLBACK_URL_SCHEME;
 UIKIT_EXTERN NSString * GOOGLE_PLUS_REVERSED_CLIENT_ID;
 
 UIKIT_EXTERN NSString * USER_DID_LOGGED_IN_NOTIFICATION;
-UIKIT_EXTERN NSString *ACCEPT_FRIEND_REQUEST;
 
-#define CLOSE_GRADIENT_VIEW_FROM_SUPERVIEW          @"REMOVE_CHILD_VIEW"
-#define CLOSE_FEED_DETAILS_FROM_SUPERVIEW           @"REMOVE_FEED_VIEW"
+// ============= END ===============
 
-//SinkinSans
+
 
         //============================ Page HEADER & FOOTER ==============================
 
 // Header
-#define TOP_BAR_BACKGROUND_COLOR      [UIColor colorWithRed:COLOR_FRACTION(151.0) green:COLOR_FRACTION(194.0) blue:COLOR_FRACTION(122.0) alpha:1.0]
-#define TOP_BAR_TEXT_COLOR      [UIColor colorWithRed:COLOR_FRACTION(255.0) green:COLOR_FRACTION(255.0) blue:COLOR_FRACTION(255.0) alpha:1.0]
+#define TOP_BAR_BACKGROUND_COLOR        [UIColor colorWithRed:COLOR_FRACTION(151.0) green:COLOR_FRACTION(194.0) blue:COLOR_FRACTION(122.0) alpha:1.0]
+#define TOP_BAR_TEXT_COLOR              [UIColor colorWithHexString:@"#FFFFFF"]
 
-#define TOP_BAR_TITLE_FONT      [UIFont fontWithName:TOP_BAR_TITLE_FONT_NAME size:TOP_BAR_TITLE_FONT_SIZE]
+#define TOP_BAR_TITLE_FONT              [UIFont fontWithName:APPLICATION_FONT_NAME size:TOP_BAR_TITLE_FONT_SIZE]
 
-#define SEARCH_BAR_BACKGROUND_COLOR      [UIColor colorWithRed:COLOR_FRACTION(4.0) green:COLOR_FRACTION(4.0) blue:COLOR_FRACTION(4.0) alpha:0.15]
-
-//FOOTER
-#define BOTTOM_BAR_BACKGROUND_COLOR      [UIColor colorWithRed:COLOR_FRACTION(151.0) green:COLOR_FRACTION(194.0) blue:COLOR_FRACTION(122.0) alpha:1.0]
-#define  BOTTOM_BAR_TEXT_COLOR      [UIColor colorWithRed:COLOR_FRACTION(255.0) green:COLOR_FRACTION(255.0) blue:COLOR_FRACTION(255.0) alpha:1.0]
-
-#define BOTTOM_BAR_TITLE_FONT      [UIFont fontWithName:TOP_BAR_TITLE_FONT_NAME size:BOTTOM_BAR_TITLE_FONT_SIZE]
-
-
-        //============================ Tab Bar ==============================
-
-#define TAB_BAR_TITLE_LABLE_FONT      [UIFont fontWithName:TOP_BAR_TITLE_FONT_NAME size:TAB_BAR_TITLE_FONT_SIZE]
-
-#define TAB_BAR_DE_SELECTED_COLOR      [UIColor colorWithRed:COLOR_FRACTION(34.0) green:COLOR_FRACTION(34.0) blue:COLOR_FRACTION(34.0) alpha:1.0]
-
-#define TAB_BAR_SELECTED_COLOR      [UIColor colorWithRed:COLOR_FRACTION(255.0) green:COLOR_FRACTION(255.0) blue:COLOR_FRACTION(255.0) alpha:1.0]
-
+//Page Header
+#define PAGE_TITLE_FONT                 [UIFont fontWithName: APPLICATION_FONT_NAME size:20]
 
         //============================ Text-Fields ==============================
 
-#define  APPLICATION_TEXTFIELD_FONT      [UIFont fontWithName:APPLICATION_TEXTFIELD_FONT_NAME size:APPLICATION_TEXTFIELD_FONT_SIZE]
-#define  APPLICATION_TEXTFIELD_FONT_MEDIUM      [UIFont fontWithName:APPLICATION_TEXTFIELD_FONT_NAME size:APPLICATION_TEXTFIELD_FONT_SIZE_MEDIUM]
-#define  APPLICATION_TEXTFIELD_FONT_SMALL      [UIFont fontWithName:APPLICATION_TEXTFIELD_FONT_NAME size:APPLICATION_TEXTFIELD_FONT_SIZE_SMALL]
+#define  APPLICATION_TEXTFIELD_FONT             [UIFont fontWithName: APPLICATION_FONT_NAME size: APPLICATION_TEXTFIELD_FONT_SIZE]
+#define  APPLICATION_TEXTFIELD_FONT_MEDIUM      [UIFont fontWithName: APPLICATION_FONT_NAME size: APPLICATION_TEXTFIELD_FONT_SIZE_MEDIUM]
+#define  APPLICATION_TEXTFIELD_FONT_SMALL       [UIFont fontWithName: APPLICATION_FONT_NAME size: APPLICATION_TEXTFIELD_FONT_SIZE_SMALL]
 
-#define  TEXT_FIELD_PLACEHOLDER_COLOR      [UIColor colorWithRed:247.0/255 green:247.0/255 blue:247.0/255 alpha:1.0]
-#define  TEXT_FIELD_INPUT_COLOR      [UIColor colorWithRed:255.0/255 green:255.0/255 blue:255.0/255 alpha:1.0]
+#define  TEXT_FIELD_PLACEHOLDER_COLOR           [UIColor colorWithRed:247.0/255 green:247.0/255 blue:247.0/255 alpha:1.0]
+#define  TEXT_FIELD_INPUT_COLOR                 [UIColor colorWithRed:255.0/255 green:255.0/255 blue:255.0/255 alpha:1.0]
+
 
             //============================ BUTTONS ==============================
 
-//LOGIN SCREEN
-#define APP_BUTTON_BACKGROUND_COLOR      [UIColor colorWithRed:COLOR_FRACTION(51.0) green:COLOR_FRACTION(51.0) blue:COLOR_FRACTION(51.0) alpha:1.0]
-#define APP_BUTTON_TEXT_COLOR      [UIColor colorWithRed:COLOR_FRACTION(255.0) green:COLOR_FRACTION(255.0) blue:COLOR_FRACTION(255.0) alpha:1.0]
-#define APP_BUTTON_GREY_TEXT_COLOR      [UIColor colorWithRed:COLOR_FRACTION(68.0) green:COLOR_FRACTION(68.0) blue:COLOR_FRACTION(68.0) alpha:1.0]
-#define APP_BUTTON_TITLE_FONT      [UIFont fontWithName:@"ROBOTO-REGULAR" size:20]
-#define APP_BUTTON_TITLE_FONT_MEDIUM      [UIFont fontWithName:@"ROBOTO-REGULAR" size:16]
-#define APP_BUTTON_TITLE_FONT_SMALL      [UIFont fontWithName:@"ROBOTO-REGULAR" size:12]
+#define APP_BUTTON_TITLE_FONT               [UIFont fontWithName: APPLICATION_FONT_NAME size: APP_BUTTON_TITLE_FONT_SIZE]
+#define APP_BUTTON_TITLE_FONT_MEDIUM        [UIFont fontWithName: APPLICATION_FONT_NAME size: APP_BUTTON_TITLE_FONT_SIZE_MEDIUM]
+#define APP_BUTTON_TITLE_FONT_SMALL         [UIFont fontWithName: APPLICATION_FONT_NAME size: APP_BUTTON_TITLE_FONT_SIZE_SMALL]
 
-#define APP_FONT_LARGE      [UIFont fontWithName:@"ROBOTO-REGULAR" size:40]
+#define APP_BUTTON_BACKGROUND_COLOR         [UIColor colorWithHexString:@"#73121b"]
+#define APP_BUTTON_TEXT_COLOR               [UIColor colorWithHexString:@"#FFFFFF"]
+#define APP_BUTTON_GREY_TEXT_COLOR          [UIColor colorWithRed:COLOR_FRACTION(68.0) green:COLOR_FRACTION(68.0) blue:COLOR_FRACTION(68.0) alpha:1.0]
 
-#define TEXTFIELD_BORDER_COLOR      [UIColor colorWithRed:COLOR_FRACTION(235.0) green:COLOR_FRACTION(235.0) blue:COLOR_FRACTION(235.0) alpha:0.2]
+#define FB_BUTTON_BACKGROUND_COLOR          [UIColor colorWithRed:COLOR_FRACTION(61.0) green:COLOR_FRACTION(90.0) blue:COLOR_FRACTION(152.0) alpha:1.0]
+#define GPLUS_BUTTON_BACKGROUND_COLOR       [UIColor colorWithRed:COLOR_FRACTION(222.0) green:COLOR_FRACTION(38.0) blue:COLOR_FRACTION(31.0) alpha:1.0]
 
-
-#define FB_BUTTON_BACKGROUND_COLOR      [UIColor colorWithRed:COLOR_FRACTION(61.0) green:COLOR_FRACTION(90.0) blue:COLOR_FRACTION(152.0) alpha:1.0]
-
-#define GPLUS_BUTTON_BACKGROUND_COLOR      [UIColor colorWithRed:COLOR_FRACTION(222.0) green:COLOR_FRACTION(38.0) blue:COLOR_FRACTION(31.0) alpha:1.0]
-
-#define REGISTER_BUTTON_BACKGROUND_COLOR      [UIColor colorWithRed:COLOR_FRACTION(68.0) green:COLOR_FRACTION(151.0) blue:COLOR_FRACTION(211.0) alpha:1.0]
-
-#define FORGET_BUTTON_TEXT_COLOR      [UIColor colorWithRed:COLOR_FRACTION(69.0) green:COLOR_FRACTION(154.0) blue:COLOR_FRACTION(211.0) alpha:1.0]
 
         //============================ SLIDER ==============================
 
-#define  HEADER_BACKGROUND_COLOR       [UIColor colorWithRed:COLOR_FRACTION(78.0) green:COLOR_FRACTION(78.0) blue:COLOR_FRACTION(78.0) alpha:1.0]
-
-#define  SLIDER_TEXT_COLOR       [UIColor colorWithRed:COLOR_FRACTION(255.0) green:COLOR_FRACTION(255.0) blue:COLOR_FRACTION(255.0) alpha:1.0]
-
-#define MENU_HEADER_TITLE_FONT      [UIFont fontWithName:TOP_BAR_TITLE_FONT_NAME size:TOP_BAR_TITLE_FONT_SIZE]
-#define MENU_CELL_TITLE_FONT      [UIFont fontWithName:TOP_BAR_TITLE_FONT_NAME size:APPLICATION_BODY_FONT_SIZE]
-#define  MENU_BACKGROUND_COLOR       [UIColor colorWithRed:COLOR_FRACTION(28.0) green:COLOR_FRACTION(28.0) blue:COLOR_FRACTION(28.0) alpha:1.0]
+#define  MENU_CELL_TITLE_FONT                [UIFont fontWithName:APPLICATION_FONT_NAME size:APPLICATION_BODY_FONT_SIZE]
+#define  MENU_BACKGROUND_COLOR               [UIColor colorWithRed:COLOR_FRACTION(28.0) green:COLOR_FRACTION(28.0) blue:COLOR_FRACTION(28.0) alpha:1.0]
 
 
         //============================ OTHERS ==============================
 
-#define APP_DEFAULT_GREEN_COLOR_TRANS     [UIColor colorWithRed:COLOR_FRACTION(151.0) green:COLOR_FRACTION(194.0) blue:COLOR_FRACTION(122.0) alpha:0.7]
-
-#define  TXTFIELD_ERROR_COLOR_RED      [UIColor colorWithRed:242.0/255 green:25.0/255 blue:38.0/255 alpha:1.0]
-
-#define PAGE_TITLE_FONT      [UIFont fontWithName:@"ROBOTO-REGULAR" size:20]
-#define PAGE_TITLE_FONT_BOLD      [UIFont fontWithName:@"ROBOTO-BOLD" size:20]
-#define PAGE_TITLE_FONT_BOLD_SMALL      [UIFont fontWithName:@"ROBOTO-BOLD" size:14]
-
-#define PAGE_TITLE_FONT_LARGE      [UIFont fontWithName:@"ROBOTO-REGULAR" size:30]
-
-#define PAGE_TITLE_TEXT_COLOR_BLACK      [UIColor colorWithRed:COLOR_FRACTION(51.0) green:COLOR_FRACTION(51.0) blue:COLOR_FRACTION(51.0) alpha:1.0]
-
-#define PAGE_TITLE_TEXT_COLOR_GREEN     [UIColor colorWithRed:COLOR_FRACTION(151.0) green:COLOR_FRACTION(194.0) blue:COLOR_FRACTION(122.0) alpha:1.0]
-
-#define PAGE_TITLE_COLOR_TRANSPARENT_GREEN     [UIColor colorWithRed:COLOR_FRACTION(151.0) green:COLOR_FRACTION(194.0) blue:COLOR_FRACTION(122.0) alpha:0.5]
-
-#define PAGE_BACKGROUND_TRANSPARENT_BLACK   [UIColor colorWithRed:5.0/255 green:5.0/255 blue:5.0/255 alpha:0.80]
-
-#define LIST_CELL_BG_COLOR_FADE      [UIColor colorWithRed:COLOR_FRACTION(236.0) green:COLOR_FRACTION(236.0) blue:COLOR_FRACTION(236.0) alpha:1.0]
+#define  TXTFIELD_ERROR_COLOR_RED            [UIColor colorWithRed:242.0/255 green:25.0/255 blue:38.0/255 alpha:1.0]
 
 
-#define BODY_TEXT_FONT      [UIFont fontWithName:@"ROBOTO-REGULAR" size:20]
-#define BODY_TEXT_FONT_SMALL      [UIFont fontWithName:@"ROBOTO-REGULAR" size:16]
-#define BODY_TEXT_COLOR_WHITE      [UIColor colorWithRed:COLOR_FRACTION(255.0) green:COLOR_FRACTION(255.0) blue:COLOR_FRACTION(255.0) alpha:1.0]
-#define LIST_HEADER_FONT_SMALL      [UIFont fontWithName:@"ROBOTO-REGULAR" size:12]
-#define ACTIVITY_LIST_TEXT_FONT      [UIFont fontWithName:@"ROBOTO-REGULAR" size:14]
+//Body Font Details
 
-#define APP_NUMBER_FONT_LARGE      [UIFont fontWithName:@"Oswald-Bold" size:50]
-#define APP_NUMBER_FONT_MEDIUM_BOLD      [UIFont fontWithName:@"Oswald-Bold" size:20]
+#define BODY_TEXT_FONT                      [UIFont fontWithName: APPLICATION_FONT_NAME size:20]
+#define BODY_TEXT_FONT_SMALL                [UIFont fontWithName: APPLICATION_FONT_NAME size:16]
+#define BODY_TEXT_COLOR_WHITE               [UIColor colorWithHexString:@"#FFFFFF"]
+#define BODY_TEXT_COLOR_GREY                [UIColor colorWithRed:COLOR_FRACTION(68.0) green:COLOR_FRACTION(68.0) blue:COLOR_FRACTION(68.0) alpha:1.0]
 
 
 
-//============================ HOME PAGE ==============================
-
-
-#define SEARCH_HEADER_BACKGROUND_COLOR      [UIColor colorWithRed:COLOR_FRACTION(21.0) green:COLOR_FRACTION(21.0) blue:COLOR_FRACTION(21.0) alpha:1.0]
-#define TOP_KM_TEXT_FONT      [UIFont fontWithName:@"ROBOTO-REGULAR" size:60]
-#define KMNOS_TEXT_FONT      [UIFont fontWithName:@"ROBOTO-REGULAR" size:30]
-
-
-//============================ACTIVITY PAGE=============================
-
-#define ACTIVITY_HEADER_BACKGROUND_COLOR      [UIColor colorWithRed:COLOR_FRACTION(149.0) green:COLOR_FRACTION(179.0) blue:COLOR_FRACTION(122.0) alpha:1.0]
 

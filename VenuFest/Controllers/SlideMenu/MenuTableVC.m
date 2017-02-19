@@ -327,7 +327,6 @@
 
 -(void)logoutUser
 {
-  //  [self performSegueWithIdentifier:@"LOGOUT" sender:self];
     [self.navigationController popToRootViewControllerAnimated:NO];
 }
 

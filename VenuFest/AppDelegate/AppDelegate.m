@@ -15,21 +15,20 @@
 @end
 
 @implementation AppDelegate
-@synthesize userLoggedIN = _userLoggedIN;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
     
     if ([[NSUserDefaults standardUserDefaults] valueForKey:@"user_first_time_login"] ) {
         
-        self.isuserLoggedinFirstTime = [[[NSUserDefaults standardUserDefaults] valueForKey:@"user_first_time_login"] boolValue];
+        [AppManager sharedDataAccess].isuserLoggedinFirstTime = [[[NSUserDefaults standardUserDefaults] valueForKey:@"user_first_time_login"] boolValue];
     }
     else
-        self.isuserLoggedinFirstTime = YES;
+        [AppManager sharedDataAccess].isuserLoggedinFirstTime = YES;
     
     if ([[[NSUserDefaults standardUserDefaults] valueForKey:@"user_loggedIn"] boolValue]) {
         
-        [AppManager sharedDataAccess].IsLoggedIn = YES; 
+        [AppManager sharedDataAccess].isUserLoggedIN = YES;
     }
     return YES;
 }
@@ -55,14 +54,8 @@
 - (void)applicationWillTerminate:(UIApplication *)application {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 
-    if ([AppManager sharedDataAccess].IsLoggedIn) {
-        [[NSUserDefaults standardUserDefaults] setValue:[NSNumber numberWithBool:[AppManager sharedDataAccess].IsLoggedIn]  forKey:@"user_loggedIn"];
-    }
-    if (!self.isuserLoggedinFirstTime) {
-        
-        [[NSUserDefaults standardUserDefaults] setValue:[NSNumber numberWithBool:self.isuserLoggedinFirstTime]  forKey:@"user_first_time_login"];
-
-    }
+    [[NSUserDefaults standardUserDefaults] setValue:[NSNumber numberWithBool:[AppManager sharedDataAccess].isUserLoggedIN]  forKey:@"user_loggedIn"];
+    [[NSUserDefaults standardUserDefaults] setValue:[NSNumber numberWithBool:[AppManager sharedDataAccess].isuserLoggedinFirstTime]  forKey:@"user_first_time_login"];
 }
 
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(nullable NSString *)sourceApplication annotation:(id)annotation{

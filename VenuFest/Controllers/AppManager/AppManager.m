@@ -9,20 +9,12 @@
 #import "AppManager.h"
 #import "AppDelegate.h"
 
+
 @implementation AppManager
 
-@synthesize strDeviceToken = _strDeviceToken;
-@synthesize strUserName=_strUserName;
-@synthesize strUserId = _strUserId;
-@synthesize strUserEmailId = _strUserEmailId;
-@synthesize strUserPassword = _strUserPassword;
-@synthesize IsLoggedIn = _IsLoggedIn;
-@synthesize strAuthToken = _strAuthToken;
-@synthesize strSocialLoginID = _strSocialLoginID;
-@synthesize strSocialImageURL = _strSocialImageURL;
-//@synthesize scrollListType = _scrollListType;
-@synthesize strUserImagePath = _strUserImagePath;
-//@synthesize user = _user;
+@synthesize socialUser  = _socialUser;
+@synthesize  isUserLoggedIN = _isUserLoggedIN;
+@synthesize isuserLoggedinFirstTime = _isuserLoggedinFirstTime;
 
 static AppManager *sharedInstance_ = nil;
 
@@ -38,52 +30,16 @@ static AppManager *sharedInstance_ = nil;
 	}
 }
 
--(void)initalization{
-
-    _strDeviceToken = @"";
-    self.strUserEmailId = @"";
-    self.strUserPassword = @"";
-    self.strSocialLoginID  = @"";
-    self.strSocialImageURL = @"";
-    _strUserName=@"";
-//    _scrollListType = profileListTypeNone;
+-(void)initalization
+{
+    self.socialUser = [SocialUser new];
 }
 
--(void)clearInstance{
-    
-    self.IsLoggedIn = NO;
-    
-    self.strUserId = @"";
-    self.strAuthToken = @"";
-    self.strUserPassword = @"";
-    self.strUserEmailId = @"";
-    _strUserName=@"";
-    self.strUserImagePath = @"";
-    
-    //TODO: clear all the data save in NSUserDefaults for user account configuration
-    NSUserDefaults *userInfo = [NSUserDefaults standardUserDefaults];
-    [[NSUserDefaults standardUserDefaults] setObject:@"" forKey:@"AuthToken"];
-    [[NSUserDefaults standardUserDefaults] setObject:@"" forKey:@"userName"];
-    [[NSUserDefaults standardUserDefaults] setObject:@"" forKey:@"userEmail"];
-    [[NSUserDefaults standardUserDefaults] setObject:@"" forKey:@"userPassword"];
-    [[NSUserDefaults standardUserDefaults] setObject:@"" forKey:@"userProfileImage"];
-
-    [userInfo synchronize];
+-(void)clearInstance
+{
+    self.socialUser = nil;
 }
 
-+ (NSString*)getTodayTomorrowFormat:(NSString*)day{
-    
-    NSDate *dtBooking = [NSDate date];
-    
-    if([day isEqualToString:@"Tomorrow"])
-        dtBooking = [[NSDate date] dateByAddingTimeInterval:60*60*24*1];
-    
-    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-    [formatter setDateFormat:@"dd/MM"];
-    day = [formatter stringFromDate:dtBooking];
-    
-    return day;
-}
 #pragma mark - File handeling
 
 + (Boolean)writeFile:(NSString*)filePath Content:(NSString*)fileContent{
@@ -134,7 +90,7 @@ static AppManager *sharedInstance_ = nil;
     return fileContent;
 }
 
-#pragma validation Checking
+#pragma mark - Utility Methods
 
 - (Boolean)isValidPhoneNumber:(NSString *)phoneNumber{
     bool result = false;
@@ -200,6 +156,84 @@ static AppManager *sharedInstance_ = nil;
     }
 }
 
+//convert millisecond to hr:mm:ss format
+-(NSString *)getDateFromJsonwithValue:(NSNumber *)value
+{
+    NSMutableString * result;
+    
+    unsigned long milliseconds=[value longValue];
+    unsigned long seconds = milliseconds / 1000;
+    milliseconds %= 1000;
+    unsigned long minutes = seconds / 60;
+    seconds %= 60;
+    unsigned long hours = minutes / 60;
+    minutes %= 60;
+    result = [NSMutableString new];
+    
+    [result appendFormat: @"%lu:", hours];
+    
+    [result appendFormat: @"%2lu:", minutes];
+    [result appendFormat: @"%2lu", seconds];
+    return result;
+}
+
+-(NSArray *)getDateTimeFromJsonwithValue:(NSNumber *)value
+{
+    
+    NSDate *date = [NSDate dateWithTimeIntervalSince1970:([value longValue] / 1000.0)];
+    // NSLog(@"  date  is now==>>%@",  date);
+    NSDateFormatter *dtfrm = [[NSDateFormatter alloc] init];
+    [dtfrm setDateFormat:@"dd/MMM/yyyy HH:mm:ss"];
+    NSString *str_getdate = [dtfrm stringFromDate:date];
+    
+    NSArray* arrDateTime = [str_getdate componentsSeparatedByString: @" "];
+    
+    return arrDateTime;
+}
+
++ (NSString*)getTodayTomorrowFormat:(NSString*)day{
+    
+    NSDate *dtBooking = [NSDate date];
+    
+    if([day isEqualToString:@"Tomorrow"])
+        dtBooking = [[NSDate date] dateByAddingTimeInterval:60*60*24*1];
+    
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"dd/MM"];
+    day = [formatter stringFromDate:dtBooking];
+    
+    return day;
+}
+
+-(NSString *)getUserGenderTypeWithValue:(genderType)gender
+{
+    NSString *userGender;
+    
+    switch (gender) {
+        case userGenderTypeFemale:
+            userGender = @"FEMALE";
+            break;
+            
+        case userGenderTypeMale:
+            userGender = @"MALE";
+            break;
+            
+        case userGenderTypeOther:
+            userGender = @"OTHER";
+            break;
+            
+        case userGenderTypeNone:
+            userGender = @"NONE";
+            break;
+            
+        default:
+            userGender = @"NONE";
+            break;
+    }
+    
+    return userGender;
+}
+
 
 #pragma mark - Alert
 
@@ -247,80 +281,5 @@ static AppManager *sharedInstance_ = nil;
     
 }
 
-#pragma mark - GET Request type as string
-
--(NSString *)getStringForRequestType:(RequestType)type {
-    
-    NSString *requestTypeString;
-    
-    switch (type) {
-        case GET:
-            requestTypeString = @"GET";
-            break;
-            
-        case POST:
-            requestTypeString = @"POST";
-            break;
-            
-        case PUT:
-            requestTypeString = @"PUT";
-            break;
-            
-        case DELETE:
-            requestTypeString = @"DELETE";
-            break;
-            
-        default:
-            requestTypeString = @"GET";
-            break;
-    }
-    
-    return requestTypeString;
-}
-
-//convert millisecond to hr:mm:ss format
--(NSString *)getDateFromJsonwithValue:(NSNumber *)value
-{
-    NSMutableString * result;
-    
-    unsigned long milliseconds=[value longValue];
-    unsigned long seconds = milliseconds / 1000;
-    milliseconds %= 1000;
-    unsigned long minutes = seconds / 60;
-    seconds %= 60;
-    unsigned long hours = minutes / 60;
-    minutes %= 60;
-    result = [NSMutableString new];
-    
-    [result appendFormat: @"%lu:", hours];
-    
-    [result appendFormat: @"%2lu:", minutes];
-    [result appendFormat: @"%2lu", seconds];
-     return result;
-}
-
--(NSArray *)getDateTimeFromJsonwithValue:(NSNumber *)value
-{
-    
-    NSDate *date = [NSDate dateWithTimeIntervalSince1970:([value longValue] / 1000.0)];
-    // NSLog(@"  date  is now==>>%@",  date);
-    NSDateFormatter *dtfrm = [[NSDateFormatter alloc] init];
-    [dtfrm setDateFormat:@"dd/MMM/yyyy HH:mm:ss"];
-     NSString *str_getdate = [dtfrm stringFromDate:date];
-     
-     NSArray* arrDateTime = [str_getdate componentsSeparatedByString: @" "];
-    
-    return arrDateTime;
-}
-
--(void)clearUserLoginData
-{
-    self.strUserEmailId = @"";
-    self.strUserPassword = @"";
-    self.strSocialLoginID  = @"";
-    self.strSocialImageURL = @"";
-    _strUserName=@"";
-    
-}
 
 @end

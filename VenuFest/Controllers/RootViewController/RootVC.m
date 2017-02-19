@@ -84,6 +84,7 @@
     self.lblHeader = (UILabel*)[viewHeader viewWithTag:2];
     self.lblHeader.text = @"Venu Fest";
     self.lblHeader.textColor = TOP_BAR_TEXT_COLOR;
+    self.lblHeader.font = TOP_BAR_TITLE_FONT;
        
     SWRevealViewController *revealViewController = self.revealViewController;
     if ( revealViewController )

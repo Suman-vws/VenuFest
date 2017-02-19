@@ -188,13 +188,13 @@
     self.customSegmentController.selectedIndex = 0;
     self.customSegmentController.thumbView.layer.cornerRadius = 0.0;
     self.customSegmentController.layer.cornerRadius = 0.0;
-    self.customSegmentController.selectedLabelColor = PAGE_TITLE_TEXT_COLOR_BLACK;
+    self.customSegmentController.selectedLabelColor = [UIColor blackColor];
     self.customSegmentController.unselectedLabelColor = BODY_TEXT_COLOR_WHITE;
-    self.customSegmentController.backgroundColor =  PAGE_TITLE_TEXT_COLOR_GREEN;
+    self.customSegmentController.backgroundColor =  [UIColor blackColor];;
 
     self.lblHeader.text = @"My Profile";
     self.imgVwProfilePic.layer.cornerRadius =   self.imgVwProfilePic.frame.size.width /2;
-    self.lblUserName.font = PAGE_TITLE_FONT_LARGE;
+//    self.lblUserName.font = PAGE_TITLE_FONT_LARGE;
     self.lblUserName.textColor = APP_BUTTON_BACKGROUND_COLOR;
 
     
@@ -463,10 +463,10 @@ didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info
 
 -(void)connectionUserProfileDetails
 {
-    NSString *requestTypeMethod =   [[AppManager sharedDataAccess]  getStringForRequestType: POST];
+    NSString *requestTypeMethod =   [[VFNetworkManager defaultNetworkManager]  getStringForRequestType: POST];
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     
-    [[RPNetworkManager defaultNetworkManager] VFServicewithMethodName:USER_PROFILE_PATH withParameters:nil andRequestType:requestTypeMethod success:^(id response) {
+    [[VFNetworkManager defaultNetworkManager] VFServicewithMethodName:USER_PROFILE_PATH withParameters:nil andRequestType:requestTypeMethod success:^(id response) {
         
         NSDictionary *dictData;
         if ([response isKindOfClass:[NSDictionary class]]) {
@@ -494,9 +494,9 @@ didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info
 {
 
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    NSString *requestTypeMethod =   [[AppManager sharedDataAccess]  getStringForRequestType: POST];
+    NSString *requestTypeMethod =   [[VFNetworkManager defaultNetworkManager]  getStringForRequestType: POST];
 
-    [[RPNetworkManager defaultNetworkManager] VFServicewithMethodName:CHANGE_USER_PASSWORD_PATH withParameters:dictParam andRequestType:requestTypeMethod success:^(id response) {
+    [[VFNetworkManager defaultNetworkManager] VFServicewithMethodName:CHANGE_USER_PASSWORD_PATH withParameters:dictParam andRequestType:requestTypeMethod success:^(id response) {
         [MBProgressHUD hideHUDForView:self.view animated:YES];
         
         NSDictionary *dictData;
@@ -567,8 +567,7 @@ didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info
 
                 NSString *imagepath = [dictResult objectForKey:@"Result"];
                 if (imagepath.length > 0) {
-                    [AppManager sharedDataAccess].strUserImagePath = imagepath;
-                    [[NSUserDefaults standardUserDefaults] setObject:[AppManager sharedDataAccess].strUserImagePath forKey:@"userProfileImage"];
+//                    [[NSUserDefaults standardUserDefaults] setObject:[AppManager sharedDataAccess].strUserImagePath forKey:@"userProfileImage"];
                 }
                 
                 isProfileImageDownloaded = YES;

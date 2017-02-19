@@ -19,7 +19,7 @@
 
 #define REQUEST_TIMEOUT_THRESOLD 241
 
-@interface RPNetworkManager  ()<GIDSignInDelegate, GIDSignInUIDelegate>
+@interface VFNetworkManager  ()<GIDSignInDelegate, GIDSignInUIDelegate>
 
 @property (nonatomic, strong) NSURL *requestURL;
 @property (nonatomic, assign) NSInteger lastResponseStatusCode;
@@ -39,7 +39,7 @@
 
 @end
 
-@implementation RPNetworkManager
+@implementation VFNetworkManager
 
 - (id) init {
     if ( (self = [super init]) ) {
@@ -197,11 +197,10 @@
      RPLog(@"Profile Image URl : %@", imageUrl ? imageUrl.absoluteString: @"no image found");
      
     //Save Data For User
-    [AppManager sharedDataAccess].strUserName = fullName;
-    [AppManager sharedDataAccess].strUserEmailId = email;
-    [AppManager sharedDataAccess].strSocialLoginID = userId;
-    [AppManager sharedDataAccess].strSocialImageURL = imageUrl.absoluteString;
-    [AppManager sharedDataAccess].strUserImagePath = imageUrl.absoluteString;
+    [AppManager sharedDataAccess].socialUser.userName = fullName;
+    [AppManager sharedDataAccess].socialUser.userEmail = email;
+    [AppManager sharedDataAccess].socialUser.userSocialID = userId;
+    [AppManager sharedDataAccess].socialUser.userProfileImg = imageUrl.absoluteString;
     
     [weakSelf callNotification];
        
@@ -263,7 +262,11 @@
     FBSDKGraphRequestConnection *connection = [[FBSDKGraphRequestConnection alloc] init];
     [connection addRequest:requestMe completionHandler:^(FBSDKGraphRequestConnection *connection, id result, NSError *error) {
         if(result) {
-            [self hideLoadingIndicatorInView:weakSelf.targetVC.view];
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                
+                [self hideLoadingIndicatorInView:weakSelf.targetVC.view];
+            });
 
             if ([result objectForKey:@"id"]) {
                 NSLog(@"Social Id: %@",[result objectForKey:@"id"]);
@@ -275,19 +278,19 @@
                     NSLog(@"User Email : %@",[result objectForKey:@"email"]);
                 }
                 
-                NSString *strFirstName = [result objectForKey:@"first_name"];
-                NSString *strLastName = [result objectForKey:@"last_name"];
+//                NSString *strFirstName = [result objectForKey:@"first_name"];
+//                NSString *strLastName = [result objectForKey:@"last_name"];
                 NSString *strName = [result objectForKey:@"name"];
                 NSString *strEmail = [result objectForKey:@"email"];
                 NSString *strUserId = [result objectForKey:@"id"];
                 NSString *strProfileImgUrl = [[[result objectForKey:@"picture"] objectForKey:@"data"] objectForKey:@"url"];
                 
                 //Save Data For User
-                [AppManager sharedDataAccess].strUserName = strName;
-                [AppManager sharedDataAccess].strUserEmailId = strEmail;
-                [AppManager sharedDataAccess].strSocialLoginID = strUserId;
-                [AppManager sharedDataAccess].strSocialImageURL = strProfileImgUrl;
-                [AppManager sharedDataAccess].strUserImagePath = strProfileImgUrl;
+                [AppManager sharedDataAccess].socialUser.userName = strName;
+                [AppManager sharedDataAccess].socialUser.userEmail = strEmail;
+                [AppManager sharedDataAccess].socialUser.userSocialID = strUserId;
+                [AppManager sharedDataAccess].socialUser.userProfileImg = strProfileImgUrl;
+
 
                 [weakSelf callNotification];
                 [weakSelf.fbClient logOut];
@@ -298,9 +301,18 @@
                 [weakSelf.fbClient logOut];
                 dispatch_async(dispatch_get_main_queue(), ^{
                     weakSelf.targetVC = nil;
-                    [[AppManager sharedDataAccess] showAlertWithTitle:@"Warning!" andMessage:@"Sorry! we couldn't connect to your account. The reason may be you haven't verified your facebook account Email Id."];
+                    [[AppManager sharedDataAccess] showAlertWithTitle:@"Error!" andMessage:@"Sorry! we couldn't connect to your account. The reason may be you haven't verified your facebook account Email Id."];
                 });
             }
+        }
+        else
+        {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                
+                [self hideLoadingIndicatorInView:weakSelf.targetVC.view];
+                weakSelf.targetVC = nil;
+                [[AppManager sharedDataAccess] showAlertWithTitle:@"Error!" andMessage:@"Sorry! we couldn't connect to your account. Please try later."];
+            });
         }
     }];
     [connection start];
@@ -313,7 +325,7 @@
 
 #pragma mark - Network Connection Calling API
 
-- (void)VFServicewithMethodName:(NSString *)methodName withParameters:(NSDictionary *)params andRequestType:(NSString *)requestType success:(RPNetworkManagerSuccessBlock)success failure:(RPNetworkManagerFailureBlock) failure{
+- (void)VFServicewithMethodName:(NSString *)methodName withParameters:(NSDictionary *)params andRequestType:(NSString *)requestType success:(VFNetworkManagerSuccessBlock)success failure:(VFNetworkManagerFailureBlock) failure{
     
     [self resetCache];
     [self createRequestURLFromBaseURLString:VENU_FEST_BASE_URL andQueryPath:methodName];
@@ -383,7 +395,7 @@
      
      NSDictionary *params = @ {@"LoginType" : [NSNumber numberWithInt:self.loginType], @"UserName" : name, @"Email" :email, @"Password" : password, @"SocialLoginId" : socialID != nil ? socialID : @"", @"AuthenticationType" : [NSNumber numberWithInt:self.authType], @"SocialImageUrl" : socialImageURL};
      
-     NSString *requestTypeMethod =   [[AppManager sharedDataAccess]  getStringForRequestType: POST];
+     NSString *requestTypeMethod =   [self getStringForRequestType: POST];
      
      NSDictionary *headers = @ {@"S-Api-Key" :RP_API_KEY};
      
@@ -436,5 +448,38 @@
      [dataTask resume];
  }
 */
+
+#pragma mark - Utility
+
+//GET Request type as string
+-(NSString *)getStringForRequestType:(RequestType)type {
+    
+    NSString *requestTypeString;
+    
+    switch (type) {
+        case GET:
+            requestTypeString = @"GET";
+            break;
+            
+        case POST:
+            requestTypeString = @"POST";
+            break;
+            
+        case PUT:
+            requestTypeString = @"PUT";
+            break;
+            
+        case DELETE:
+            requestTypeString = @"DELETE";
+            break;
+            
+        default:
+            requestTypeString = @"GET";
+            break;
+    }
+    
+    return requestTypeString;
+}
+
 
 @end

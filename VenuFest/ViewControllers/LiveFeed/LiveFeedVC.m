@@ -21,10 +21,10 @@
 -(void)setUpUIForCell
 {
     self.lblEventName.font  = [UIFont systemFontOfSize:14];
-    self.lblEventName.textColor = PAGE_TITLE_TEXT_COLOR_BLACK;
+    self.lblEventName.textColor = [UIColor blackColor];
     
     self.lblEventDate.font  = [UIFont systemFontOfSize:14];
-    self.lblEventDate.textColor = PAGE_TITLE_TEXT_COLOR_BLACK;
+    self.lblEventDate.textColor = [UIColor blackColor];
     self.imgVwEvent.contentMode = UIViewContentModeScaleAspectFit;
 }
 

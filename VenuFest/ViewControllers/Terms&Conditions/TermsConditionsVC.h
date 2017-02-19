@@ -17,6 +17,8 @@
 @property (weak, nonatomic) IBOutlet UIPageControl *pageController;
 @property (weak, nonatomic) IBOutlet UILabel *lblHeader;
 @property (weak, nonatomic) IBOutlet UITextView *txtVwTermsConditions;
+@property (weak, nonatomic) IBOutlet UILabel *lblWelcome;
+@property (weak, nonatomic) IBOutlet UITextView *txtVwWelcome;
 
 
 //buttons
