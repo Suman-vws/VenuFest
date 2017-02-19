@@ -28,6 +28,7 @@
     }
  
     [self createCustomizeUI];
+    self.scroll.contentSize = CGSizeMake(self.scroll.frame.size.width, self.scroll.frame.size.height+10);
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(UserSocialLoginNotification) name:USER_DID_LOGGED_IN_NOTIFICATION object:nil];
 }
 
@@ -253,29 +254,32 @@
     //animate scroll view .....
     if (textField == _txtEmail)
     {
-        [self animateScrollOffsetwithYpos:90 andHeight:160];
+        [self animateScrollOffsetwithYpos:200 andHeight:300];
     }
     else if (textField == _txtpassword)
     {
-        [self animateScrollOffsetwithYpos:150 andHeight:160];
+        [self animateScrollOffsetwithYpos:260 andHeight:160];
     }
     [self addBottomBorderForView:textField withcolor:TEXT_FIELD_PLACEHOLDER_COLOR andHeight:1];
 }
 -(void)textFieldDidEndEditing:(UITextField *)textField
 {
     [self addBottomBorderForView:textField withcolor:[UIColor clearColor] andHeight:0];
-    if (textField == _txtpassword)
-        [self animateScrollOffsetwithYpos:0 andHeight:5];
 }
 
 -(BOOL)textFieldShouldReturn:(UITextField *)textField
 {
-    if ([textField isEqual:self.txtEmail]) {
-        [_txtEmail resignFirstResponder];
+    if (textField == _txtEmail)
+    {
+        [self animateScrollOffsetwithYpos:0 andHeight:5];
         [_txtpassword becomeFirstResponder];
     }
     else
+    {
         [textField resignFirstResponder];
+        [self animateScrollOffsetwithYpos:0 andHeight:10];
+
+    }
     return  YES;
 }
 
@@ -285,7 +289,7 @@
 {
     CGPoint offset = self.scroll.contentOffset;
     offset.y = Ypos;
-    [UIView animateWithDuration:0.5
+    [UIView animateWithDuration:0.3
                      animations:^{
                          [self.scroll setContentOffset:offset];
                      }
@@ -326,12 +330,13 @@
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 1 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
         self.btnLogin.userInteractionEnabled = YES;
     });
-
-    [self gotoHome];
-    /*
     if ([self  validateLoginData]) {
-        [self gotoHome];
-    }   */
+        
+        NSString *apitoken = [[NSUserDefaults standardUserDefaults] objectForKey:@"apitoken"];
+        NSDictionary *params = @{ @"apitoken" : apitoken, @"emailId" : _txtEmail.text, @"password" : _txtpassword.text};
+        
+        [self connectionUserLoginWithDetails:params];
+    }
 }
 
 -(IBAction)clickedForgetPassword:(UIButton *)sender
@@ -345,22 +350,11 @@
 
 -(void)UserSocialLoginNotification
 {
-//    [self connectionUserLoginWithDetails:nil];
     NSLog(@"Social Login Succesful");
     [AppManager sharedDataAccess].socialUser.isSocialSignup = true;
     [self gotoSelectUser];
 }
 
-
-/*
- {
- apitoken =
- "$2y$05$xqg81lxTmy0OSsLW1TzWL.usQ4u43srObJzkId8bQ2iqgxpRLRwjS";
- email = "testsocial5@ouracademia.in";
- password = 12345;
- }
- 
- */
 
 #pragma mark - Helpers
 
@@ -425,7 +419,11 @@
         }
         if ([[dictData objectForKey:@"ErrorCode"]  intValue] == 200 ) {
             RPLog(@"Success : %@", response);
-            
+            //success
+            [[NSUserDefaults standardUserDefaults] setObject:self.txtEmail.text forKey:@"user_email"];
+            [[NSUserDefaults standardUserDefaults] setObject:self.txtpassword.text forKey:@"user_password"];
+            [[NSUserDefaults standardUserDefaults] synchronize];
+
             [self showAlertWithTitle:[NSString stringWithFormat:@"%@", [dictData objectForKey:@"ErrorMessage"]] andMessage:[NSString stringWithFormat:@"%@", [dictData objectForKey:@"Result"]] fromViewController:self];
         }
         else
@@ -441,55 +439,6 @@
     }];
 }
 
-
-/*
- URL : http://venuefest.teqnico.com/fest_connect/create_user.php
- Method	Post
- Input Parameters:
- Parameter Name
- Data Type
- name	String
- address	String
- contactnumber	String
- emailaddress	String
- username	String
- password	String
- Output
- success	1
- failure	0
- */
-
--(void)connectionUserSignupWithDetails:(NSDictionary *)dictParam
-{
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    NSString *requestTypeMethod =   [[VFNetworkManager defaultNetworkManager]  getStringForRequestType: POST];
-    
-//    NSDictionary *params = @{@"name" : @"Suman ios", @"address" : @"kolkata", @"contactnumber" : @"8820044725", @"emailaddress" : @"suman@yopmail.com", @"username": @"demo_user", @"password" : @"123456"};
-
-    [[VFNetworkManager defaultNetworkManager] VFServicewithMethodName:USER_REGISTRATION_PATH withParameters:dictParam andRequestType:requestTypeMethod success:^(id response) {
-        [MBProgressHUD hideHUDForView:self.view animated:YES];
-        
-        NSDictionary *dictData;
-        if ([response isKindOfClass:[NSDictionary class]]) {
-            dictData = response;
-        }
-        if ([[dictData objectForKey:@"ErrorCode"]  intValue] == 200 ) {
-            RPLog(@"Success : %@", response);
-            
-            [[AppManager sharedDataAccess] showAlertWithTitle:[NSString stringWithFormat:@"%@", [dictData objectForKey:@"ErrorMessage"]] andMessage:[NSString stringWithFormat:@"%@", [dictData objectForKey:@"Result"]] fromViewController:self];
-        }
-        else
-        {
-            [[AppManager sharedDataAccess] showAlertWithTitle:@"Error!" andMessage:[NSString stringWithFormat:@"%@", [dictData objectForKey:@"Result"]] fromViewController:self];
-        }
-        
-    } failure:^(id failureMessage, NSError *error) {
-        
-        [MBProgressHUD hideHUDForView:self.view animated:YES];
-        RPLog(@"Error : %@", error.localizedDescription);
-        
-    }];
-}
 
 #pragma mark - Test Network Connection Method
 

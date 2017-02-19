@@ -17,7 +17,7 @@ NSString *USER_LOGOUT_NOTIFICATION = @"USER_LOGOUT_EVENT";
 
 //NSString *VENU_FEST_API_KEY = @"OEFFRTJERjUtNkM4NS00NDI5LUIxRTYtOTAyMTRCQzQ1NTgw";
 NSString *VENU_FEST_BASE_URL =  @"http://venuefest.teqnico.com/fest_connect/api/";
-
+NSString *AUTH_USER_PATH = @"auth";
 NSString *USER_REGISTRATION_PATH = @"usersignup";
 NSString *USER_LOGIN_PATH = @"validatelogin";
 NSString *FORGET_USER_PATH = @"forgotpassword";

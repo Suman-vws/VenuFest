@@ -293,23 +293,23 @@
     }
     else if (textField == _txtAddress)
     {
-        [self animateScrollOffsetwithYpos:150 andHeight:350];
+        [self animateScrollOffsetwithYpos:140 andHeight:350];
     }
     else if (textField == _txtContactNo)
     {
-        [self animateScrollOffsetwithYpos:210 andHeight:350];
+        [self animateScrollOffsetwithYpos:190 andHeight:350];
     }
     else if (textField == _txtEmail)
     {
-        [self animateScrollOffsetwithYpos:270 andHeight:350];
+        [self animateScrollOffsetwithYpos:240 andHeight:350];
     }
     else if (textField == _txtpassword)
     {
-        [self animateScrollOffsetwithYpos:330 andHeight:350];
+        [self animateScrollOffsetwithYpos:290 andHeight:350];
     }
     else if (textField == _txtConfirmPassword)
     {
-        [self animateScrollOffsetwithYpos:400 andHeight:350];
+        [self animateScrollOffsetwithYpos:340 andHeight:350];
     }
 
     [self addBottomBorderForView:textField withcolor:TEXT_FIELD_PLACEHOLDER_COLOR andHeight:1];
@@ -319,14 +319,36 @@
 {
     [self addBottomBorderForView:textField withcolor:[UIColor clearColor] andHeight:0];
     if (textField == _txtConfirmPassword) {
-        [self animateScrollOffsetwithYpos:0 andHeight:160];
+        [self animateScrollOffsetwithYpos:0 andHeight:10];
     }
     
 }
 
 -(BOOL)textFieldShouldReturn:(UITextField *)textField
 {
-    [textField resignFirstResponder];
+    if (textField == _txtFullName)
+    {
+        [_txtAddress becomeFirstResponder];
+    }
+    else if (textField == _txtAddress)
+    {
+        [_txtContactNo becomeFirstResponder];
+    }
+    else if (textField == _txtContactNo)
+    {
+        [_txtEmail becomeFirstResponder];
+    }
+    else if (textField == _txtEmail)
+    {
+        [_txtpassword becomeFirstResponder];
+    }
+    else if (textField == _txtpassword)
+    {
+        [_txtConfirmPassword becomeFirstResponder];
+    }
+    else
+        [textField resignFirstResponder];
+    
     return  YES;
 }
 
@@ -357,8 +379,8 @@
     
     if ([self validateSignupData ]) {
         
-//        NSDictionary *dictUserData = @{@"name" : _txtFullName.text, @"address" : _txtAddress.text, @"contactnumber" : _txtContactNo.text, @"emailaddress" : _txtEmail.text, @"username": _txtUserName.text, @"password" : _txtpassword.text};
-        
+        NSDictionary *dictUserData = @{@"name" : _txtFullName.text, @"address" : _txtAddress.text, @"contactnumber" : _txtContactNo.text, @"emailaddress" : _txtEmail.text, @"password" : _txtpassword.text};
+        [self connectionUserSignupWithDetails:dictUserData];
     }
 }
 
@@ -400,60 +422,53 @@
 }
 
 #pragma mark - Webservice
-/*
--(void)connectionUserRegister
-{
-    NSString *strUserName = @""; //[AppManager sharedDataAccess].strUserName
-    NSString *strEmailId = @""; //[AppManager sharedDataAccess].strUserEmailId
-    NSString *strPassword = @"";//[AppManager sharedDataAccess].strUserPassword
-    int loginType = [RPNetworkManager defaultNetworkManager].loginType;
-    int authType = [RPNetworkManager defaultNetworkManager].authType;
-    NSString *imageURL = @"";//[AppManager sharedDataAccess].strSocialImageURL;
-    NSString *socialId = @"";//[AppManager sharedDataAccess].strSocialLoginID;
-    
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
 
-    NSDictionary *params = @{@"LoginType" :[NSNumber numberWithInt:loginType], @"UserName" : strUserName, @"Email" : strEmailId, @"Password" :strPassword, @"SocialLoginId" : socialId != nil ? socialId : @"", @"AuthenticationType" :[NSNumber numberWithInt:authType], @"SocialImageUrl" : imageURL};
-   
+/*
+ URL : http://venuefest.teqnico.com/fest_connect/create_user.php
+ Method	Post
+ Input Parameters:
+ Parameter Name
+ Data Type
+ name	String
+ address	String
+ contactnumber	String
+ emailaddress	String
+ username	String
+ password	String
+ Output
+ success	1
+ failure	0
+ */
+
+-(void)connectionUserSignupWithDetails:(NSDictionary *)dictParam
+{
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     NSString *requestTypeMethod =   [[VFNetworkManager defaultNetworkManager]  getStringForRequestType: POST];
     
-    [[VFNetworkManager defaultNetworkManager] RPSignUpwithParameters:params andRequestType:requestTypeMethod success:^(id response) {
-        
+    [[VFNetworkManager defaultNetworkManager] VFServicewithMethodName:USER_REGISTRATION_PATH withParameters:dictParam andRequestType:requestTypeMethod success:^(id response) {
         [MBProgressHUD hideHUDForView:self.view animated:YES];
-
-        RPLog(@"response : %@", response);
+        
         NSDictionary *dictData;
         if ([response isKindOfClass:[NSDictionary class]]) {
             dictData = response;
         }
         if ([[dictData objectForKey:@"ErrorCode"]  intValue] == 200 ) {
             RPLog(@"Success : %@", response);
-            if ([[dictData objectForKey:@"Result"] objectForKey:@"AuthToken"] != [NSNull null]) {
-                [[AppManager sharedDataAccess] showAlertWithTitle:@"Alert!" andMessage:@"Your email id already exists, please login." fromViewController:self];
-            }
-            else{
-                //clear User Login Data
-                [self clearLoginData];
-                [[AppManager sharedDataAccess] showAlertWithTitle:@"Success" andMessage:[NSString stringWithFormat:@"%@", @"Your account has been created successfully. Please check your email to activate your account"] fromViewController:self];
-            }
-
+            
+            [[AppManager sharedDataAccess] showAlertWithTitle:[NSString stringWithFormat:@"%@", [dictData objectForKey:@"ErrorMessage"]] andMessage:[NSString stringWithFormat:@"%@", [dictData objectForKey:@"Result"]] fromViewController:self];
         }
         else
         {
-            [[AppManager sharedDataAccess] showAlertWithTitle:@"Error!" andMessage:[NSString stringWithFormat:@"%@", [dictData objectForKey:@"ErrorMessage"]] fromViewController:self];
+            [[AppManager sharedDataAccess] showAlertWithTitle:@"Error!" andMessage:[NSString stringWithFormat:@"%@", [dictData objectForKey:@"Result"]] fromViewController:self];
         }
-        ;
+        
     } failure:^(id failureMessage, NSError *error) {
+        
         [MBProgressHUD hideHUDForView:self.view animated:YES];
-        RPLog(@"failureMessage : %@, Error :%@", failureMessage,error.localizedDescription);
+        RPLog(@"Error : %@", error.localizedDescription);
+        
     }];
 }
-*/
--(void)clearLoginData
-{
-    [[AppManager sharedDataAccess] clearInstance];
-}
-
 
 -(void)didReceiveMemoryWarning
 {

@@ -363,6 +363,30 @@
         }
         else
         {
+            NSDictionary *dictResult = (NSDictionary *)responseObject;
+            if ([[dictResult objectForKey:@"ErrorCode"]  intValue] == 401) {    //For Auth Error , check status code
+                [self connectionAuth:^(BOOL finished) {
+                    
+                    if(finished){
+                        
+                        [self VFServicewithMethodName:self.methodName withParameters:self.methodPramas andRequestType:self.methodType success:^(id response) {
+                            NSLog(@"Result From Uto Login : %@", response);
+                            
+                            weakSelf.lastResponseObject = response;
+                            success(weakSelf.lastResponseObject);
+                            
+                        }
+                         
+                      failure:^(id failureMessage, NSError *error) {
+                          NSLog(@"%@", error.localizedDescription);
+                          ;
+                      }];
+                    }
+                    else
+                        return;
+                }];
+            }
+            
             //TODO: HANDLE SUCCESS & if any error
             NSHTTPURLResponse *httpresponse = (NSHTTPURLResponse *) response;
             weakSelf.lastResponseStatusCode = httpresponse.statusCode;
@@ -378,30 +402,15 @@
 
 #pragma mark - Auto Login
 
-/*
- 
 -(void) connectionAuth:(authCompletion)completion;
  {
-     [self createRequestURLFromBaseURLString:RP_BASE_URL andQueryPath:USER_REGISTRATION_AND_LOGIN_PATH];
+     [self createRequestURLFromBaseURLString:VENU_FEST_BASE_URL andQueryPath:AUTH_USER_PATH];
 
      self.manager = [[AFHTTPSessionManager alloc] initWithBaseURL:[NSURL URLWithString:[self.requestURL absoluteString]]];
      self.manager.requestSerializer = [AFJSONRequestSerializer serializer];
      
-     NSString *name =  [AppManager sharedDataAccess].strUserName;
-     NSString *email = [AppManager sharedDataAccess].strUserEmailId;
-     NSString *password = [AppManager sharedDataAccess].strUserPassword;
-     NSString *socialID = [AppManager sharedDataAccess].strSocialLoginID;
-     NSString *socialImageURL = [AppManager sharedDataAccess].strSocialImageURL;
-     
-     NSDictionary *params = @ {@"LoginType" : [NSNumber numberWithInt:self.loginType], @"UserName" : name, @"Email" :email, @"Password" : password, @"SocialLoginId" : socialID != nil ? socialID : @"", @"AuthenticationType" : [NSNumber numberWithInt:self.authType], @"SocialImageUrl" : socialImageURL};
-     
+     NSDictionary *params = @ {@"app_password" : @"YL3nUUXKEXbRqn7H", @"app_id" : @"venufest"};
      NSString *requestTypeMethod =   [self getStringForRequestType: POST];
-     
-     NSDictionary *headers = @ {@"S-Api-Key" :RP_API_KEY};
-     
-     for (NSString *key in [headers allKeys]) {
-         [self.manager.requestSerializer setValue:[headers valueForKey:key] forHTTPHeaderField:key];
-     }
 
      
      NSMutableURLRequest *request = [self.manager.requestSerializer requestWithMethod:requestTypeMethod URLString:[[NSURL URLWithString:[self.requestURL absoluteString] relativeToURL:_manager.baseURL] absoluteString] parameters:params error:nil];
@@ -421,13 +430,10 @@
               if ([[dictResponse objectForKey:@"ErrorCode"]  intValue] == 200 )
               {
                   //success
-                  NSString *authKey = [[dictResponse objectForKey:@"Result"] objectForKey:@"AuthToken"];
-                  [[NSUserDefaults standardUserDefaults] setObject:authKey forKey:@"AuthToken"];
+                  NSString *apitoken = [[dictResponse objectForKey:@"Result"] objectForKey:@"AuthToken"];
+                  [[NSUserDefaults standardUserDefaults] setObject:apitoken forKey:@"apitoken"];
                   [[NSUserDefaults standardUserDefaults] synchronize];
-                  
-                  //TODO: Update User Location
-                  [self startUpdatingUserLcoation];
-                  
+
                   completion(YES);
               }
              
@@ -447,7 +453,6 @@
      
      [dataTask resume];
  }
-*/
 
 #pragma mark - Utility
 
